@@ -1,3 +1,5 @@
+
+# Lexicon Guard: any intent outside Canon must be rejected upstream.
 # =============================================================================
 # PROJECT: CANON-TO-SYSTEM DETERMINISTIC PROJECTION
 # METHOD: D&R PROTOCOL (CLOSED)
