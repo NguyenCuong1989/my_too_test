@@ -20,14 +20,26 @@ set -euo pipefail
 
 echo "=== AXCONTROL :: SOVEREIGN SIGNING RITUAL ==="
 
-IDENTITY="IDENTITY_NOT_FOUND"
+IDENTITY="${IDENTITY_OVERRIDE:-IDENTITY_NOT_FOUND}"
 ENTITLEMENTS="entitlements/AXCONTROL.entitlements"
 APP_BUNDLE="build/AXCONTROL.app"
 ZIP_BUNDLE="build/AXCONTROL.zip"
 
+# auto-discover Developer ID Application if not provided
+FOUND_ID=""
+if command -v security >/dev/null 2>&1; then
+  set +o pipefail
+  FOUND_ID=$(security find-identity -p codesigning -v 2>/dev/null | grep "Developer ID Application" | head -n1 | sed 's/^[^"]*"//;s/".*$//' || true)
+  set -o pipefail
+fi
+
 if [[ "${IDENTITY}" == "IDENTITY_NOT_FOUND" ]]; then
-  echo "ABORT: No Developer ID Application identity present."
-  echo "STATUS: ARMED / WAITING_FOR_IDENTITY"
+  IDENTITY="${FOUND_ID}"
+fi
+
+if [[ -z "${IDENTITY}" ]]; then
+  echo "ABORT: No valid Developer ID Application found."
+  echo "STATUS: ID_NOT_FOUND / ARMED"
   exit 1
 fi
 
