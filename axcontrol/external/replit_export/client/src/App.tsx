@@ -1,9 +1,74 @@
 import { Switch, Route } from "wouter";
+import { useState } from "react";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+
+function LoginView({ onSuccess }: { onSuccess: () => void }) {
+  const [user, setUser] = useState("");
+  const [pass, setPass] = useState("");
+  const [error, setError] = useState("");
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (user === "admin" && pass === "admin") {
+      setError("");
+      onSuccess();
+    } else {
+      setError("Invalid credentials");
+    }
+  };
+
+  return (
+    <div className="min-h-screen w-full flex items-center justify-center bg-background p-6">
+      <Card className="w-full max-w-md border-border shadow-sm">
+        <CardContent className="pt-6 space-y-4">
+          <div className="space-y-1 text-center">
+            <p className="text-sm font-medium tracking-wider uppercase text-muted-foreground">
+              AXCONTROL ACCESS
+            </p>
+            <h1 className="text-2xl font-bold">Sign in</h1>
+          </div>
+          <form className="space-y-4" onSubmit={handleSubmit}>
+            <div className="space-y-2">
+              <Label htmlFor="user">Username</Label>
+              <Input
+                id="user"
+                value={user}
+                onChange={(e) => setUser(e.target.value)}
+                placeholder="admin"
+                autoComplete="username"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="pass">Password</Label>
+              <Input
+                id="pass"
+                type="password"
+                value={pass}
+                onChange={(e) => setPass(e.target.value)}
+                placeholder="admin"
+                autoComplete="current-password"
+              />
+            </div>
+            {error && (
+              <p className="text-sm text-destructive" role="alert">
+                {error}
+              </p>
+            )}
+            <Button className="w-full" size="lg" type="submit">
+              Enter
+            </Button>
+          </form>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
 
 function Home() {
   return (
@@ -84,9 +149,11 @@ function Router() {
 }
 
 function App() {
+  const [authed, setAuthed] = useState(false);
+
   return (
     <QueryClientProvider client={queryClient}>
-      <Router />
+      {authed ? <Router /> : <LoginView onSuccess={() => setAuthed(true)} />}
       <Toaster />
     </QueryClientProvider>
   );
