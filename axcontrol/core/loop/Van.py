@@ -47,6 +47,7 @@ class ControlLoop:
         self.rate_limiter = RateLimiter(min_interval_ms=200)
         self.policy = PolicyEvaluator(rules={})
         self.logger = AuditLogger(sink=_InMemorySink())
+        self.locked_state_proof = None
 
     def _select_app_policy(self, app: str):
         if app == "Finder":
@@ -71,6 +72,12 @@ class ControlLoop:
         if snap is None:
             return StopReason.AX_LOST
 
+        state_proof = f"{snap.app}:{snap.role}:{snap.label}"
+
+        # Freeze Point #1: lexicon + state proof lock
+        if self.locked_state_proof is not None and state_proof != self.locked_state_proof:
+            return StopReason.CAUSALITY_VIOLATION
+
         app_policy = self._select_app_policy(snap.app)
 
         # Build intent (LLM optional, fallback deterministic)
@@ -87,7 +94,7 @@ class ControlLoop:
             intent_id=intent.intent_id,
             command_type=CommandType.NAVIGATE,
             parameters={"action": "TAB"},
-            normalized_state_hash=f"{snap.app}:{snap.role}:{snap.label}",
+            normalized_state_hash=state_proof,
             policy_context={},
             signature="simulated",
         )
@@ -104,22 +111,35 @@ class ControlLoop:
         verdict = PolicyVerdict(PolicyOutcome.ALLOW if allowed else PolicyOutcome.DENY, reason=stop_reason)
 
         if verdict.outcome == PolicyOutcome.DENY:
-            self._log_step(snap, intent, envelope, verdict, stop_reason or StopReason.POLICY_DENIAL.value)
+            self._log_step(snap, intent, envelope, verdict, stop_reason or StopReason.POLICY_DENIAL.value, state_proof)
             return StopReason(stop_reason) if stop_reason else StopReason.POLICY_DENIAL
 
         # Rate limit
         if not self.rate_limiter.allow():
-            self._log_step(snap, intent, envelope, verdict, StopReason.TIMING_VIOLATION.value)
+            self._log_step(snap, intent, envelope, verdict, StopReason.TIMING_VIOLATION.value, state_proof)
             return StopReason.TIMING_VIOLATION
 
         # Emit TAB
+        # Freeze Point #2: lock state before emit
+        self.locked_state_proof = state_proof
+
         emit_tab()
         trace.emit(self.logger.sink, trace.COMMAND_EXECUTED, {"command_id": envelope.command_id})
 
-        self._log_step(snap, intent, envelope, verdict, None)
+        # Mid-step drift check (post emit)
+        snap_after = observer.observe()
+        if snap_after is None:
+            self._log_step(snap, intent, envelope, verdict, StopReason.AX_LOST.value, state_proof)
+            return StopReason.AX_LOST
+        after_proof = f"{snap_after.app}:{snap_after.role}:{snap_after.label}"
+        if after_proof != state_proof:
+            self._log_step(snap_after, intent, envelope, verdict, StopReason.STATE_DRIFT_MID_STEP.value, after_proof)
+            return StopReason.STATE_DRIFT_MID_STEP
+
+        self._log_step(snap_after, intent, envelope, verdict, None, state_proof)
         return None
 
-    def _log_step(self, snap, intent, envelope, verdict, stop_reason):
+    def _log_step(self, snap, intent, envelope, verdict, stop_reason, state_proof):
         effect = {"emitted": "TAB" if verdict.outcome == PolicyOutcome.ALLOW else "DENY"}
         record = AuditRecord(
             timestamp=time.time(),
@@ -129,7 +149,7 @@ class ControlLoop:
             policy_decision=verdict.__dict__,
             state_after={"app": snap.app, "role": snap.role, "label": snap.label},
             Chung=compute_Chung(
-                {"app": snap.app, "role": snap.role, "label": snap.label},
+                state_proof,
                 intent.__dict__,
                 envelope.__dict__,
                 effect,

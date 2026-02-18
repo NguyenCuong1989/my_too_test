@@ -23,6 +23,9 @@ from enum import Enum
 class StopReason(str, Enum):
     VISION_MISMATCH = "vision_mismatch"
     UI_STATE_DRIFT = "ui_state_drift"
+    STATE_DRIFT_MID_STEP = "state_drift_mid_step"
+    CAUSALITY_VIOLATION = "causality_violation"
+    LEXICON_VIOLATION = "lexicon_violation"
     POLICY_DENIAL = "policy_denial"
     PERMISSION_LOSS = "permission_loss"
     TIMING_VIOLATION = "timing_violation"

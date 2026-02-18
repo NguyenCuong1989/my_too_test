@@ -131,7 +131,15 @@ class Bridge:
         # free text
         input_block["type"] = "FREE_TEXT"
         intent = collect_intent([{"role": "user", "content": text}])
-        intent_block = {"kind": intent.goal or "QUERY", "value": intent.parameters.get("action") if intent.parameters else intent.goal, "source": intent.source.value}
+        intent_kind = intent.goal or "QUERY"
+        allowed_kinds = {"CLI", "AX", "QUERY", "safe_tab_navigation", "chat_navigation"}
+        if intent_kind not in allowed_kinds:
+            intent_block = {"kind": intent_kind, "value": None, "source": intent.source.value}
+            decision = {"verdict": "STOP", "command": None}
+            stop_block = {"reason": StopReason.LEXICON_VIOLATION.value, "message": "intent outside lexicon"}
+            return self._build_snapshot(system, input_block, intent_block, decision, execution, stop_block, ui_block, now)
+
+        intent_block = {"kind": intent_kind, "value": intent.parameters.get("action") if intent.parameters else intent.goal, "source": intent.source.value}
         decision = {"verdict": "ALLOW", "command": None}
         execution = {"executed": False, "executor": "NONE", "result": "intent logged"}
         return self._build_snapshot(system, input_block, intent_block, decision, execution, stop_block, ui_block, now)
