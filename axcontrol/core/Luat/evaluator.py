@@ -22,9 +22,9 @@ Applies deterministic rule order: app allowlist → UI surface allowlist → rat
 """
 from typing import Dict
 
-from ..decision.command import CommandEnvelope
-from ..decision.policy import PolicyVerdict, PolicyOutcome
-from ..state.ctrl_state import CtrlState
+from ..Chinh.command import CommandEnvelope
+from ..Chinh.policy import PolicyVerdict, PolicyOutcome
+from ..The.ctrl_state import CtrlState
 
 
 class PolicyEvaluator:

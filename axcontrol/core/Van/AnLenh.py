@@ -22,10 +22,9 @@ Receives validated, signed CommandEnvelope and performs bounded action via bridg
 """
 from typing import Any
 
-from ..decision.command import CommandEnvelope
-from ..state.ui_state import UIState
-from ..state.ctrl_state import CtrlState
-from ..decision.command import CommandType
+from ..Chinh.command import CommandEnvelope, CommandType
+from ..The.ui_state import UIState
+from ..The.ctrl_state import CtrlState
 from ..tools import shell_cli
 
 
