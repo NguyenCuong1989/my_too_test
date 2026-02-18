@@ -62,7 +62,7 @@ class Bridge:
         }
         intent_block = {"kind": "NONE", "value": None, "source": "NONE"}
         decision = {"verdict": "IDLE", "command": None}
-        execution = {"executed": False, "AnLenh": "NONE", "result": None}
+        execution = {"executed": False, "executor": "NONE", "result": None}
         stop_block = {"reason": "NONE", "message": None}
         ui_block = {"requires_confirm": False, "prompt": None}
 
@@ -74,7 +74,7 @@ class Bridge:
                 try:
                     rc, out, err = shell_cli.run(self.pending_cmd, allow_level1=True)
                     decision = {"verdict": "ALLOW", "command": self.pending_cmd}
-                    execution = {"executed": True, "AnLenh": "SHELL", "result": f"exit={rc}\n{out}{err}"}
+                    execution = {"executed": True, "executor": "SHELL", "result": f"exit={rc}\n{out}{err}"}
                     system["mode"] = "EXECUTING"
                 except Exception as exc:
                     decision = {"verdict": "STOP", "command": self.pending_cmd}
@@ -106,7 +106,7 @@ class Bridge:
                 try:
                     rc, out, err = shell_cli.run(cmd)
                     decision = {"verdict": "ALLOW", "command": cmd}
-                    execution = {"executed": True, "AnLenh": "SHELL", "result": f"exit={rc}\n{out}{err}"}
+                    execution = {"executed": True, "executor": "SHELL", "result": f"exit={rc}\n{out}{err}"}
                     system["mode"] = "EXECUTING"
                 except Exception as exc:
                     decision = {"verdict": "STOP", "command": cmd}
@@ -122,7 +122,7 @@ class Bridge:
             else:
                 stop = self.loop.run_once()
                 decision = {"verdict": "ALLOW" if stop is None else "STOP", "command": "AX_TAB"}
-                execution = {"executed": stop is None, "AnLenh": "AX" if stop is None else "NONE", "result": None}
+                execution = {"executed": stop is None, "executor": "AX" if stop is None else "NONE", "result": None}
                 if stop is not None:
                     stop_block = {"reason": stop.value, "message": None}
                 system["mode"] = "EXECUTING"
@@ -133,7 +133,7 @@ class Bridge:
         intent = collect_intent([{"role": "user", "content": text}])
         intent_block = {"kind": intent.goal or "QUERY", "value": intent.parameters.get("action") if intent.parameters else intent.goal, "source": intent.source.value}
         decision = {"verdict": "ALLOW", "command": None}
-        execution = {"executed": False, "AnLenh": "NONE", "result": "intent logged"}
+        execution = {"executed": False, "executor": "NONE", "result": "intent logged"}
         return self._build_snapshot(system, input_block, intent_block, decision, execution, stop_block, ui_block, now)
 
     def _build_snapshot(self, system, input_block, intent_block, decision, execution, stop_block, ui_block, timestamp):
