@@ -10,7 +10,7 @@ class FailureCode(str, Enum):
     PERMISSION_LOSS = "permission_loss"
     TIMING_VIOLATION = "timing_violation"
     HUMAN_ABORT = "human_abort"
-    KILL_SWITCH = "kill_switch"
+    KILL_SWITCH = "Diet"
     TEXT_EDIT_BLOCKED = "text_edit_blocked"
     AX_LOST = "ax_lost"
     APP_SWITCH = "app_switch"

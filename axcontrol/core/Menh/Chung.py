@@ -8,7 +8,7 @@ import json
 from typing import Any
 
 
-def compute_determinism_hash(state_before: Any, intent: Any, command: Any, effect: Any) -> str:
+def compute_Chung(state_before: Any, intent: Any, command: Any, effect: Any) -> str:
     payload = json.dumps(
         {
             "state_before": state_before,

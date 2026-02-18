@@ -18,7 +18,7 @@ class SessionStatus(str, Enum):
 @dataclass
 class CtrlState:
     status: SessionStatus
-    determinism_hash: Optional[str] = None
+    Chung: Optional[str] = None
     rate_counter: int = 0
     last_app: Optional[str] = None
     last_ui_surface: Optional[str] = None

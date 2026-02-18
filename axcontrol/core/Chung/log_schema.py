@@ -11,5 +11,5 @@ class AuditRecord:
     command: Any
     policy_decision: Any
     state_after: Any
-    determinism_hash: str
+    Chung: str
     stop_reason: Optional[str] = None

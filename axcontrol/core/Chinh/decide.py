@@ -1,7 +1,7 @@
 """Decision orchestration helper."""
 
-from core.decision.decision_core import DecisionCore
-from core.policy.evaluator import PolicyEvaluator
+from core.Chinh.decision_core import DecisionCore
+from core.Luat.evaluator import PolicyEvaluator
 
 
 def build_decider(policy_rules):

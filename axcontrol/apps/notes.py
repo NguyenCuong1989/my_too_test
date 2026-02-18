@@ -1,6 +1,6 @@
 """Notes policy with text guard."""
 
-from core.safety.stop_reasons import StopReason
+from core.Menh.stop_reasons import StopReason
 
 
 def allow_action(role: str, action: str, label: str | None = None):

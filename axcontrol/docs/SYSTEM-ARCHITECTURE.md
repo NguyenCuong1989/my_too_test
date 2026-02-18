@@ -3,7 +3,7 @@
 ## Planes
 - **Control Plane:** Human via mobile/web/CLI; submits intents, lifecycle commands; read-only log access.
 - **Decision Core:** Single source of execution truth; validates intents → commands; enforces policy and state checks.
-- **Execution Plane:** macOS-local bounded executor (AX + CGEvent); watchdog + rate limits; logs effects.
+- **Execution Plane:** macOS-local bounded AnLenh (AX + CGEvent); watchdog + rate limits; logs effects.
 - **Observability Plane:** Trace, state diff, failure taxonomy; feeds audit log and status surfaces.
 
 ## Data Path (Deterministic Loop)

@@ -18,7 +18,7 @@
   - includes CLI provenance when using bounded shell tool.
 
 ## Flow
-intent (human/LLM) → envelope build → policy evaluate → sign → executor dispatch → effect log (with determinism hash + STOP reason if any)
+intent (human/LLM) → envelope build → policy evaluate → sign → AnLenh dispatch → effect log (with determinism hash + STOP reason if any)
 
 ## New bounded command: CLI
 - Purpose: read-only diagnostics (`pwd`, `ls`, `cat`, `head`, `tail` with limited flags).

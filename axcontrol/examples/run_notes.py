@@ -3,7 +3,7 @@ import sys
 from pathlib import Path
 
 sys.path.append(str(Path(__file__).resolve().parent.parent))
-from core.loop.control_loop import run
+from core.loop.Van import run
 
 os.environ["AXCONTROL_SIM"] = "1"
 

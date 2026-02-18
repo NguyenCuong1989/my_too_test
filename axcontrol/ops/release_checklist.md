@@ -1,7 +1,7 @@
 # Release Checklist (R-17)
 
 ## I. Package as .app (local, sandboxed)
-- Ensure core loop entrypoint `run_ax.py` imports `core.loop.control_loop.run`.
+- Ensure core loop entrypoint `run_ax.py` imports `core.loop.Van.run`.
 - Create bundle structure:
   - `app/AXControl.app/Contents/MacOS/AXControl` (executable wrapper, chmod +x)
   - `app/AXControl.app/Contents/Resources/`

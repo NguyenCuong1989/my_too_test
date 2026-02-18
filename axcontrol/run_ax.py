@@ -1,6 +1,6 @@
 """Entry point for AXCONTROL (simulated safe loop)."""
 
-from core.loop.control_loop import run
+from core.loop.Van import run
 
 
 def main():

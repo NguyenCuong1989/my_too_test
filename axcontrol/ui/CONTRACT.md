@@ -29,7 +29,7 @@ Core must return this JSON per input:
 
   "execution": {
     "executed": false,
-    "executor": "SHELL | AX | NONE",
+    "AnLenh": "SHELL | AX | NONE",
     "result": "string | null"
   },
 
@@ -40,7 +40,7 @@ Core must return this JSON per input:
 
   "audit": {
     "timestamp": "ISO8601",
-    "determinism_hash": "hex",
+    "Chung": "hex",
     "recorded": true
   },
 

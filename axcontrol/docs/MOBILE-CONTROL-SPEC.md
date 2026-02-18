@@ -10,7 +10,7 @@
 
 ## Data Flow
 1. Human selects intent or approves pending command.
-2. Mobile app sends signed request to device-bound executor.
+2. Mobile app sends signed request to device-bound AnLenh.
 3. Decision Core validates policy + state; either executes or denies with reason.
 
 ## Constraints

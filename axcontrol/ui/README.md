@@ -1,6 +1,6 @@
 # AXCONTROL UI (Local)
 
-Single-user UI (admin/admin) acting purely as renderer + input collector. No logic, no policy, no executor. Communicates with core via Snapshot JSON contract (see CONTRACT.md).
+Single-user UI (admin/admin) acting purely as renderer + input collector. No logic, no policy, no AnLenh. Communicates with core via Snapshot JSON contract (see CONTRACT.md).
 
 ## Run
 cd ui/client

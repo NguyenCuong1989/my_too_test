@@ -6,8 +6,8 @@ to suggest a single intent. Deterministic: fixed history window and stable order
 
 from typing import List, Dict
 
-from core.decision.intent import Intent, IntentSource
-from core.decision.llm_strategy import suggest_intent
+from core.Chinh.intent import Intent, IntentSource
+from core.Chinh.llm_strategy import suggest_intent
 
 MAX_MESSAGES = 8
 

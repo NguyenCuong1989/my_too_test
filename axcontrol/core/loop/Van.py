@@ -9,16 +9,16 @@ import time
 from typing import Optional
 
 from adapters.macos_ax import observer
-from core.decision.command import CommandEnvelope, CommandType
-from core.decision.intent import Intent, IntentSource
-from core.decision.llm_strategy import suggest_intent
-from core.decision.policy import PolicyVerdict, PolicyOutcome
-from core.policy.evaluator import PolicyEvaluator
-from core.safety.rate_limit import RateLimiter
-from core.safety.stop_reasons import StopReason
-from core.safety.determinism_hash import compute_determinism_hash
-from core.audit.log_schema import AuditRecord
-from core.audit.logger import AuditLogger
+from core.Chinh.command import CommandEnvelope, CommandType
+from core.Chinh.intent import Intent, IntentSource
+from core.Chinh.llm_strategy import suggest_intent
+from core.Chinh.policy import PolicyVerdict, PolicyOutcome
+from core.Luat.evaluator import PolicyEvaluator
+from core.Menh.rate_limit import RateLimiter
+from core.Menh.stop_reasons import StopReason
+from core.Menh.Chung import compute_Chung
+from core.Chung.log_schema import AuditRecord
+from core.Chung.logger import AuditLogger
 from core.observability import trace
 from input.keyboard import emit_tab
 from apps import finder, safari, system_settings, notes
@@ -110,7 +110,7 @@ class ControlLoop:
             command=envelope.__dict__,
             policy_decision=verdict.__dict__,
             state_after={"app": snap.app, "role": snap.role, "label": snap.label},
-            determinism_hash=compute_determinism_hash(
+            Chung=compute_Chung(
                 {"app": snap.app, "role": snap.role, "label": snap.label},
                 intent.__dict__,
                 envelope.__dict__,

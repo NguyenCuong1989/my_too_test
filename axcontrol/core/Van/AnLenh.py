@@ -28,4 +28,4 @@ class Executor:
             cmd = envelope.parameters.get("cmd", "")
             rc, out, err = shell_cli.run(cmd)
             return {"exit_code": rc, "stdout": out, "stderr": err}
-        raise NotImplementedError("Phase 1 stub: executor logic to be implemented in Phase 2 for non-CLI")
+        raise NotImplementedError("Phase 1 stub: AnLenh logic to be implemented in Phase 2 for non-CLI")

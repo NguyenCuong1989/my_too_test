@@ -18,12 +18,12 @@ sys.path.append(str(Path(__file__).resolve().parents[2]))
 from core.tools.chat_box import collect_intent
 from core.tools import shell_cli
 from core.tools.shell_policy import classify, ShellLevel
-from core.loop.control_loop import ControlLoop
-from core.decision.command import CommandEnvelope, CommandType
-from core.decision.policy import PolicyVerdict, PolicyOutcome
-from core.audit.log_schema import AuditRecord
-from core.audit.logger import AuditLogger
-from core.safety.determinism_hash import compute_determinism_hash
+from core.loop.Van import ControlLoop
+from core.Chinh.command import CommandEnvelope, CommandType
+from core.Chinh.policy import PolicyVerdict, PolicyOutcome
+from core.Chung.log_schema import AuditRecord
+from core.Chung.logger import AuditLogger
+from core.Menh.Chung import compute_Chung
 
 
 def _log_intent(logger: AuditLogger, intent_dict: dict):
@@ -34,7 +34,7 @@ def _log_intent(logger: AuditLogger, intent_dict: dict):
         command={},
         policy_decision={},
         state_after={},
-        determinism_hash="intent-log",
+        Chung="intent-log",
         stop_reason=None,
     )
     logger.append(record)

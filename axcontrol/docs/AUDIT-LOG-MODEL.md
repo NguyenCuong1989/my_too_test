@@ -8,7 +8,7 @@ Each record includes:
 - command (signed envelope)
 - policy_decision (allow/deny + reason)
 - state_after
-- determinism_hash
+- Chung
 - stop_reason (if applicable)
 - provenance (human | llm) and LLM_DECISION trace (if LLM suggested intent)
 
