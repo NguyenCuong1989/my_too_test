@@ -24,3 +24,15 @@
 - Expect status: Accepted; then `xcrun stapler staple app/AXControl.app`
 - Gatekeeper check: `spctl -a -vv app/AXControl.app` → accepted, source=Notarized Developer ID.
 - Post-step: re-tick Accessibility/Input Monitoring if prompted; double-click run without security warnings.
+- Canonical Code Generation Law:
+  - [ ] Canonical Code Generation Law enforced (see CANONICAL_CODEGEN_LAW.md)
+  - [ ] All new artifacts contain mandatory IP_HEADER
+  - [ ] All GENERATED runtime artifacts are labeled (TYPE-B)
+  - [ ] No source artifact exists without canonical IP_HEADER
+  - [ ] No runtime artifact masquerades as source code
+- Canonical Code Generation Law:
+  - [ ] Canonical Code Generation Law enforced (see CANONICAL_CODEGEN_LAW.md)
+  - [ ] All new artifacts contain mandatory IP_HEADER
+  - [ ] All GENERATED runtime artifacts are labeled (TYPE-B)
+  - [ ] No source artifact exists without canonical IP_HEADER
+  - [ ] No runtime artifact masquerades as source code

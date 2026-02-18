@@ -29,6 +29,8 @@
 - Every action logged and replayable
 - AI cannot bypass policy; human override always wins
 - Commands are signed, device-bound; no runtime privilege escalation
+- Canonical Code Generation Law enforced (see CANONICAL_CODEGEN_LAW.md)
+- Canonical Code Generation Law enforced (see CANONICAL_CODEGEN_LAW.md)
 
 ## Status (Feb 18, 2026)
 - Public repo initialized; specs committed
