@@ -1,0 +1,10 @@
+# UI surface allowlist (deterministic, append-only changes)
+# - app: bundle id or name
+#   surfaces: [role/name identifiers]
+- app: "Local-First Template"
+  surfaces:
+    - "AXButton:Get Started"
+    - "AXButton:Documentation"
+    - "AXStaticText:System Operational"
+    - "AXStaticText:Mobile-First Ready"
+    - "AXStaticText:Local Environment"

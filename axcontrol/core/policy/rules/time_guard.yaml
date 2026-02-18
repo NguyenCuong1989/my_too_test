@@ -1,0 +1,4 @@
+# Time-based guards
+# - window: "22:00-06:00"
+#   allowed: false
+#   exceptions: []

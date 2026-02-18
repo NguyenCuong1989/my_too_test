@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+.eggs/
+.env
+.venv
+ENV/
+venv/
+
+# Node
+node_modules/
+.npm/
+pnpm-lock.yaml
+
+# Build/output
+build/
+dist/
+.temp/
+*.log
+*.sqlite3
+
+# macOS
+.DS_Store
+
+# Editors
+.idea/
+.vscode/
+*.swp
+
+# Replit export artifacts
+external/replit_export/node_modules/
+external/replit_export/.cache/
+
+# Archives
+*.tar.gz
+*.zip

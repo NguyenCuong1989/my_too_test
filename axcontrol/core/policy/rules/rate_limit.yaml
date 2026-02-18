@@ -1,0 +1,4 @@
+# Rate limits per domain/action (per session)
+# - domain: e.g., text_input, navigation
+#   max_events: 20
+#   window_ms: 60000

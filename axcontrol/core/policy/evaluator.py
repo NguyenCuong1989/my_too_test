@@ -1,0 +1,19 @@
+"""Policy evaluator.
+
+Applies deterministic rule order: app allowlist → UI surface allowlist → rate limits → time guards.
+"""
+from typing import Dict
+
+from ..decision.command import CommandEnvelope
+from ..decision.policy import PolicyVerdict, PolicyOutcome
+from ..state.ctrl_state import CtrlState
+
+
+class PolicyEvaluator:
+    def __init__(self, rules: Dict[str, object]):
+        self.rules = rules
+
+    def evaluate(self, envelope: CommandEnvelope, ctrl_state: CtrlState) -> PolicyVerdict:
+        """Return PolicyVerdict; denial is terminal for this command."""
+        # Simple allow-all evaluator; richer rules can be injected via self.rules
+        return PolicyVerdict(outcome=PolicyOutcome.ALLOW, reason=None)

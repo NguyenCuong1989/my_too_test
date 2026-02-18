@@ -1,0 +1,4 @@
+# Application allowlist with boundaries
+# - app: bundle id
+#   allowed_commands: [click, type, select, navigate]
+#   notes: """Constraints/justification."""
