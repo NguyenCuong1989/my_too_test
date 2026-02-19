@@ -1,4 +1,4 @@
-# AXCONTROL — Deterministic macOS UI Control System
+# AXCONTROL — Deterministic macOS UI Control System (SEALED)
 
 ## Mission
 - Build a system-level macOS UI control plane that is deterministic, auditable, replayable, and always human-in-the-loop.
@@ -30,20 +30,28 @@
 - AI cannot bypass policy; human override always wins
 - Commands are signed, device-bound; no runtime privilege escalation
 - Canonical Code Generation Law enforced (see CANONICAL_CODEGEN_LAW.md)
-- Canonical Code Generation Law enforced (see CANONICAL_CODEGEN_LAW.md)
+- Pipeline sealed: Lexicon → Existence (64 quẻ) → Causality/Drift → Execute
 
-## Status (Feb 18, 2026)
-- Public repo initialized; specs committed
-- core/state present; decision & execution partial
-- Control bridge and mobile app skeletons exist
-- Real device test scripts exist; promote flow defined
+## Status (Feb 19, 2026)
+- Runtime SEALED: existence filter, drift/causality lock, lexicon closed
+- Canon sealed: hashes in CANON_HASH.md, property check R-34 (0/4096 violation)
+- Legal shell: entitlements ready; ship_it.sh armed (abort if no Developer ID)
+- UI client present (ui/client), not required for core
 
 ## Working Rules
 - Responses numbered R-xx are authoritative
 - Phase 1: design/reasoning; Phase 2: commands on request
 - Context is append-only; no silent changes
 
-See `docs/` for locked specs and models. Implementation stubs in `core/` adhere to deterministic, audited execution with human-in-the-loop control.
+## Quick commands (local)
+- Health check (core only): `python3 -m compileall core && python3 tools/verify_canon_properties.py`
+- Bridge (snapshot only): `python3 -m core.bridge.http_server`
+- Ad-hoc sign (cục bộ): `xattr -dr com.apple.quarantine build/AXCONTROL.app && codesign --force --deep --options runtime --entitlements entitlements/AXCONTROL.entitlements --sign - build/AXCONTROL.app`
+
+## Read maps
+- Canon hash: `CANON_HASH.md`
+- Operator map: `OPERATOR_MAP.md`
+- Checklist đọc hệ: `CHECKLIST_DOC.md`
 
 ## R-17 Checklist Anchors
 - LLM: local-only (Ollama), intent suggestions with 200ms timeout, logged as `LLM_INTENT`, never executes actions.
