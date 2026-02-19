@@ -31,3 +31,4 @@ class AuditRecord:
     state_after: Any
     Chung: str
     stop_reason: Optional[str] = None
+    hex_bits: Optional[str] = None

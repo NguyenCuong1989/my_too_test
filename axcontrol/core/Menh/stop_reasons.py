@@ -26,6 +26,7 @@ class StopReason(str, Enum):
     STATE_DRIFT_MID_STEP = "state_drift_mid_step"
     CAUSALITY_VIOLATION = "causality_violation"
     LEXICON_VIOLATION = "lexicon_violation"
+    ONTOLOGICAL_VIOLATION = "ontological_violation"
     IDENTITY_NOT_DISCOVERED = "identity_not_discovered"
     AMBIGUOUS_IDENTITY = "ambiguous_identity"
     ID_DISCOVERY_TIMEOUT = "id_discovery_timeout"

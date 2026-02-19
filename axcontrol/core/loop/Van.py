@@ -35,6 +35,9 @@ from core.Luat.evaluator import PolicyEvaluator
 from core.Menh.rate_limit import RateLimiter
 from core.Menh.stop_reasons import StopReason
 from core.Menh.Chung import compute_Chung
+from core.canon.existence_state import ExistenceState
+from core.canon.existence_state_map import EXISTENCE_STATE_MAP
+from core.The.state_projector import map_state_to_hexagram
 from core.Chung.log_schema import AuditRecord
 from core.Chung.logger import AuditLogger
 from core.observability import trace
@@ -78,6 +81,12 @@ class ControlLoop:
         if self.locked_state_proof is not None and state_proof != self.locked_state_proof:
             return StopReason.CAUSALITY_VIOLATION
 
+        # Existence filter (R-32): map to hexagram and classify
+        hex_bits = map_state_to_hexagram(snap)
+        existence = EXISTENCE_STATE_MAP.get(hex_bits, ExistenceState.DIET)
+        if existence in {ExistenceState.TU, ExistenceState.DIET}:
+            return StopReason.ONTOLOGICAL_VIOLATION
+
         app_policy = self._select_app_policy(snap.app)
 
         # Build intent (LLM optional, fallback deterministic)
@@ -111,12 +120,12 @@ class ControlLoop:
         verdict = PolicyVerdict(PolicyOutcome.ALLOW if allowed else PolicyOutcome.DENY, reason=stop_reason)
 
         if verdict.outcome == PolicyOutcome.DENY:
-            self._log_step(snap, intent, envelope, verdict, stop_reason or StopReason.POLICY_DENIAL.value, state_proof)
+            self._log_step(snap, intent, envelope, verdict, stop_reason or StopReason.POLICY_DENIAL.value, state_proof, hex_bits)
             return StopReason(stop_reason) if stop_reason else StopReason.POLICY_DENIAL
 
         # Rate limit
         if not self.rate_limiter.allow():
-            self._log_step(snap, intent, envelope, verdict, StopReason.TIMING_VIOLATION.value, state_proof)
+            self._log_step(snap, intent, envelope, verdict, StopReason.TIMING_VIOLATION.value, state_proof, hex_bits)
             return StopReason.TIMING_VIOLATION
 
         # Emit TAB
@@ -129,17 +138,18 @@ class ControlLoop:
         # Mid-step drift check (post emit)
         snap_after = observer.observe()
         if snap_after is None:
-            self._log_step(snap, intent, envelope, verdict, StopReason.AX_LOST.value, state_proof)
+            self._log_step(snap, intent, envelope, verdict, StopReason.AX_LOST.value, state_proof, hex_bits)
             return StopReason.AX_LOST
         after_proof = f"{snap_after.app}:{snap_after.role}:{snap_after.label}"
         if after_proof != state_proof:
-            self._log_step(snap_after, intent, envelope, verdict, StopReason.STATE_DRIFT_MID_STEP.value, after_proof)
+            drift_hex = map_state_to_hexagram(snap_after)
+            self._log_step(snap_after, intent, envelope, verdict, StopReason.STATE_DRIFT_MID_STEP.value, after_proof, drift_hex)
             return StopReason.STATE_DRIFT_MID_STEP
 
-        self._log_step(snap_after, intent, envelope, verdict, None, state_proof)
+        self._log_step(snap_after, intent, envelope, verdict, None, state_proof, hex_bits)
         return None
 
-    def _log_step(self, snap, intent, envelope, verdict, stop_reason, state_proof):
+    def _log_step(self, snap, intent, envelope, verdict, stop_reason, state_proof, hex_bits):
         effect = {"emitted": "TAB" if verdict.outcome == PolicyOutcome.ALLOW else "DENY"}
         record = AuditRecord(
             timestamp=time.time(),
@@ -155,6 +165,7 @@ class ControlLoop:
                 effect,
             ),
             stop_reason=stop_reason,
+            hex_bits=hex_bits,
         )
         self.logger.append(record)
 
