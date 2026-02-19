@@ -83,6 +83,10 @@ class ControlLoop:
 
         # Existence filter (R-32): map to hexagram and classify
         hex_bits = map_state_to_hexagram(snap)
+        # Mandatory bits: app, role, label, focus, enabled
+        h1, h2, h3, h4, h5, _h6 = [bit == "1" for bit in hex_bits]
+        if not all([h1, h2, h3, h4, h5]):
+            return StopReason.ONTOLOGICAL_VIOLATION
         existence = EXISTENCE_STATE_MAP.get(hex_bits, ExistenceState.DIET)
         if existence in {ExistenceState.TU, ExistenceState.DIET}:
             return StopReason.ONTOLOGICAL_VIOLATION
