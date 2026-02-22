@@ -37,8 +37,9 @@ from adapters.macos_ax import observer
 from core.The.state_projector import map_state_to_hexagram
 
 try:
-    from Quartz import CGEventTapCreate, CFRunLoopAddSource, CFRunLoopGetCurrent, CFRunLoopRun, CFRunLoopSourceInvalidate
-    from Quartz import CFMachPortCreateRunLoopSource, kCFRunLoopCommonModes, kCGHIDEventTap, kCGHeadInsertEventTap
+    from Quartz import CGEventTapCreate, CGEventTapEnable
+    from Quartz import CFRunLoopAddSource, CFRunLoopGetCurrent, CFRunLoopSourceInvalidate, CFRunLoopRunInMode
+    from Quartz import CFMachPortCreateRunLoopSource, kCFRunLoopCommonModes, kCFRunLoopDefaultMode, kCGHIDEventTap, kCGHeadInsertEventTap
     from Quartz import kCGEventMaskForAllEvents, kCGEventKeyDown, kCGEventLeftMouseDown, kCGEventRightMouseDown
     from Quartz import kCGEventOtherMouseDown, CGEventGetIntegerValueField, kCGMouseEventButtonNumber, kCGEventSourceUnixProcessID
 except Exception:
@@ -107,6 +108,7 @@ def run(interval: float, duration: float, output: Path):
             sys.exit(1)
         run_loop_source = CFMachPortCreateRunLoopSource(None, tap, 0)
         CFRunLoopAddSource(CFRunLoopGetCurrent(), run_loop_source, kCFRunLoopCommonModes)
+        CGEventTapEnable(tap, True)
 
         start = now()
         next_poll = start
@@ -133,8 +135,8 @@ def run(interval: float, duration: float, output: Path):
                         human_state = state
                         write_record(fh, {"ts": now_ts, "type": "human_state", "state": human_state})
                     next_poll = now_ts + interval
-                # Run the event loop in small slices
-                time.sleep(0.01)
+                # Pump run loop to deliver tap events
+                CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.01, False)
         finally:
             CFRunLoopSourceInvalidate(run_loop_source)
             # no explicit close for tap; exiting process releases

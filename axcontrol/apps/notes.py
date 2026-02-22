@@ -16,10 +16,7 @@
 #   Canon -> COG -> Projection(Π) -> Artifact
 #
 # =============================================================================
-"""Notes policy with text guard."""
-
-from core.Menh.stop_reasons import StopReason
-
+from __future__ import annotations
 
 def allow_action(role: str, action: str, label: str | None = None):
     """

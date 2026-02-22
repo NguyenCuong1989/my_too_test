@@ -16,7 +16,7 @@
 #   Canon -> COG -> Projection(Π) -> Artifact
 #
 # =============================================================================
-"""Safari policy."""
+from __future__ import annotations
 
 from adapters.macos_ax.safari import safari_context
 

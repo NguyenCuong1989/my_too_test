@@ -16,7 +16,7 @@
 #   Canon -> COG -> Projection(Π) -> Artifact
 #
 # =============================================================================
-"""System Settings policy (safe navigation)."""
+from __future__ import annotations
 
 
 def allow_action(role: str, action: str, label: str | None = None) -> bool:

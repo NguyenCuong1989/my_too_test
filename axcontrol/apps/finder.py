@@ -16,7 +16,7 @@
 #   Canon -> COG -> Projection(Π) -> Artifact
 #
 # =============================================================================
-"""Finder policy and helpers."""
+from __future__ import annotations
 
 def allow_action(role: str, action: str, label: str | None = None) -> bool:
     # Finder safe mode: allow TAB navigation only

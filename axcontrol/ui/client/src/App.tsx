@@ -3,6 +3,9 @@ import { useState } from "react";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
+import { DashboardView } from "./pages/DashboardView";
+import { AuditTracerView } from "./pages/AuditTracerView";
+import { CommandCenter } from "./components/CommandCenter";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -70,11 +73,50 @@ function LoginView({ onSuccess }: { onSuccess: () => void }) {
   );
 }
 
+function MainLayout() {
+  const [activeTab, setActiveTab] = useState<"dashboard" | "audit">("dashboard");
+
+  return (
+    <div className="min-h-screen bg-background text-foreground pb-32">
+      <nav className="border-b bg-background/50 backdrop-blur-sm sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <div className="h-8 w-8 bg-primary rounded-lg flex items-center justify-center font-bold text-primary-foreground shadow-lg shadow-primary/20">
+              AX
+            </div>
+            <span className="font-bold tracking-tighter text-xl">CONTROL</span>
+          </div>
+          <div className="flex bg-secondary/50 p-1 rounded-md">
+            <button
+              onClick={() => setActiveTab("dashboard")}
+              className={`px-4 py-1.5 text-xs font-bold uppercase tracking-wider rounded transition-all ${activeTab === "dashboard" ? "bg-background shadow-sm" : "opacity-50 hover:opacity-100"}`}
+            >
+              Dashboard
+            </button>
+            <button
+              onClick={() => setActiveTab("audit")}
+              className={`px-4 py-1.5 text-xs font-bold uppercase tracking-wider rounded transition-all ${activeTab === "audit" ? "bg-background shadow-sm" : "opacity-50 hover:opacity-100"}`}
+            >
+              Audit Tracer
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      <main className="max-w-7xl mx-auto">
+        {activeTab === "dashboard" ? <DashboardView /> : <AuditTracerView />}
+      </main>
+
+      <CommandCenter />
+    </div>
+  );
+}
+
 function Home() {
   return (
     <div className="min-h-screen w-full flex flex-col items-center justify-center p-6 bg-background">
       <div className="w-full max-w-md space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
-        
+
         {/* Header Section */}
         <div className="space-y-2 text-center">
           <div className="inline-block px-3 py-1 mb-4 text-xs font-medium tracking-wider uppercase border border-border bg-secondary/50 rounded-sm">
@@ -105,7 +147,7 @@ function Home() {
                 <span className="text-sm font-medium">Local Environment</span>
               </div>
             </div>
-            
+
             <div className="pt-4 flex gap-3">
               <Button className="w-full font-medium" size="lg">
                 Get Started
@@ -142,7 +184,7 @@ function NotFound() {
 function Router() {
   return (
     <Switch>
-      <Route path="/" component={Home} />
+      <Route path="/" component={MainLayout} />
       <Route component={NotFound} />
     </Switch>
   );
