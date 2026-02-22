@@ -92,7 +92,7 @@ class Bridge:
         decision = {"verdict": "IDLE", "command": None}
         execution = {"executed": False, "executor": "NONE", "result": None}
         stop_block = {"reason": "NONE", "message": None}
-        ui_block = {"requires_confirm": False, "prompt": None}
+        ui_block = {"requires_confirm": False, "prompt": None, "suggestions": ["/ax", "status?"]}
 
         now = datetime.utcnow().isoformat() + "Z"
 
@@ -110,7 +110,9 @@ class Bridge:
             else:
                 decision = {"verdict": "STOP", "command": self.pending_cmd}
                 stop_block = {"reason": "USER_CANCEL", "message": "user rejected"}
+
             self.pending_cmd = None
+            ui_block["suggestions"] = ["/ax", "status?"]
             snapshot = self._build_snapshot(system, input_block, intent_block, decision, execution, stop_block, ui_block, now)
             return snapshot
 
@@ -126,9 +128,14 @@ class Bridge:
             if level == ShellLevel.LEVEL2 or level == ShellLevel.DENY:
                 decision = {"verdict": "STOP", "command": cmd}
                 stop_block = {"reason": reason or "SHELL_DENY_LV2", "message": None}
+                ui_block["suggestions"] = ["status?", "/ax"]
             elif level == ShellLevel.LEVEL1:
                 decision = {"verdict": "CONFIRM_REQ", "command": cmd}
-                ui_block = {"requires_confirm": True, "prompt": f"Run command: {cmd}?"}
+                ui_block = {
+                    "requires_confirm": True,
+                    "prompt": f"Run command: {cmd}?",
+                    "suggestions": ["confirm", "cancel"]
+                }
                 self.pending_cmd = cmd
             else:
                 try:
@@ -167,6 +174,7 @@ class Bridge:
             intent_block = {"kind": intent_kind, "value": None, "source": "human"}
             decision = {"verdict": "STOP", "command": None}
             stop_block = {"reason": StopReason.LEXICON_VIOLATION.value, "message": "free text not in lexicon"}
+            ui_block["suggestions"] = ["status?", "/ax"]
             return self._build_snapshot(system, input_block, intent_block, decision, execution, stop_block, ui_block, now)
 
         intent_block = {"kind": intent_kind, "value": text_clean, "source": "human"}

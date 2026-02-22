@@ -1,0 +1,129 @@
+===== 1. CURRENT LOCATION =====
+/Users/andy/my_too_test/axcontrol
+
+===== 2. GIT ROOT =====
+/Users/andy/my_too_test
+
+===== 3. GIT STATUS =====
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   apps/finder.py
+	modified:   apps/notes.py
+	modified:   apps/safari.py
+	modified:   apps/system_settings.py
+	modified:   core/tools/shell_policy.py
+	modified:   tools/observe_session.py
+	modified:   ui/client/src/App.tsx
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	../.DS_Store
+	DIAG_REPORT.txt
+	FULL_WORKSPACE_TREE.txt
+	REPLIT_REALITY/
+	logs/
+	ops/simulate_reality.py
+	ui/client/src/components/CommandCenter.tsx
+	ui/client/src/pages/
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+===== 4. REMOTE =====
+origin	https://github.com/NguyenCuong1989/my_too_test.git (fetch)
+origin	https://github.com/NguyenCuong1989/my_too_test.git (push)
+
+===== 5. CURRENT BRANCH =====
+main
+
+===== 6. LAST 20 COMMITS =====
+e0de943 Obs: add log guide and summarize script
+bb10a0a Obs: add passive observation logger (no emit)
+99b06a9 Obs phase docs: schema, CLI usage, gap report
+a690538 Docs/ops: refresh README, add CI_KNOWN_ISSUES and tools/health_check.sh
+8c1e0d6 R-32.1: fail-fast ontology guard on mandatory bits (app/role/label/focus/enabled)
+6224180 Docs: add CHECKLIST_DOC (read-flow) and OPERATOR_MAP (file→operator)
+032826b R-34: property-based check for XOR transitions (abyss safety, determinism)
+dcd7652 Canon: add CANON_HASH (SHA-256 seal for ontology set)
+ba28246 Canon: add CANON_TRANSITION directive (XOR transition law)
+fe7249f R-32: state projector + existence filter guard and ontological stop
+c44feed R-31.1: lexicon guard free-text -> STOP unless query
+5d77ea6 R-31: canonical existence map generator and immutable lookup
+48015fa R-30 prep: identity discovery stop reasons + activation notes
+9a93a3f R-29.2: status doc and ship ritual auto-abort on missing ID
+1831131 R-29.1: legal skeleton (entitlements + ship script placeholder)
+29529c6 R-28.3: freeze points, lexicon guard, mid-step drift
+9a9f3a7 R-28.1: invariant test design spec (formal)
+e1d5c81 Align snapshot execution field with contract (executor)
+f59b9ec R-27: system scope + pipeline canon docs; lexicon guard note
+49fba00 Fix imports after lexicon renames (AnLenh, Luat evaluator)
+
+===== 7. NESTED GIT REPOS =====
+./REPLIT_REALITY/Local-First-Skeleton/.git
+
+===== 8. PYTHON ENV =====
+/Users/andy/micromamba/bin/python
+Python 3.9.23
+
+===== 9. VENV CHECK =====
+
+
+===== 10. DISK USAGE (TOP LEVEL) =====
+ 80K	adapters
+ 92K	apps
+432K	build
+4.0K	CANON_HASH.md
+4.0K	CANON_TRANSITION.md
+4.0K	CANONICAL_CODEGEN_LAW.md
+4.0K	CHECKLIST_DOC.md
+628K	core
+4.0K	DIAG_REPORT.txt
+ 84K	docs
+4.0K	entitlements
+ 12K	examples
+  0B	external
+2.1M	FULL_WORKSPACE_TREE.txt
+  0B	governance
+ 36K	input
+ 15M	logs
+4.0K	mac_bridge
+8.0K	mobile
+4.0K	OBS-CLI.md
+4.0K	OBS-GAP.md
+4.0K	OBS-LOG-GUIDE.md
+4.0K	OBS-SCHEMA.md
+4.0K	OPERATOR_MAP.md
+ 24K	ops
+4.0K	README.md
+1.4M	REPLIT_REALITY
+324K	ReplitExport-nguyencuong2509.tar.gz
+4.0K	run_ax.py
+4.0K	scripts
+8.0K	sdk
+ 28K	tests
+ 24K	tools
+275M	ui
+
+===== 11. LOG FILES =====
+total 29704
+-rw-r--r--  1 andy  staff     0B Feb 19 18:21 observe_live.ndjson
+-rw-r--r--  1 andy  staff   1.1K Feb 19 16:58 observe_quick.ndjson
+-rw-r--r--  1 andy  staff   6.4K Feb 19 17:52 observe_quick2.ndjson
+-rw-r--r--  1 andy  staff   6.8K Feb 19 16:43 observe_test.ndjson
+-rw-r--r--  1 andy  staff    14M Feb 20 09:52 observe.ndjson
+
+===== 12. BUILD STATUS =====
+total 0
+drwxr-xr-x  3 andy  staff    96B Feb 19 00:10 AXCONTROL.app
+
+===== 13. ENTITLEMENTS =====
+total 8
+-rw-r--r--  1 andy  staff   1.2K Feb 19 03:50 AXCONTROL.entitlements
+
+===== 14. CANON HASH =====
+b502a5291337da0eca4b1c20f9eff1309eecf7f5  CANON_HASH.md
+
+===== 15. PERMISSION CHECK (AX) =====

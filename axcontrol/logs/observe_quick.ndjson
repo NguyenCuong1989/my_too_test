@@ -1,0 +1,10 @@
+{"ts": 1771495104.6102989, "type": "ax", "app": "Finder", "role": "AXToolbar", "label": "Toolbar", "hex": "111011"}
+{"ts": 1771495105.117975, "type": "ax", "app": "Safari", "role": "AXToolbar", "label": "Back", "hex": "111011"}
+{"ts": 1771495105.618051, "type": "ax", "app": "Notes", "role": "AXTextArea", "label": "Editor", "hex": "101011"}
+{"ts": 1771495106.12716, "type": "ax", "app": "System Settings", "role": "AXRow", "label": "Sidebar", "hex": "111011"}
+{"ts": 1771495106.630046, "type": "ax", "app": "Finder", "role": "AXToolbar", "label": "Toolbar", "hex": "111011"}
+{"ts": 1771495107.1420338, "type": "ax", "app": "Safari", "role": "AXToolbar", "label": "Back", "hex": "111011"}
+{"ts": 1771495107.645947, "type": "ax", "app": "Notes", "role": "AXTextArea", "label": "Editor", "hex": "101011"}
+{"ts": 1771495108.1566908, "type": "ax", "app": "System Settings", "role": "AXRow", "label": "Sidebar", "hex": "111011"}
+{"ts": 1771495108.667181, "type": "ax", "app": "Finder", "role": "AXToolbar", "label": "Toolbar", "hex": "111011"}
+{"ts": 1771495109.1720471, "type": "ax", "app": "Safari", "role": "AXToolbar", "label": "Back", "hex": "111011"}

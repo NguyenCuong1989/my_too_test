@@ -68,7 +68,8 @@ Response required fields:
   },
   "ui": {
     "requires_confirm": false,
-    "prompt": "string | null"
+    "prompt": "string | null",
+    "suggestions": ["string"]
   }
 }
 ```

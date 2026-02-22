@@ -1,0 +1,76 @@
+{"ts": 1771498369.825757, "type": "ax", "app": "Finder", "role": "AXToolbar", "label": "Toolbar", "hex": "111011"}
+{"ts": 1771498369.868865, "type": "input", "sub": "key", "keycode": 48, "pid": 0}
+{"ts": 1771498369.95196, "type": "input", "sub": "key", "keycode": 48, "pid": 0}
+{"ts": 1771498370.0334258, "type": "input", "sub": "key", "keycode": 48, "pid": 0}
+{"ts": 1771498370.119364, "type": "input", "sub": "key", "keycode": 48, "pid": 0}
+{"ts": 1771498370.200108, "type": "input", "sub": "key", "keycode": 48, "pid": 0}
+{"ts": 1771498370.283208, "type": "input", "sub": "key", "keycode": 48, "pid": 0}
+{"ts": 1771498370.3346639, "type": "ax", "app": "Safari", "role": "AXToolbar", "label": "Back", "hex": "111011"}
+{"ts": 1771498370.3346639, "type": "human_state", "state": "H1"}
+{"ts": 1771498370.369233, "type": "input", "sub": "key", "keycode": 48, "pid": 0}
+{"ts": 1771498370.4528, "type": "input", "sub": "key", "keycode": 48, "pid": 0}
+{"ts": 1771498370.532516, "type": "input", "sub": "key", "keycode": 48, "pid": 0}
+{"ts": 1771498370.6162822, "type": "input", "sub": "key", "keycode": 48, "pid": 0}
+{"ts": 1771498370.70033, "type": "input", "sub": "key", "keycode": 48, "pid": 0}
+{"ts": 1771498370.785629, "type": "input", "sub": "key", "keycode": 48, "pid": 0}
+{"ts": 1771498370.843692, "type": "ax", "app": "Notes", "role": "AXTextArea", "label": "Editor", "hex": "101011"}
+{"ts": 1771498370.843692, "type": "human_state", "state": "H2"}
+{"ts": 1771498370.8690948, "type": "input", "sub": "key", "keycode": 48, "pid": 0}
+{"ts": 1771498370.952441, "type": "input", "sub": "key", "keycode": 48, "pid": 0}
+{"ts": 1771498371.035785, "type": "input", "sub": "key", "keycode": 48, "pid": 0}
+{"ts": 1771498371.119172, "type": "input", "sub": "key", "keycode": 48, "pid": 0}
+{"ts": 1771498371.2024372, "type": "input", "sub": "key", "keycode": 48, "pid": 0}
+{"ts": 1771498371.2857652, "type": "input", "sub": "key", "keycode": 48, "pid": 0}
+{"ts": 1771498371.343719, "type": "ax", "app": "System Settings", "role": "AXRow", "label": "Sidebar", "hex": "111011"}
+{"ts": 1771498371.369302, "type": "input", "sub": "key", "keycode": 48, "pid": 0}
+{"ts": 1771498371.4530098, "type": "input", "sub": "key", "keycode": 48, "pid": 0}
+{"ts": 1771498371.5361311, "type": "input", "sub": "key", "keycode": 48, "pid": 0}
+{"ts": 1771498371.619168, "type": "input", "sub": "key", "keycode": 48, "pid": 0}
+{"ts": 1771498371.7028532, "type": "input", "sub": "key", "keycode": 48, "pid": 0}
+{"ts": 1771498371.7858582, "type": "input", "sub": "key", "keycode": 48, "pid": 0}
+{"ts": 1771498371.8520992, "type": "ax", "app": "Finder", "role": "AXToolbar", "label": "Toolbar", "hex": "111011"}
+{"ts": 1771498371.869515, "type": "input", "sub": "key", "keycode": 48, "pid": 0}
+{"ts": 1771498371.95249, "type": "input", "sub": "key", "keycode": 48, "pid": 0}
+{"ts": 1771498372.036163, "type": "input", "sub": "key", "keycode": 48, "pid": 0}
+{"ts": 1771498372.119206, "type": "input", "sub": "key", "keycode": 48, "pid": 0}
+{"ts": 1771498372.202576, "type": "input", "sub": "key", "keycode": 48, "pid": 0}
+{"ts": 1771498372.2858849, "type": "input", "sub": "key", "keycode": 48, "pid": 0}
+{"ts": 1771498372.352121, "type": "ax", "app": "Safari", "role": "AXToolbar", "label": "Back", "hex": "111011"}
+{"ts": 1771498372.369177, "type": "input", "sub": "key", "keycode": 48, "pid": 0}
+{"ts": 1771498372.452885, "type": "input", "sub": "key", "keycode": 48, "pid": 0}
+{"ts": 1771498372.535867, "type": "input", "sub": "key", "keycode": 48, "pid": 0}
+{"ts": 1771498372.619534, "type": "input", "sub": "key", "keycode": 48, "pid": 0}
+{"ts": 1771498372.702621, "type": "input", "sub": "key", "keycode": 48, "pid": 0}
+{"ts": 1771498372.786004, "type": "input", "sub": "key", "keycode": 48, "pid": 0}
+{"ts": 1771498372.8526258, "type": "ax", "app": "Notes", "role": "AXTextArea", "label": "Editor", "hex": "101011"}
+{"ts": 1771498372.86923, "type": "input", "sub": "key", "keycode": 48, "pid": 0}
+{"ts": 1771498372.9167209, "type": "input", "sub": "mouse", "button": 0, "pid": 0}
+{"ts": 1771498372.9525352, "type": "input", "sub": "key", "keycode": 48, "pid": 0}
+{"ts": 1771498373.035914, "type": "input", "sub": "key", "keycode": 48, "pid": 0}
+{"ts": 1771498373.119562, "type": "input", "sub": "key", "keycode": 48, "pid": 0}
+{"ts": 1771498373.20293, "type": "input", "sub": "key", "keycode": 48, "pid": 0}
+{"ts": 1771498373.286345, "type": "input", "sub": "key", "keycode": 48, "pid": 0}
+{"ts": 1771498373.356858, "type": "ax", "app": "System Settings", "role": "AXRow", "label": "Sidebar", "hex": "111011"}
+{"ts": 1771498373.369201, "type": "input", "sub": "key", "keycode": 48, "pid": 0}
+{"ts": 1771498373.435495, "type": "input", "sub": "mouse", "button": 0, "pid": 0}
+{"ts": 1771498373.452575, "type": "input", "sub": "key", "keycode": 48, "pid": 0}
+{"ts": 1771498373.5363789, "type": "input", "sub": "key", "keycode": 48, "pid": 0}
+{"ts": 1771498373.619288, "type": "input", "sub": "key", "keycode": 48, "pid": 0}
+{"ts": 1771498373.7030919, "type": "input", "sub": "key", "keycode": 48, "pid": 0}
+{"ts": 1771498373.78632, "type": "input", "sub": "key", "keycode": 48, "pid": 0}
+{"ts": 1771498373.864274, "type": "ax", "app": "Finder", "role": "AXToolbar", "label": "Toolbar", "hex": "111011"}
+{"ts": 1771498373.8694541, "type": "input", "sub": "key", "keycode": 48, "pid": 0}
+{"ts": 1771498373.952592, "type": "input", "sub": "key", "keycode": 48, "pid": 0}
+{"ts": 1771498373.983395, "type": "input", "sub": "mouse", "button": 0, "pid": 0}
+{"ts": 1771498374.036335, "type": "input", "sub": "key", "keycode": 48, "pid": 0}
+{"ts": 1771498374.119277, "type": "input", "sub": "key", "keycode": 48, "pid": 0}
+{"ts": 1771498374.202681, "type": "input", "sub": "key", "keycode": 48, "pid": 0}
+{"ts": 1771498374.2863622, "type": "input", "sub": "key", "keycode": 48, "pid": 0}
+{"ts": 1771498374.369269, "type": "input", "sub": "key", "keycode": 48, "pid": 0}
+{"ts": 1771498374.3727732, "type": "ax", "app": "Safari", "role": "AXToolbar", "label": "Back", "hex": "111011"}
+{"ts": 1771498374.4527512, "type": "input", "sub": "key", "keycode": 48, "pid": 0}
+{"ts": 1771498374.535964, "type": "input", "sub": "key", "keycode": 48, "pid": 0}
+{"ts": 1771498374.566738, "type": "input", "sub": "mouse", "button": 0, "pid": 0}
+{"ts": 1771498374.619287, "type": "input", "sub": "key", "keycode": 48, "pid": 0}
+{"ts": 1771498374.7027662, "type": "input", "sub": "key", "keycode": 48, "pid": 0}
+{"ts": 1771498374.7860742, "type": "input", "sub": "key", "keycode": 48, "pid": 0}

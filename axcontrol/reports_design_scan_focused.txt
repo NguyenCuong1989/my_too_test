@@ -1,0 +1,154 @@
+README.md:4:- Build a system-level macOS UI control plane that is deterministic, auditable, replayable, and always human-in-the-loop.
+README.md:8:- Deterministic execution: state → intent → command → effect; deterministic hash per run.
+README.md:21:- UI Event Engine + deterministic state machine
+README.md:50:- Local no-drift CI: `make ci`
+ui/CONTRACT.md:12:  - `system`, `input`, `intent`, `decision`, `execution`, `stop`, `audit`, `ui`
+ui/CONTRACT.md:16:- UI must treat `audit.recorded` as persistence truth.
+ui/CONTRACT.md:17:- UI must not assume `/api/audit` unless backend route exists.
+ops/ship_it.sh:9:#   This source file is a deterministic projection of a closed Canon.
+ops/ship_it.sh:28:echo "[PRECHECK] Running no-drift invariants..."
+ops/ship_it.sh:32:  echo "[PRECHECK] SKIP_INVARIANT_TESTS=1 set; skipping invariant tests."
+docs/TOOLS.md:7:- Returns exit_code/stdout/stderr; caller must log via audit logger.
+docs/TOOLS.md:14:- Provenance marked (llm or human) for audit; replay never re-calls LLM.
+tests/replay/README.md:3:Purpose: validate that deterministic replay consumes audit logs only, never live UI, and never re-invokes LLM.
+core/loop/GiaoTiep.py:9:#   This source file is a deterministic projection of a closed Canon.
+ops/promote_flow.md:32:  - Audit write failure => `recorded=false` and `stop.reason=audit_write_failed`
+docs/POLICY-MODEL.md:16:3. Apply rules in deterministic order; produce allow/deny + reason.
+docs/POLICY-MODEL.md:17:4. Emit policy_decision into audit log.
+tests/README.md:4:- `replay/`: Deterministic replay tests consuming audit logs; no live UI access; LLM never re-invoked during replay.
+core/loop/Van.py:9:#   This source file is a deterministic projection of a closed Canon.
+core/loop/Van.py:20:Control loop (safe, deterministic, simulated).
+core/loop/Van.py:96:        # Build intent (LLM optional, fallback deterministic)
+docs/PIPELINE_CANON.md:9:#   This source file is a deterministic projection of a closed Canon.
+tests/test_bridge_no_drift.py:22:    def _start_server(self, audit_target: Path) -> None:
+tests/test_bridge_no_drift.py:23:        os.environ["AXCONTROL_AUDIT_LOG"] = str(audit_target)
+tests/test_bridge_no_drift.py:36:    def _restart_server(self, audit_target: Path) -> None:
+tests/test_bridge_no_drift.py:38:        self._start_server(audit_target)
+tests/test_bridge_no_drift.py:59:        self.assertTrue(r1["audit"]["recorded"])
+tests/test_bridge_no_drift.py:60:        self.assertTrue(r2["audit"]["recorded"])
+tests/test_bridge_no_drift.py:61:        self.assertEqual(r1["audit"]["Chung"], r2["audit"]["Chung"])
+tests/test_bridge_no_drift.py:66:        self.assertTrue(all(rec.get("type") == "bridge_audit" for rec in records))
+tests/test_bridge_no_drift.py:73:        self.assertTrue(r1["audit"]["recorded"])
+tests/test_bridge_no_drift.py:74:        self.assertTrue(r2["audit"]["recorded"])
+tests/test_bridge_no_drift.py:75:        self.assertNotEqual(r1["audit"]["Chung"], r2["audit"]["Chung"])
+tests/test_bridge_no_drift.py:82:    def test_audit_write_failure_sets_explicit_stop_reason(self) -> None:
+tests/test_bridge_no_drift.py:83:        bad_target = Path(self._tmp.name) / "audit_dir"
+tests/test_bridge_no_drift.py:88:        self.assertFalse(resp["audit"]["recorded"])
+tests/test_bridge_no_drift.py:89:        self.assertEqual(resp["stop"]["reason"], "audit_write_failed")
+tests/test_bridge_no_drift.py:90:        self.assertIn("error", resp["audit"])
+core/loop/__init__.py:9:#   This source file is a deterministic projection of a closed Canon.
+docs/STATE-MODEL.md:16:3. Evaluate intent → command; check determinism hash stability; LLM intents are clamped and timed-out.
+docs/STATE-MODEL.md:21:- Requires environment match + hash match; stop_reason must align for deterministic verification.
+core/init.py:9:#   This source file is a deterministic projection of a closed Canon.
+core/init.py:21:Phase 1: design stubs only. Execution logic is implemented later under strict determinism and audit guarantees.
+docs/BRIDGE_CONTRACT.md:9:#   This source file is a deterministic projection of a closed Canon.
+docs/BRIDGE_CONTRACT.md:60:    "reason": "NONE | lexicon_violation | audit_write_failed | ...",
+docs/BRIDGE_CONTRACT.md:63:  "audit": {
+docs/BRIDGE_CONTRACT.md:79:- `audit.recorded=true` only when append to sink succeeds.
+tests/real_device/README.md:8:- LLM may be ON/OFF; intents are logged as `LLM_INTENT` with provenance; fallback deterministic.
+tests/real_device/README.md:11:- Log every step with determinism hash; replay must match 100%.
+tests/real_device/README.md:31:- Log LLM toggles, intents, policy decisions, STOP reasons, determinism hash per step.
+core/vision/bounds.py:9:#   This source file is a deterministic projection of a closed Canon.
+docs/LEXICON_CANON_API_NAMING_LAW.md:9:#   This source file is a deterministic projection of a closed Canon.
+docs/LEXICON_CANON_API_NAMING_LAW.md:37:- BấtBiến: invariant
+core/vision/symbols.py:9:#   This source file is a deterministic projection of a closed Canon.
+docs/INVARIANT_TESTS_R28.md:9:#   This source file is a deterministic projection of a closed Canon.
+core/Chung/log_schema.py:9:#   This source file is a deterministic projection of a closed Canon.
+core/Van/ax_bridge.py:9:#   This source file is a deterministic projection of a closed Canon.
+docs/AUDIT-LOG-MODEL.md:22:- Environment and determinism hash must match.
+core/The/state_projector.py:9:#   This source file is a deterministic projection of a closed Canon.
+core/Van/event_emit.py:9:#   This source file is a deterministic projection of a closed Canon.
+core/Chung/logger.py:9:#   This source file is a deterministic projection of a closed Canon.
+core/Chung/logger.py:19:"""Append-only audit logger."""
+core/vision/matcher.py:9:#   This source file is a deterministic projection of a closed Canon.
+core/Luat/evaluator.py:9:#   This source file is a deterministic projection of a closed Canon.
+core/Luat/evaluator.py:21:Applies deterministic rule order: app allowlist → UI surface allowlist → rate limits → time guards.
+core/Chung/replay.py:9:#   This source file is a deterministic projection of a closed Canon.
+core/Chung/replay.py:26:    """Replay actions from audit log.
+core/Chung/replay.py:28:    - Requires environment + determinism hash match
+docs/SYSTEM_SCOPE.md:9:#   This source file is a deterministic projection of a closed Canon.
+core/bridge/http_server.py:9:#   This source file is a deterministic projection of a closed Canon.
+core/bridge/http_server.py:57:            "type": "bridge_audit",
+core/bridge/http_server.py:76:        audit_path = Path(os.getenv("AXCONTROL_AUDIT_LOG", "logs/observe.ndjson"))
+core/bridge/http_server.py:77:        self.logger = AuditLogger(sink=_NDJSONAuditSink(audit_path))
+core/bridge/http_server.py:185:        audit_error = None
+core/bridge/http_server.py:202:            audit_error = str(exc)
+core/bridge/http_server.py:205:                "message": audit_error,
+core/bridge/http_server.py:208:        audit = {
+core/bridge/http_server.py:213:        if audit_error:
+core/bridge/http_server.py:214:            audit["error"] = audit_error
+core/bridge/http_server.py:222:            "audit": audit,
+core/Van/watchdog.py:9:#   This source file is a deterministic projection of a closed Canon.
+core/llm/intent_adapter.py:9:#   This source file is a deterministic projection of a closed Canon.
+core/Menh/Chung.py:9:#   This source file is a deterministic projection of a closed Canon.
+core/Chung/README.md:1:# core/audit
+core/Chung/README.md:3:Append-only logging, deterministic hashing, and replay primitives. Replay consumes logs only and requires environment/hash match.
+core/Van/AnLenh.py:9:#   This source file is a deterministic projection of a closed Canon.
+core/Van/AnLenh.py:38:        """Execute command deterministically.
+core/Van/AnLenh.py:42:        - Return effect summary for audit log
+core/Luat/README.md:3:Policy evaluation engine and rule artifacts (allowlists, rate limits, time guards, UI surface constraints). Evaluations are deterministic and must be enforced before any execution.
+core/Luat/rules/ui_surface.yaml:1:# UI surface allowlist (deterministic, append-only changes)
+docs/COMMAND-MODEL.md:17:- provenance (human | llm); required for audit/replay; replay never re-calls LLM.
+docs/COMMAND-MODEL.md:21:intent (human/LLM) → envelope build → policy evaluate → sign → AnLenh dispatch → effect log (with determinism hash + STOP reason if any)
+docs/COMMAND-MODEL.md:30:- State drift / determinism hash mismatch
+core/The/ctrl_state.py:9:#   This source file is a deterministic projection of a closed Canon.
+core/The/ctrl_state.py:21:Tracks control-plane lifecycle, policy counters, and determinism hash for the last step.
+core/llm/constraints.py:9:#   This source file is a deterministic projection of a closed Canon.
+core/Chinh/decision_core.py:9:#   This source file is a deterministic projection of a closed Canon.
+core/Chinh/decision_core.py:21:Translates intent + state into signed command envelopes, applying policy checks in deterministic order.
+docs/FAILURE-TAXONOMY.md:17:- Record stop_reason and determinism hash in audit log
+core/Menh/README.md:3:Safety primitives: kill-switch, stop reasons, and determinism hashing. Human override always wins; kill-switch is local-only and offline-capable.
+core/Menh/stop_reasons.py:9:#   This source file is a deterministic projection of a closed Canon.
+core/Menh/stop_reasons.py:41:    AUDIT_WRITE_FAILED = "audit_write_failed"
+core/Menh/Diet.py:9:#   This source file is a deterministic projection of a closed Canon.
+core/Chinh/llm_strategy.py:9:#   This source file is a deterministic projection of a closed Canon.
+core/Chinh/llm_strategy.py:23:- Enforces 200ms timeout and deterministic fallback to None.
+core/Chinh/llm_strategy.py:43:        "Keep it deterministic and minimal."
+core/canon/existence_state.py:9:#   This source file is a deterministic projection of a closed Canon.
+core/Menh/rate_limit.py:9:#   This source file is a deterministic projection of a closed Canon.
+docs/SYSTEM-ARCHITECTURE.md:7:- **Observability Plane:** Trace, state diff, failure taxonomy; feeds audit log and status surfaces.
+docs/SYSTEM-ARCHITECTURE.md:13:4. Executor performs bounded action; records effect + determinism hash.
+docs/SYSTEM-ARCHITECTURE.md:20:- Toggleable `LLM_MODE`; pipeline remains deterministic when LLM off.
+docs/SYSTEM-ARCHITECTURE.md:23:- Consumes audit log only; environment + hash must match; read-only unless explicitly armed.
+docs/LOCAL_OPERATIONS.md:4:Run AXCONTROL in local-first mode with deterministic no-drift checks, periodic backups, and log maintenance.
+docs/LOCAL_OPERATIONS.md:7:- Run invariants manually: `make ci`
+docs/LOCAL_OPERATIONS.md:13:Pre-commit hook runs no-drift invariants before every commit:
+docs/LOCAL_OPERATIONS.md:26:- Runtime audit: `logs/observe.ndjson`
+docs/LOCAL_OPERATIONS.md:34:- Re-run invariants: `make ci`
+docs/LOCAL_OPERATIONS.md:35:- Verify latest audit writes:
+core/canon/existence_state_map.py:9:#   This source file is a deterministic projection of a closed Canon.
+docs/CI_KNOWN_ISSUES.md:9:#   This source file is a deterministic projection of a closed Canon.
+docs/CI_KNOWN_ISSUES.md:23:- Run deterministic checks only:
+docs/SDK-SPEC.md:13:- Query execution status, STOP reasons, and audit log segments (read-only).
+core/The/README.md:3:Defines normalized UIState and CtrlState plus normalization rules. Inputs are canonicalized to ensure deterministic intent evaluation and execution.
+core/The/ui_state.py:9:#   This source file is a deterministic projection of a closed Canon.
+core/The/ui_state.py:22:No raw pixels; identifiers are stable across runs for determinism.
+core/The/ui_state.py:32:    identifier: str  # stable deterministic id
+core/The/ui_state.py:51:    hash: Optional[str] = None  # set by determinism hash step
+docs/RFC-DETERMINISM.md:11:5. Record deterministic hash (state_before, intent, command, effect) per step.
+docs/RFC-DETERMINISM.md:12:6. Replay uses audit log exclusively; no live UI reads during replay.
+docs/RFC-DETERMINISM.md:19:- State canonicalization + finite command vocabulary remove nondeterministic branching.
+core/The/normalize.py:9:#   This source file is a deterministic projection of a closed Canon.
+core/The/normalize.py:21:Transforms raw AX/UI observations into deterministic UIState structures.
+core/The/normalize.py:34:    - Remove non-deterministic fields
+docs/THREAT-MODEL-STRIDE.md:6:- Audit log + determinism hashes
+docs/THREAT-MODEL-STRIDE.md:13:- **Repudiation:** Action denial → full audit trail with state_before/after and policy verdicts.
+docs/THREAT-MODEL-STRIDE.md:29:- Safety: kill-switch, watchdog, determinism hash validation
+docs/STATUS_R29.md:9:#   This source file is a deterministic projection of a closed Canon.
+core/Chinh/decide.py:9:#   This source file is a deterministic projection of a closed Canon.
+core/__init__.py:9:#   This source file is a deterministic projection of a closed Canon.
+core/llm/README.md:21:- Downstream policy/decision flows remain deterministic; commands are only created after policy allow.
+core/tools/shell_cli.py:9:#   This source file is a deterministic projection of a closed Canon.
+core/observability/trace.py:9:#   This source file is a deterministic projection of a closed Canon.
+core/observability/trace.py:22:All executions emit structured traces to feed audit log and status surfaces.
+core/observability/state_diff.py:9:#   This source file is a deterministic projection of a closed Canon.
+core/observability/state_diff.py:19:"""State diff utilities (stub).\n\nExpected to compute diffs between state_before/state_after for trace and audit payloads.\n"""
+core/Chinh/command.py:9:#   This source file is a deterministic projection of a closed Canon.
+core/Chinh/intent.py:9:#   This source file is a deterministic projection of a closed Canon.
+core/observability/failure_codes.py:9:#   This source file is a deterministic projection of a closed Canon.
+core/observability/failure_codes.py:19:"""Failure codes aligned with stop reasons for tracing and audit."""
+core/Chinh/policy.py:9:#   This source file is a deterministic projection of a closed Canon.
+core/tools/chat_box.py:11:#   This source file is a deterministic projection of a closed Canon.
+core/tools/shell_policy.py:9:#   This source file is a deterministic projection of a closed Canon.
+core/Chinh/README.md:3:Data models and authority logic that translate normalized state and intent into signed, policy-checked command envelopes. Execution is never triggered here; only deterministic decision-making.
+core/Chinh/README.md:10:- `llm_strategy.py`: local-only LLM intent suggestion with 200ms timeout and deterministic fallback.

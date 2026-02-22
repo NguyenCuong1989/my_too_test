@@ -1,0 +1,19 @@
+     1	# Governance
+     2
+     3	## Rules
+     4	- Decisions are append-only; numbered states (R-xx) are authoritative.
+     5	- No silent changes; explicit promote criteria required.
+     6	- Context version v1.0, lock level HARD; updates require new block and approval.
+     7
+     8	## Phases
+     9	- Phase 1: design/reasoning
+    10	- Phase 2: commands on explicit request
+    11
+    12	## Invariants
+    13	- No UI action without explicit intent
+    14	- Every action logged and replayable
+    15	- AI never bypasses policy; human override always wins
+    16
+    17	## Change Control
+    18	- Promote flow controlled (already defined in ops)
+    19	- Public bundle export at spec level only

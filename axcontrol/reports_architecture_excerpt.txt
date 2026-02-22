@@ -1,0 +1,32 @@
+     1	# System Architecture
+     2
+     3	## Planes
+     4	- **Control Plane:** Human via mobile/web/CLI; submits intents, lifecycle commands; read-only log access.
+     5	- **Decision Core:** Single source of execution truth; validates intents → commands; enforces policy and state checks.
+     6	- **Execution Plane:** macOS-local bounded AnLenh (AX + CGEvent); watchdog + rate limits; logs effects.
+     7	- **Observability Plane:** Trace, state diff, failure taxonomy; feeds audit log and status surfaces.
+     8
+     9	## Data Path (Deterministic Loop)
+    10	1. UIState normalized; CtrlState tracked.
+    11	2. Intent proposal (human/LLM) → validated against state and policy.
+    12	3. Signed command envelope produced; device-bound.
+    13	4. Executor performs bounded action; records effect + determinism hash.
+    14	5. Audit log append; STOP conditions evaluated; human override always wins.
+    15
+    16	## LLM Integration (sandboxed, intent-only)
+    17	- Local-only LLM (e.g., Ollama) generates *intent suggestions*; never emits executable actions.
+    18	- Guardrails: 200ms timeout, clamped intent schema, fallback to None; cannot override STOP.
+    19	- LLM decisions are logged as `LLM_DECISION` / `LLM_INTENT`; replay never re-calls LLM.
+    20	- Toggleable `LLM_MODE`; pipeline remains deterministic when LLM off.
+    21
+    22	## Replay Path
+    23	- Consumes audit log only; environment + hash must match; read-only unless explicitly armed.
+    24
+    25	## Bounded Integrations
+    26	- Vision: symbol extraction; non-authoritative.
+    27	- LLM: intent/strategy only; cannot emit executable actions.
+    28
+    29	## Safety & Governance
+    30	- Kill-switch local-only.
+    31	- Numbered states (R-xx) authoritative; decisions append-only.
+    32	- No runtime privilege escalation; no hidden side effects.
