@@ -1,0 +1,15 @@
+repos:
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+    -   id: trailing-whitespace
+    -   id: end-of-file-fixer
+    -   id: check-yaml
+-   repo: local
+    hooks:
+    -   id: run-no-drift-tests
+        name: Run no-drift invariants before commit
+        entry: bash -c 'cd axcontrol && python3 -m unittest tests.test_bridge_no_drift -v'
+        language: system
+        pass_filenames: false
+        always_run: true

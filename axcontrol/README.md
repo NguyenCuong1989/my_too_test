@@ -47,6 +47,7 @@
 - Health check (core only): `python3 -m compileall core && python3 tools/verify_canon_properties.py`
 - Bridge (snapshot only): `python3 -m core.bridge.http_server`
 - Ad-hoc sign (cục bộ): `xattr -dr com.apple.quarantine build/AXCONTROL.app && codesign --force --deep --options runtime --entitlements entitlements/AXCONTROL.entitlements --sign - build/AXCONTROL.app`
+- Local no-drift CI: `make ci`
 
 ## Read maps
 - Canon hash: `CANON_HASH.md`
