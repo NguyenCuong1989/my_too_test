@@ -2,7 +2,8 @@
 set -euo pipefail
 
 cd /Users/andy/my_too_test/axcontrol
-git add -A
+# Backup tracked changes only to avoid sweeping large untracked dirs.
+git add -u
 if git diff --cached --quiet; then
   echo "No changes to backup."
   exit 0
