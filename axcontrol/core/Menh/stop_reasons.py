@@ -38,3 +38,4 @@ class StopReason(str, Enum):
     TEXT_EDIT_BLOCKED = "text_edit_blocked"
     AX_LOST = "ax_lost"
     APP_SWITCH = "app_switch"
+    AUDIT_WRITE_FAILED = "audit_write_failed"

@@ -22,3 +22,11 @@
 - Generate core/state, LLM strategy, safety modules, control loop demo, example runners, README.
 - First run: safe demo loop with LLM intent SELECT or fallback TAB.
 - Goal: reproducible environment in ~1 minute on any machine.
+
+## Promote Gate (No-drift)
+- Mandatory before signing/promote:
+  - `AXCONTROL_SIM=1 python3 -m unittest tests.test_bridge_no_drift -v`
+- Invariant scope:
+  - Same input => same `Chung`
+  - Different input => different `Chung`
+  - Audit write failure => `recorded=false` and `stop.reason=audit_write_failed`

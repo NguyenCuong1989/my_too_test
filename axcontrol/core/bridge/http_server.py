@@ -31,6 +31,7 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 from datetime import datetime
 from pathlib import Path
 from typing import Optional
+import time
 
 sys.path.append(str(Path(__file__).resolve().parents[2]))
 
@@ -41,12 +42,39 @@ from core.tools.chat_box import collect_intent
 from core.Chinh.command import CommandType
 from core.Menh.Chung import compute_Chung
 from core.Menh.stop_reasons import StopReason
+from core.Chung.log_schema import AuditRecord
+from core.Chung.logger import AuditLogger
+
+
+class _NDJSONAuditSink:
+    def __init__(self, path: Path):
+        self.path = path
+        self.path.parent.mkdir(parents=True, exist_ok=True)
+
+    def append(self, record: AuditRecord) -> None:
+        payload = {
+            "ts": record.timestamp,
+            "type": "bridge_audit",
+            "state_before": record.state_before,
+            "intent": record.intent,
+            "command": record.command,
+            "policy_decision": record.policy_decision,
+            "state_after": record.state_after,
+            "Chung": record.Chung,
+            "stop_reason": record.stop_reason,
+            "hex_bits": record.hex_bits,
+        }
+        with self.path.open("a", encoding="utf-8") as fh:
+            fh.write(json.dumps(payload, ensure_ascii=False) + "\n")
+            fh.flush()
 
 
 class Bridge:
     def __init__(self):
         self.loop = ControlLoop()
         self.pending_cmd: Optional[str] = None
+        audit_path = Path(os.getenv("AXCONTROL_AUDIT_LOG", "logs/observe.ndjson"))
+        self.logger = AuditLogger(sink=_NDJSONAuditSink(audit_path))
 
     def process(self, text: str, confirm: Optional[bool]) -> dict:
         # init snapshot fields
@@ -147,16 +175,43 @@ class Bridge:
         return self._build_snapshot(system, input_block, intent_block, decision, execution, stop_block, ui_block, now)
 
     def _build_snapshot(self, system, input_block, intent_block, decision, execution, stop_block, ui_block, timestamp):
+        Chung = compute_Chung(
+            system,
+            intent_block,
+            decision,
+            execution,
+        )
+        recorded = True
+        audit_error = None
+        try:
+            self.logger.append(
+                AuditRecord(
+                    timestamp=time.time(),
+                    state_before=system,
+                    intent=intent_block,
+                    command=decision,
+                    policy_decision={"verdict": decision.get("verdict")},
+                    state_after={"execution": execution, "stop": stop_block},
+                    Chung=Chung,
+                    stop_reason=None if stop_block.get("reason") == "NONE" else stop_block.get("reason"),
+                    hex_bits=None,
+                )
+            )
+        except Exception as exc:
+            recorded = False
+            audit_error = str(exc)
+            stop_block = {
+                "reason": StopReason.AUDIT_WRITE_FAILED.value,
+                "message": audit_error,
+            }
+
         audit = {
             "timestamp": timestamp,
-            "Chung": compute_Chung(
-                system,
-                intent_block,
-                decision,
-                execution,
-            ),
-            "recorded": True,
+            "Chung": Chung,
+            "recorded": recorded,
         }
+        if audit_error:
+            audit["error"] = audit_error
         return {
             "system": system,
             "input": input_block,

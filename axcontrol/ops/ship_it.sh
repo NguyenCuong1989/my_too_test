@@ -25,6 +25,13 @@ ENTITLEMENTS="entitlements/AXCONTROL.entitlements"
 APP_BUNDLE="build/AXCONTROL.app"
 ZIP_BUNDLE="build/AXCONTROL.zip"
 
+echo "[PRECHECK] Running no-drift invariants..."
+if [[ "${SKIP_INVARIANT_TESTS:-0}" != "1" ]]; then
+  AXCONTROL_SIM=1 python3 -m unittest tests.test_bridge_no_drift -v
+else
+  echo "[PRECHECK] SKIP_INVARIANT_TESTS=1 set; skipping invariant tests."
+fi
+
 # auto-discover Developer ID Application if not provided
 FOUND_ID=""
 if command -v security >/dev/null 2>&1; then
