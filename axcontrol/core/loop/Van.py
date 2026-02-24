@@ -17,40 +17,61 @@
 #
 # =============================================================================
 """
-Control loop (safe, deterministic, simulated).
-
-Runs observe -> decide -> emit -> verify with TAB-only actions in simulation mode.
-Real macOS integrations can replace observer/emitter while keeping interfaces.
+The main control loop (Van) for the axcontrol system.
 """
 
 import time
 from typing import Optional
 
 from adapters.macos_ax import observer
-from core.Chinh.command import CommandEnvelope, CommandType
+from core.Chinh.decision_core import DecisionCore
 from core.Chinh.intent import Intent, IntentSource
 from core.Chinh.llm_strategy import suggest_intent
-from core.Chinh.policy import PolicyVerdict, PolicyOutcome
+from core.Chinh.policy import PolicyOutcome
 from core.Luat.evaluator import PolicyEvaluator
+from core.The.normalize import normalize_ui_state
+from core.The.ctrl_state import CtrlState, SessionStatus
 from core.Menh.rate_limit import RateLimiter
 from core.Menh.stop_reasons import StopReason
-from core.Menh.Chung import compute_Chung
 from core.canon.existence_state import ExistenceState
 from core.canon.existence_state_map import EXISTENCE_STATE_MAP
 from core.The.state_projector import map_state_to_hexagram
-from core.Chung.log_schema import AuditRecord
 from core.Chung.logger import AuditLogger
+from core.Chung.log_schema import AuditRecord
+from core.Menh.Chung import compute_Chung
 from core.observability import trace
 from input.keyboard import emit_tab
 from apps import finder, safari, system_settings, notes
 
 
+class _InMemorySink:
+    def __init__(self):
+        self.records = []
+
+    def write(self, record):
+        self.records.append(record)
+
+
 class ControlLoop:
     def __init__(self):
         self.rate_limiter = RateLimiter(min_interval_ms=200)
-        self.policy = PolicyEvaluator(rules={})
+        # Initialize with standard rules
+        self.policy_evaluator = PolicyEvaluator(
+            rules={
+                "allowed_apps": {
+                    "Finder",
+                    "Safari",
+                    "System Settings",
+                    "Notes",
+                    "Terminal",
+                },
+                "allowed_actions": {"TAB"},
+            }
+        )
+        self.decision_core = DecisionCore(policy_evaluator=self.policy_evaluator)
         self.logger = AuditLogger(sink=_InMemorySink())
-        self.locked_state_proof = None
+        self.ctrl_state = CtrlState(status=SessionStatus.ARMED)
+        self.locked_state_hash = None
 
     def _select_app_policy(self, app: str):
         if app == "Finder":
@@ -61,135 +82,109 @@ class ControlLoop:
             return system_settings.allow_action
         if app == "Notes":
             return notes.allow_action
-        return lambda role, action, label=None: True  # safe fallback: allow TAB-only checked later
+        return lambda role, action, label=None: (True, None)
 
     def _intent_from_llm(self, snap_app: str, snap_role: str):
         ctx = {"app": snap_app, "role": snap_role}
         intent = suggest_intent(ctx)
         if intent:
-            trace.emit(self.logger.sink, trace.LLM_INTENT, {"intent": intent.intent_id, "ctx": ctx})
+            trace.emit(
+                self.logger.sink,
+                trace.LLM_INTENT,
+                {"intent": intent.intent_id, "ctx": ctx},
+            )
         return intent
 
+    def _log_step(
+        self, snap, intent, envelope, verdict, stop_reason, state_hash, hex_bits
+    ):
+        record = AuditRecord(
+            Chung=compute_Chung(state_hash, envelope.command_id),
+            timestamp=time.time(),
+            app=snap.app,
+            role=snap.role,
+            hexagram=hex_bits,
+            intent_id=intent.intent_id,
+            command_id=envelope.command_id,
+            verdict=verdict.outcome.value,
+            stop_reason=stop_reason,
+        )
+        self.logger.log(record)
+
     def run_once(self) -> Optional[StopReason]:
-        snap = observer.observe()
-        if snap is None:
+        # 1. Observation
+        raw_snap = observer.observe()
+        if raw_snap is None:
             return StopReason.AX_LOST
 
-        state_proof = f"{snap.app}:{snap.role}:{snap.label}"
+        # 2. Normalization (Determinism Anchor)
+        ui_state = normalize_ui_state(raw_snap)
+        state_hash = ui_state.hash
 
-        # Freeze Point #1: lexicon + state proof lock
-        if self.locked_state_proof is not None and state_proof != self.locked_state_proof:
+        # h-Causality check
+        if self.locked_state_hash is not None and state_hash != self.locked_state_hash:
             return StopReason.CAUSALITY_VIOLATION
 
-        # Existence filter (R-32): map to hexagram and classify
-        hex_bits = map_state_to_hexagram(snap)
-        # Mandatory bits: app, role, label, focus, enabled
-        h1, h2, h3, h4, h5, _h6 = [bit == "1" for bit in hex_bits]
-        if not all([h1, h2, h3, h4, h5]):
-            return StopReason.ONTOLOGICAL_VIOLATION
+        # 3. Existence Verification (R-32)
+        hex_bits = map_state_to_hexagram(raw_snap)
         existence = EXISTENCE_STATE_MAP.get(hex_bits, ExistenceState.DIET)
         if existence in {ExistenceState.TU, ExistenceState.DIET}:
             return StopReason.ONTOLOGICAL_VIOLATION
 
-        app_policy = self._select_app_policy(snap.app)
-
-        # Build intent (LLM optional, fallback deterministic)
-        intent = self._intent_from_llm(snap.app, snap.role) or Intent(
+        # 4. Intent & Decision
+        intent = self._intent_from_llm(raw_snap.app, raw_snap.role) or Intent(
             intent_id="fallback-tab",
             goal="safe_tab_navigation",
             parameters={"action": "TAB"},
             source=IntentSource.HUMAN,
         )
 
-        # Build command envelope (TAB-only)
-        envelope = CommandEnvelope(
-            command_id=str(time.time()),
-            intent_id=intent.intent_id,
-            command_type=CommandType.NAVIGATE,
-            parameters={"action": "TAB"},
-            normalized_state_hash=state_proof,
-            policy_context={},
-            signature="simulated",
-        )
+        # Authority Delegation (Decision Core)
+        envelope, verdict = self.decision_core.evaluate_intent(intent, state_hash)
 
-        # Policy evaluation via app policy
-        if snap.app == "Notes":
-            allowed, stop_reason = app_policy(snap.role, "TAB", snap.label)
-        elif snap.app == "Safari":
-            allowed = app_policy(snap.role, snap.label, "TAB")
-            stop_reason = None
-        else:
-            allowed = app_policy(snap.role, "TAB", snap.label)
-            stop_reason = None
-        verdict = PolicyVerdict(PolicyOutcome.ALLOW if allowed else PolicyOutcome.DENY, reason=stop_reason)
+        # 5. App-specific secondary check (Unified Interface)
+        app_policy = self._select_app_policy(raw_snap.app)
+        allowed, stop_reason = app_policy(raw_snap.role, "TAB", raw_snap.label)
 
-        if verdict.outcome == PolicyOutcome.DENY:
-            self._log_step(snap, intent, envelope, verdict, stop_reason or StopReason.POLICY_DENIAL.value, state_proof, hex_bits)
-            return StopReason(stop_reason) if stop_reason else StopReason.POLICY_DENIAL
+        if not allowed or verdict.outcome == PolicyOutcome.DENY:
+            final_stop = (
+                StopReason(stop_reason) if stop_reason else StopReason.POLICY_DENIAL
+            )
+            self._log_step(
+                raw_snap,
+                intent,
+                envelope,
+                verdict,
+                final_stop.value,
+                state_hash,
+                hex_bits,
+            )
+            return final_stop
 
-        # Rate limit
+        # 6. Safety Guards (Rate limiting)
         if not self.rate_limiter.allow():
-            self._log_step(snap, intent, envelope, verdict, StopReason.TIMING_VIOLATION.value, state_proof, hex_bits)
             return StopReason.TIMING_VIOLATION
 
-        # Emit TAB
-        # Freeze Point #2: lock state before emit
-        self.locked_state_proof = state_proof
-
+        # 7. Execution (Emit)
+        self.locked_state_hash = state_hash  # Lock state before commit
         emit_tab()
-        trace.emit(self.logger.sink, trace.COMMAND_EXECUTED, {"command_id": envelope.command_id})
 
-        # Mid-step drift check (post emit)
+        # 8. Post-Check (Drift detection)
         snap_after = observer.observe()
-        if snap_after is None:
-            self._log_step(snap, intent, envelope, verdict, StopReason.AX_LOST.value, state_proof, hex_bits)
-            return StopReason.AX_LOST
-        after_proof = f"{snap_after.app}:{snap_after.role}:{snap_after.label}"
-        if after_proof != state_proof:
-            drift_hex = map_state_to_hexagram(snap_after)
-            self._log_step(snap_after, intent, envelope, verdict, StopReason.STATE_DRIFT_MID_STEP.value, after_proof, drift_hex)
-            return StopReason.STATE_DRIFT_MID_STEP
+        if snap_after:
+            ui_after = normalize_ui_state(snap_after)
+            if ui_after.hash != state_hash:
+                # Drift detected
+                self._log_step(
+                    snap_after,
+                    intent,
+                    envelope,
+                    verdict,
+                    StopReason.STATE_DRIFT_MID_STEP.value,
+                    state_hash,
+                    hex_bits,
+                )
+                return StopReason.STATE_DRIFT_MID_STEP
 
-        self._log_step(snap_after, intent, envelope, verdict, None, state_proof, hex_bits)
+        self._log_step(raw_snap, intent, envelope, verdict, None, state_hash, hex_bits)
         return None
-
-    def _log_step(self, snap, intent, envelope, verdict, stop_reason, state_proof, hex_bits):
-        effect = {"emitted": "TAB" if verdict.outcome == PolicyOutcome.ALLOW else "DENY"}
-        record = AuditRecord(
-            timestamp=time.time(),
-            state_before={"app": snap.app, "role": snap.role, "label": snap.label},
-            intent=intent.__dict__,
-            command=envelope.__dict__,
-            policy_decision=verdict.__dict__,
-            state_after={"app": snap.app, "role": snap.role, "label": snap.label},
-            Chung=compute_Chung(
-                state_proof,
-                intent.__dict__,
-                envelope.__dict__,
-                effect,
-            ),
-            stop_reason=stop_reason,
-            hex_bits=hex_bits,
-        )
-        self.logger.append(record)
-
-
-class _InMemorySink:
-    def __init__(self):
-        self.records = []
-
-    def append(self, record):
-        self.records.append(record)
-
-    def write(self, trace_event):
-        self.records.append({"trace": trace_event})
-
-
-def run(iterations: int = 5):
-    loop = ControlLoop()
-    for _ in range(iterations):
-        stop = loop.run_once()
-        if stop in {StopReason.POLICY_DENIAL, StopReason.TEXT_EDIT_BLOCKED, StopReason.AX_LOST, StopReason.APP_SWITCH}:
-            print(f"[STOP] {stop}")
-            break
-    return loop.logger.sink.records

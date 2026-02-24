@@ -31,8 +31,11 @@ from typing import Optional, Dict
 
 from .intent import Intent, IntentSource
 
-
-LLM_CMD = ["ollama", "run", "qwen3:8b"]  # uses locally available model; adjust if needed
+LLM_CMD = [
+    "ollama",
+    "run",
+    "qwen3:8b",
+]  # uses locally available model; adjust if needed
 TIMEOUT_S = 0.2
 
 

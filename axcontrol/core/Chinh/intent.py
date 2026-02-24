@@ -20,6 +20,7 @@
 
 Intent is high-level desired outcome; it is not executable. Produced by human or LLM (intent-only) and approved by human.
 """
+
 from dataclasses import dataclass
 from enum import Enum
 from typing import Dict, Optional

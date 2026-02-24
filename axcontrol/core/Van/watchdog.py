@@ -20,6 +20,7 @@
 
 Enforces timeouts, rate limits, and STOP conditions during execution.
 """
+
 from typing import Optional
 
 
@@ -30,4 +31,6 @@ class Watchdog:
 
     def guard(self, start_ts: float, event_count: int) -> Optional[str]:
         """Return stop reason if limits exceeded, else None."""
-        raise NotImplementedError("Phase 1 stub: watchdog checks to be implemented in Phase 2")
+        raise NotImplementedError(
+            "Phase 1 stub: watchdog checks to be implemented in Phase 2"
+        )

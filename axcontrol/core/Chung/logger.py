@@ -17,6 +17,7 @@
 #
 # =============================================================================
 """Append-only audit logger."""
+
 from typing import Iterable
 
 from .log_schema import AuditRecord

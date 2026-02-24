@@ -21,6 +21,7 @@
 Represents normalized, replayable snapshot of the visible macOS UI relevant to a command.
 No raw pixels; identifiers are stable across runs for determinism.
 """
+
 from dataclasses import dataclass, field
 from typing import List, Optional
 

@@ -20,6 +20,7 @@
 
 Finite command set; envelopes are signed and device-bound. No direct mapping to raw UI actions.
 """
+
 from dataclasses import dataclass
 from enum import Enum
 from typing import Dict

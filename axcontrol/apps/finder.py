@@ -18,6 +18,12 @@
 # =============================================================================
 from __future__ import annotations
 
-def allow_action(role: str, action: str, label: str | None = None) -> bool:
+from typing import Tuple, Optional
+
+
+def allow_action(
+    role: str, action: str, label: str | None = None
+) -> Tuple[bool, Optional[str]]:
     # Finder safe mode: allow TAB navigation only
-    return action == "TAB"
+    allowed = action == "TAB"
+    return allowed, None if allowed else "unsupported_action"

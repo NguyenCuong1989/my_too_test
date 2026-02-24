@@ -20,6 +20,7 @@
 
 Receives validated, signed CommandEnvelope and performs bounded action via bridges/emitters.
 """
+
 from typing import Any
 
 from ..Chinh.command import CommandEnvelope, CommandType
@@ -34,7 +35,9 @@ class Executor:
         self.event_emitter = event_emitter
         self.watchdog = watchdog
 
-    def execute(self, envelope: CommandEnvelope, ui_state: UIState, ctrl_state: CtrlState) -> Any:
+    def execute(
+        self, envelope: CommandEnvelope, ui_state: UIState, ctrl_state: CtrlState
+    ) -> Any:
         """Execute command deterministically.
 
         - Enforce watchdog and rate limits
@@ -45,4 +48,6 @@ class Executor:
             cmd = envelope.parameters.get("cmd", "")
             rc, out, err = shell_cli.run(cmd)
             return {"exit_code": rc, "stdout": out, "stderr": err}
-        raise NotImplementedError("Phase 1 stub: AnLenh logic to be implemented in Phase 2 for non-CLI")
+        raise NotImplementedError(
+            "Phase 1 stub: AnLenh logic to be implemented in Phase 2 for non-CLI"
+        )

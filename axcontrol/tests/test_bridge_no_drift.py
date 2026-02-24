@@ -45,7 +45,9 @@ class BridgeNoDriftTest(unittest.TestCase):
     def _post_chat(self, text: str) -> dict:
         conn = http.client.HTTPConnection("127.0.0.1", self.port, timeout=5)
         payload = json.dumps({"text": text})
-        conn.request("POST", "/chat", body=payload, headers={"Content-Type": "application/json"})
+        conn.request(
+            "POST", "/chat", body=payload, headers={"Content-Type": "application/json"}
+        )
         res = conn.getresponse()
         body = res.read()
         conn.close()

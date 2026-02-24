@@ -20,6 +20,7 @@
 
 Provides minimal AX operations required by finite command set. No dynamic AX traversal beyond allowlist.
 """
+
 from typing import Any
 
 
@@ -29,4 +30,6 @@ class BoundedAXBridge:
 
         Must honor allowlists and sandbox constraints; no privilege escalation.
         """
-        raise NotImplementedError("Phase 1 stub: AX bridge to be implemented in Phase 2")
+        raise NotImplementedError(
+            "Phase 1 stub: AX bridge to be implemented in Phase 2"
+        )

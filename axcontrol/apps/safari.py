@@ -18,12 +18,16 @@
 # =============================================================================
 from __future__ import annotations
 
+from typing import Tuple, Optional
 from adapters.macos_ax.safari import safari_context
 
 
-def allow_action(role: str, label: str, action: str) -> bool:
-    ctx = safari_context(role, label)
+def allow_action(
+    role: str, action: str, label: str | None = None
+) -> Tuple[bool, Optional[str]]:
+    ctx = safari_context(role, label or "")
     zone = ctx.get("zone")
     if zone in {"ADDRESS_BAR", "WEB_CONTENT"}:
-        return False
-    return action == "TAB"
+        return False, "forbidden_zone"
+    allowed = action == "TAB"
+    return allowed, None if allowed else "unsupported_action"

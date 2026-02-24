@@ -16,9 +16,13 @@
 #   Canon -> COG -> Projection(Π) -> Artifact
 #
 # =============================================================================
-from __future__ import annotations
+from typing import Tuple, Optional
+from core.Menh.stop_reasons import StopReason
 
-def allow_action(role: str, action: str, label: str | None = None):
+
+def allow_action(
+    role: str, action: str, label: str | None = None
+) -> Tuple[bool, Optional[str]]:
     """
     Returns tuple (allowed: bool, stop_reason: str|None)
     """

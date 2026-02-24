@@ -33,7 +33,9 @@ class ShellDenied(Exception):
     pass
 
 
-def run(command_str: str, timeout_s: float = 2.0, allow_level1: bool = False) -> Tuple[int, str, str]:
+def run(
+    command_str: str, timeout_s: float = 2.0, allow_level1: bool = False
+) -> Tuple[int, str, str]:
     """
     Execute an allowlisted command; return (exit_code, stdout, stderr).
     Raises ShellDenied if validation fails or confirmation required.
@@ -45,5 +47,12 @@ def run(command_str: str, timeout_s: float = 2.0, allow_level1: bool = False) ->
         raise ShellDenied("confirm_required")
 
     cmd = shlex.split(command_str)
-    proc = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=timeout_s, check=False, text=True)
+    proc = subprocess.run(
+        cmd,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        timeout=timeout_s,
+        check=False,
+        text=True,
+    )
     return proc.returncode, proc.stdout, proc.stderr

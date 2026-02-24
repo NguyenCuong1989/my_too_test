@@ -31,17 +31,15 @@ import sys
 from pathlib import Path
 from typing import List, Dict
 
-sys.path.append(str(Path(__file__).resolve().parents[2]))
+# Maintain local resolution (Protocol Alignment)
+sys.path.append(str(Path(__file__).resolve().parents[2]))  # noqa: E402
 
-from core.tools.chat_box import collect_intent
-from core.tools import shell_cli
-from core.tools.shell_policy import classify, ShellLevel
-from core.loop.Van import ControlLoop
-from core.Chinh.command import CommandEnvelope, CommandType
-from core.Chinh.policy import PolicyVerdict, PolicyOutcome
-from core.Chung.log_schema import AuditRecord
-from core.Chung.logger import AuditLogger
-from core.Menh.Chung import compute_Chung
+from core.tools.chat_box import collect_intent  # noqa: E402
+from core.tools import shell_cli  # noqa: E402
+from core.tools.shell_policy import classify, ShellLevel  # noqa: E402
+from core.loop.Van import ControlLoop  # noqa: E402
+from core.Chung.log_schema import AuditRecord  # noqa: E402
+from core.Chung.logger import AuditLogger  # noqa: E402
 
 
 def _log_intent(logger: AuditLogger, intent_dict: dict):

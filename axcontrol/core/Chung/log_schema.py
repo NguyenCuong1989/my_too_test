@@ -17,6 +17,7 @@
 #
 # =============================================================================
 """Audit record schema."""
+
 from dataclasses import dataclass
 from typing import Any, Optional
 

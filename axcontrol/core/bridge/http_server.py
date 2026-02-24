@@ -24,26 +24,26 @@
 
 No external deps beyond stdlib.
 """
+
 import json
 import os
 import sys
-from http.server import BaseHTTPRequestHandler, HTTPServer
+import time
 from datetime import datetime
+from http.server import BaseHTTPRequestHandler, HTTPServer
 from pathlib import Path
 from typing import Optional
-import time
 
-sys.path.append(str(Path(__file__).resolve().parents[2]))
+# Maintain local resolution (Protocol Alignment)
+sys.path.append(str(Path(__file__).resolve().parents[2]))  # noqa: E402
 
-from core.loop.Van import ControlLoop
-from core.tools import shell_cli
-from core.tools.shell_policy import classify, ShellLevel
-from core.tools.chat_box import collect_intent
-from core.Chinh.command import CommandType
-from core.Menh.Chung import compute_Chung
-from core.Menh.stop_reasons import StopReason
-from core.Chung.log_schema import AuditRecord
-from core.Chung.logger import AuditLogger
+from core.loop.Van import ControlLoop  # noqa: E402
+from core.tools import shell_cli  # noqa: E402
+from core.tools.shell_policy import classify, ShellLevel  # noqa: E402
+from core.Menh.Chung import compute_Chung  # noqa: E402
+from core.Menh.stop_reasons import StopReason  # noqa: E402
+from core.Chung.log_schema import AuditRecord  # noqa: E402
+from core.Chung.logger import AuditLogger  # noqa: E402
 
 
 class _NDJSONAuditSink:
@@ -92,7 +92,11 @@ class Bridge:
         decision = {"verdict": "IDLE", "command": None}
         execution = {"executed": False, "executor": "NONE", "result": None}
         stop_block = {"reason": "NONE", "message": None}
-        ui_block = {"requires_confirm": False, "prompt": None, "suggestions": ["/ax", "status?"]}
+        ui_block = {
+            "requires_confirm": False,
+            "prompt": None,
+            "suggestions": ["/ax", "status?"],
+        }
 
         now = datetime.utcnow().isoformat() + "Z"
 
@@ -102,7 +106,11 @@ class Bridge:
                 try:
                     rc, out, err = shell_cli.run(self.pending_cmd, allow_level1=True)
                     decision = {"verdict": "ALLOW", "command": self.pending_cmd}
-                    execution = {"executed": True, "executor": "SHELL", "result": f"exit={rc}\n{out}{err}"}
+                    execution = {
+                        "executed": True,
+                        "executor": "SHELL",
+                        "result": f"exit={rc}\n{out}{err}",
+                    }
                     system["mode"] = "EXECUTING"
                 except Exception as exc:
                     decision = {"verdict": "STOP", "command": self.pending_cmd}
@@ -113,11 +121,29 @@ class Bridge:
 
             self.pending_cmd = None
             ui_block["suggestions"] = ["/ax", "status?"]
-            snapshot = self._build_snapshot(system, input_block, intent_block, decision, execution, stop_block, ui_block, now)
+            snapshot = self._build_snapshot(
+                system,
+                input_block,
+                intent_block,
+                decision,
+                execution,
+                stop_block,
+                ui_block,
+                now,
+            )
             return snapshot
 
         if not text:
-            return self._build_snapshot(system, input_block, intent_block, decision, execution, stop_block, ui_block, now)
+            return self._build_snapshot(
+                system,
+                input_block,
+                intent_block,
+                decision,
+                execution,
+                stop_block,
+                ui_block,
+                now,
+            )
 
         # parse commands
         if text.startswith("/cli "):
@@ -134,34 +160,70 @@ class Bridge:
                 ui_block = {
                     "requires_confirm": True,
                     "prompt": f"Run command: {cmd}?",
-                    "suggestions": ["confirm", "cancel"]
+                    "suggestions": ["confirm", "cancel"],
                 }
                 self.pending_cmd = cmd
             else:
                 try:
                     rc, out, err = shell_cli.run(cmd)
                     decision = {"verdict": "ALLOW", "command": cmd}
-                    execution = {"executed": True, "executor": "SHELL", "result": f"exit={rc}\n{out}{err}"}
+                    execution = {
+                        "executed": True,
+                        "executor": "SHELL",
+                        "result": f"exit={rc}\n{out}{err}",
+                    }
                     system["mode"] = "EXECUTING"
                 except Exception as exc:
                     decision = {"verdict": "STOP", "command": cmd}
                     stop_block = {"reason": "SHELL_ERROR", "message": str(exc)}
-            return self._build_snapshot(system, input_block, intent_block, decision, execution, stop_block, ui_block, now)
+            return self._build_snapshot(
+                system,
+                input_block,
+                intent_block,
+                decision,
+                execution,
+                stop_block,
+                ui_block,
+                now,
+            )
 
         if text == "/ax":
             input_block["type"] = "AX"
             intent_block = {"kind": "AX", "value": "NEXT_TAB", "source": "RULE"}
             if not system["ax_enabled"]:
                 decision = {"verdict": "STOP", "command": "AX_TAB"}
-                stop_block = {"reason": StopReason.KILL_SWITCH.value if not system["ax_enabled"] else "AX_DISABLED", "message": None}
+                stop_block = {
+                    "reason": (
+                        StopReason.KILL_SWITCH.value
+                        if not system["ax_enabled"]
+                        else "AX_DISABLED"
+                    ),
+                    "message": None,
+                }
             else:
                 stop = self.loop.run_once()
-                decision = {"verdict": "ALLOW" if stop is None else "STOP", "command": "AX_TAB"}
-                execution = {"executed": stop is None, "executor": "AX" if stop is None else "NONE", "result": None}
+                decision = {
+                    "verdict": "ALLOW" if stop is None else "STOP",
+                    "command": "AX_TAB",
+                }
+                execution = {
+                    "executed": stop is None,
+                    "executor": "AX" if stop is None else "NONE",
+                    "result": None,
+                }
                 if stop is not None:
                     stop_block = {"reason": stop.value, "message": None}
                 system["mode"] = "EXECUTING"
-            return self._build_snapshot(system, input_block, intent_block, decision, execution, stop_block, ui_block, now)
+            return self._build_snapshot(
+                system,
+                input_block,
+                intent_block,
+                decision,
+                execution,
+                stop_block,
+                ui_block,
+                now,
+            )
 
         # free text
         input_block["type"] = "FREE_TEXT"
@@ -173,16 +235,47 @@ class Bridge:
         if intent_kind not in allowed_kinds:
             intent_block = {"kind": intent_kind, "value": None, "source": "human"}
             decision = {"verdict": "STOP", "command": None}
-            stop_block = {"reason": StopReason.LEXICON_VIOLATION.value, "message": "free text not in lexicon"}
+            stop_block = {
+                "reason": StopReason.LEXICON_VIOLATION.value,
+                "message": "free text not in lexicon",
+            }
             ui_block["suggestions"] = ["status?", "/ax"]
-            return self._build_snapshot(system, input_block, intent_block, decision, execution, stop_block, ui_block, now)
+            return self._build_snapshot(
+                system,
+                input_block,
+                intent_block,
+                decision,
+                execution,
+                stop_block,
+                ui_block,
+                now,
+            )
 
         intent_block = {"kind": intent_kind, "value": text_clean, "source": "human"}
         decision = {"verdict": "ALLOW", "command": None}
         execution = {"executed": False, "executor": "NONE", "result": "intent logged"}
-        return self._build_snapshot(system, input_block, intent_block, decision, execution, stop_block, ui_block, now)
+        return self._build_snapshot(
+            system,
+            input_block,
+            intent_block,
+            decision,
+            execution,
+            stop_block,
+            ui_block,
+            now,
+        )
 
-    def _build_snapshot(self, system, input_block, intent_block, decision, execution, stop_block, ui_block, timestamp):
+    def _build_snapshot(
+        self,
+        system,
+        input_block,
+        intent_block,
+        decision,
+        execution,
+        stop_block,
+        ui_block,
+        timestamp,
+    ):
         Chung = compute_Chung(
             system,
             intent_block,
@@ -201,7 +294,11 @@ class Bridge:
                     policy_decision={"verdict": decision.get("verdict")},
                     state_after={"execution": execution, "stop": stop_block},
                     Chung=Chung,
-                    stop_reason=None if stop_block.get("reason") == "NONE" else stop_block.get("reason"),
+                    stop_reason=(
+                        None
+                        if stop_block.get("reason") == "NONE"
+                        else stop_block.get("reason")
+                    ),
                     hex_bits=None,
                 )
             )

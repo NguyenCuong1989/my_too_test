@@ -19,8 +19,14 @@
 from __future__ import annotations
 
 
-def allow_action(role: str, action: str, label: str | None = None) -> bool:
+from typing import Tuple, Optional
+
+
+def allow_action(
+    role: str, action: str, label: str | None = None
+) -> Tuple[bool, Optional[str]]:
     if action != "TAB":
-        return False
+        return False, "unsupported_action"
     # Allow TAB navigation across rows/buttons; block toggles/enter implied
-    return role in {"AXRow", "AXButton", "AXTextField", "AXGroup"}
+    allowed = role in {"AXRow", "AXButton", "AXTextField", "AXGroup"}
+    return allowed, None if allowed else "disallowed_role"

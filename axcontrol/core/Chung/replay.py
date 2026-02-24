@@ -17,6 +17,7 @@
 #
 # =============================================================================
 """Deterministic replay."""
+
 from typing import Iterable, Any
 
 from .log_schema import AuditRecord

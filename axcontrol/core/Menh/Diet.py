@@ -21,6 +21,7 @@
 Hard stop that cannot be overridden by remote/AI. Requires human to re-arm.
 """
 
+
 class KillSwitch:
     def __init__(self):
         self.engaged = False
