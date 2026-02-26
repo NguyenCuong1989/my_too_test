@@ -9,3 +9,5 @@ notion_secret.txt
 autonomous_operator/logs/
 autonomous_operator/state/
 .ai_queue/
+.gemini_key
+autonomous_operator/logs/
