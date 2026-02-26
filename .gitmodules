@@ -1,0 +1,3 @@
+[submodule "DAIOF-Framework"]
+	path = DAIOF-Framework
+	url = https://github.com/NguyenCuong1989/DAIOF-Framework.git
