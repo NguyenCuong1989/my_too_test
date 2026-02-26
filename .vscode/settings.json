@@ -1,0 +1,14 @@
+{
+    "python.analysis.extraPaths": [
+        "${workspaceFolder}/axcontrol"
+    ],
+    "python.analysis.autoImportCompletions": true,
+    "python.analysis.typeCheckingMode": "basic",
+    "python.analysis.diagnosticMode": "workspace",
+    "python.terminal.activateEnvInSelectedTerminal": true,
+    "css.lint.unknownAtRules": "ignore",
+    "github-actions.workflows.pinned.workflows": [
+        ".github/workflows/no-drift-gate.yml"
+    ],
+    "workbench.colorTheme": "Default Dark+"
+}

@@ -1,0 +1,13 @@
+{
+    "include": [
+        "axcontrol"
+    ],
+    "executionEnvironments": [
+        {
+            "root": "axcontrol",
+            "extraPaths": [
+                "axcontrol"
+            ]
+        }
+    ]
+}

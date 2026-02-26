@@ -1,0 +1,63 @@
+{
+  "javascript": {
+    "file_extensions": [
+      ".js",
+      ".jsx"
+    ],
+    "syntax_patterns": [
+      "function",
+      "const",
+      "let",
+      "var",
+      "=>"
+    ],
+    "completion_templates": [
+      "function ${1:name}(${2:params}) {\n\t${3:body}\n}"
+    ]
+  },
+  "typescript": {
+    "file_extensions": [
+      ".ts",
+      ".tsx"
+    ],
+    "syntax_patterns": [
+      "interface",
+      "type",
+      "class",
+      "enum"
+    ],
+    "completion_templates": [
+      "interface ${1:Name} {\n\t${2:property}: ${3:type};\n}"
+    ]
+  },
+  "java": {
+    "file_extensions": [
+      ".java"
+    ],
+    "syntax_patterns": [
+      "public",
+      "private",
+      "class",
+      "interface"
+    ],
+    "completion_templates": [
+      "public class ${1:ClassName} {\n\t${2:body}\n}"
+    ]
+  },
+  "cpp": {
+    "file_extensions": [
+      ".cpp",
+      ".h",
+      ".hpp"
+    ],
+    "syntax_patterns": [
+      "#include",
+      "namespace",
+      "class",
+      "template"
+    ],
+    "completion_templates": [
+      "class ${1:ClassName} {\npublic:\n\t${2:body}\n};"
+    ]
+  }
+}

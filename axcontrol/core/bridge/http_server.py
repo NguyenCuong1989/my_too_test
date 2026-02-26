@@ -29,13 +29,14 @@ import json
 import os
 import sys
 import time
+import typing
 from datetime import datetime
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from pathlib import Path
 from typing import Optional
 
 # Maintain local resolution (Protocol Alignment)
-sys.path.append(str(Path(__file__).resolve().parents[2]))  # noqa: E402
+# sys.path has been purged of parent injection hacks to enforce strict -m execution.
 
 from core.loop.Van import ControlLoop  # noqa: E402
 from core.tools import shell_cli  # noqa: E402
@@ -75,6 +76,8 @@ class Bridge:
         self.pending_cmd: Optional[str] = None
         audit_path = Path(os.getenv("AXCONTROL_AUDIT_LOG", "logs/observe.ndjson"))
         self.logger = AuditLogger(sink=_NDJSONAuditSink(audit_path))
+        self._history: typing.List[dict] = []
+        self.step_count = 0
 
     def process(self, text: str, confirm: Optional[bool]) -> dict:
         # init snapshot fields
@@ -98,7 +101,10 @@ class Bridge:
             "suggestions": ["/ax", "status?"],
         }
 
-        now = datetime.utcnow().isoformat() + "Z"
+        # Deterministic Stable Tick (Iron Hand)
+        self.step_count += 1
+        now = f"step-{self.step_count:06d}"
+
 
         # confirm flow
         if self.pending_cmd is not None:
@@ -131,6 +137,7 @@ class Bridge:
                 ui_block,
                 now,
             )
+            self._history.append(snapshot)
             return snapshot
 
         if not text:
@@ -147,7 +154,7 @@ class Bridge:
 
         # parse commands
         if text.startswith("/cli "):
-            cmd = text[len("/cli ") :].strip()
+            cmd = text.split("/cli ", 1)[-1].strip()
             input_block["type"] = "CLI"
             level, reason = classify(cmd)
             intent_block = {"kind": "CLI", "value": cmd, "source": "RULE"}
@@ -287,7 +294,7 @@ class Bridge:
         try:
             self.logger.append(
                 AuditRecord(
-                    timestamp=time.time(),
+                    timestamp=timestamp,  # Stable Sequence Identity
                     state_before=system,
                     intent=intent_block,
                     command=decision,
@@ -360,7 +367,7 @@ class Handler(BaseHTTPRequestHandler):
         snapshot = bridge.process(text, confirm)
         self._json(200, snapshot)
 
-    def log_message(self, fmt, *args):
+    def log_message(self, format: str, *args: typing.Any) -> None:
         return  # silence
 
 

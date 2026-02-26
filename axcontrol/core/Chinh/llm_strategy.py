@@ -17,61 +17,63 @@
 #
 # =============================================================================
 """
-LLM intent strategy (local-only, sandboxed).
+LLM intent strategy (local-only, API-based).
 
-- Uses local LLM (e.g., Ollama) to suggest intents.
-- Enforces 200ms timeout and deterministic fallback to None.
-- Never emits executable actions; cannot override STOP.
+- Uses local Ollama API to suggest intents.
+- Enforces 2.0s timeout and deterministic fallback to None.
 - Replay must not re-invoke the LLM.
 """
 
 import json
-import subprocess
+import urllib.request
 from typing import Optional, Dict
 
 from .intent import Intent, IntentSource
 
-LLM_CMD = [
-    "ollama",
-    "run",
-    "qwen3:8b",
-]  # uses locally available model; adjust if needed
-TIMEOUT_S = 0.2
+OLLAMA_API_URL = "http://localhost:11434/api/generate"
+MODEL_NAME = "qwen3:8b"
+TIMEOUT_S = 2.0
 
 
 def build_system_prompt() -> str:
     return (
         "You propose high-level intents for macOS UI control. "
-        "Do not output actions. Schema: {intent_id, goal, parameters}. "
+        "Do not output actions. Output ONLY valid JSON with keys: intent_id, goal, parameters. "
+        "Example: {\"intent_id\": \"open-safari\", \"goal\": \"Open Safari browser\", \"parameters\": {}} "
         "Keep it deterministic and minimal."
     )
 
 
 def suggest_intent(context: Dict[str, str]) -> Optional[Intent]:
     """
-    Returns an Intent or None. Deterministic fallback on any error/timeout.
+    Returns an Intent or None via HTTP API. Deterministic fallback on any error/timeout.
     """
-    try:
-        prompt = json.dumps({"system": build_system_prompt(), "context": context})
-        raw = subprocess.run(
-            LLM_CMD,
-            input=prompt.encode("utf-8"),
-            stdout=subprocess.PIPE,
-            stderr=subprocess.DEVNULL,
-            timeout=TIMEOUT_S,
-            check=False,
-        ).stdout.decode("utf-8", errors="ignore")
-    except Exception:
-        return None
+    payload = {
+        "model": MODEL_NAME,
+        "prompt": f"System: {build_system_prompt()}\nContext: {json.dumps(context)}\nIntent JSON:",
+        "stream": False,
+        "format": "json"
+    }
 
     try:
-        data = json.loads(raw)
-        return Intent(
-            intent_id=data.get("intent_id", ""),
-            goal=data.get("goal", ""),
-            parameters=data.get("parameters", {}) or {},
-            source=IntentSource.LLM,
-            rationale=data.get("rationale"),
+        req = urllib.request.Request(
+            OLLAMA_API_URL,
+            data=json.dumps(payload).encode("utf-8"),
+            headers={"Content-Type": "application/json"},
+            method="POST"
         )
-    except Exception:
+        with urllib.request.urlopen(req, timeout=TIMEOUT_S) as response:
+            res_data = json.loads(response.read().decode("utf-8"))
+            raw_response = res_data.get("response", "")
+            data = json.loads(raw_response)
+
+            return Intent(
+                intent_id=data.get("intent_id", "ai-intent"),
+                goal=data.get("goal", ""),
+                parameters=data.get("parameters", {}) or {},
+                source=IntentSource.LLM,
+                rationale=data.get("rationale"),
+            )
+    except Exception as e:
+        print(f"DEBUG: LLM API error: {e}")
         return None

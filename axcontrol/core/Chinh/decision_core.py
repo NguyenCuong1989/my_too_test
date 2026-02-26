@@ -17,11 +17,12 @@
 #
 # =============================================================================
 import hashlib
+import itertools
 from typing import Tuple
 
-from .intent import Intent
-from .command import CommandEnvelope, CommandType
-from .policy import PolicyVerdict, PolicyOutcome
+from core.Chinh.intent import Intent
+from core.Chinh.command import CommandEnvelope, CommandType
+from core.Chinh.policy import PolicyVerdict, PolicyOutcome
 
 
 class DecisionCore:
@@ -42,7 +43,10 @@ class DecisionCore:
         # h-stable Command ID generation
         command_payload = f"{normalized_state_hash}:{intent.intent_id}"
         digest = str(hashlib.sha256(command_payload.encode("utf-8")).hexdigest())
-        command_id = digest[:12]
+        # Safe extraction for picky analyzers
+        command_id = ""
+        for i in range(12):
+            command_id += digest[i]
 
         envelope = CommandEnvelope(
             command_id=command_id,
