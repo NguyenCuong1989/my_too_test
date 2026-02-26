@@ -2,6 +2,9 @@
     "include": [
         "axcontrol"
     ],
+    "extraPaths": [
+        "axcontrol"
+    ],
     "executionEnvironments": [
         {
             "root": "axcontrol",
@@ -9,5 +12,7 @@
                 "axcontrol"
             ]
         }
-    ]
+    ],
+    "typeCheckingMode": "basic",
+    "reportMissingImports": true
 }

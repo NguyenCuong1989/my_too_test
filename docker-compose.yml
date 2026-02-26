@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  daiof-orchestrator:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: daiof-orchestrator
+    environment:
+      - OLLAMA_HOST=http://host.docker.internal:11434
+    volumes:
+      - .:/app
+      - ./.gemini_key:/app/.gemini_key:ro
+      - ./.github_token:/app/.github_token:ro
+      - ./token.json:/app/token.json:ro
+      - ./notion_secret.txt:/app/notion_secret.txt:ro
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    restart: unless-stopped
+    command: ["orchestrator"]
+
+  daiof-monitor:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: daiof-monitor
+    environment:
+      - OLLAMA_HOST=http://host.docker.internal:11434
+    volumes:
+      - .:/app
+      - ./.gemini_key:/app/.gemini_key:ro
+      - ./.github_token:/app/.github_token:ro
+      - ./token.json:/app/token.json:ro
+      - ./notion_secret.txt:/app/notion_secret.txt:ro
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    restart: unless-stopped
+    command: ["monitor"]
+    depends_on:
+      - daiof-orchestrator

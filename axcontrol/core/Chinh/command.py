@@ -21,9 +21,9 @@
 Finite command set; envelopes are signed and device-bound. No direct mapping to raw UI actions.
 """
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from enum import Enum
-from typing import Dict
+from typing import Dict, List, Any, Optional
 
 
 class CommandType(str, Enum):
@@ -35,12 +35,31 @@ class CommandType(str, Enum):
     CLI = "cli"  # bounded shell tool
 
 
+class AtomicStepType(Enum):
+    MOUSE_MOVE = "mouse_move"
+    MOUSE_CLICK = "mouse_click"
+    KEY_DOWN = "key_down"
+    KEY_UP = "key_up"
+    WAIT_SETTLE = "wait_settle"
+    AX_ACTION = "ax_action"
+
+
+@dataclass
+class AtomicStep:
+    """Minimal unit of OS emission."""
+    type: AtomicStepType
+    target: Optional[str] = None  # UI element identifier or screen coord
+    parameters: Dict[str, Any] = field(default_factory=dict)
+
+
 @dataclass
 class CommandEnvelope:
+    """Validated, signed executable container."""
     command_id: str
     intent_id: str
     command_type: CommandType
-    parameters: Dict[str, str]
+    parameters: Dict[str, Any]
     normalized_state_hash: str
     policy_context: Dict[str, str]
     signature: str  # device-bound signature
+    atomic_steps: List[AtomicStep] = field(default_factory=list)

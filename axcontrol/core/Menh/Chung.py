@@ -23,18 +23,24 @@ Computes per-step hash over state_before, intent, command, and effect to ensure 
 
 import hashlib
 import json
-from typing import Any
+from typing import Any, Optional
 
 
-def compute_Chung(state_before: Any, intent: Any, command: Any, effect: Any) -> str:
-    payload = json.dumps(
-        {
-            "state_before": state_before,
-            "intent": intent,
-            "command": command,
-            "effect": effect,
-        },
-        sort_keys=True,
-        default=str,
-    ).encode("utf-8")
+def compute_Chung(
+    state_before: Any,
+    intent: Any,
+    command: Any,
+    effect: Any,
+    prev_Chung: Optional[str] = None,
+) -> str:
+    payload_dict = {
+        "state_before": state_before,
+        "intent": intent,
+        "command": command,
+        "effect": effect,
+    }
+    if prev_Chung:
+        payload_dict["prev_Chung"] = prev_Chung
+
+    payload = json.dumps(payload_dict, sort_keys=True, default=str).encode("utf-8")
     return hashlib.sha256(payload).hexdigest()
