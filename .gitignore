@@ -11,3 +11,4 @@ autonomous_operator/state/
 .ai_queue/
 .gemini_key
 autonomous_operator/logs/
+trust_of_copilot/
