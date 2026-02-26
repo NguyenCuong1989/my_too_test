@@ -1,0 +1,57 @@
+{
+  "project_integration": {
+    "description": "Cấu hình cho việc kết hợp GitHub Projects 3 và 4",
+    "source_project": {
+      "id": "3",
+      "url": "https://github.com/users/sowhat1989/projects/3",
+      "role": "secondary",
+      "status": "to_be_migrated"
+    },
+    "target_project": {
+      "id": "4",
+      "url": "https://github.com/users/sowhat1989/projects/4",
+      "role": "primary",
+      "status": "active"
+    },
+    "migration_settings": {
+      "backup_required": true,
+      "preserve_history": true,
+      "merge_duplicates": true,
+      "update_automation": true
+    },
+    "column_mapping": {
+      "Todo": "Todo",
+      "In Progress": "In Progress",
+      "Review": "Review",
+      "Done": "Done",
+      "Backlog": "Backlog"
+    },
+    "automation_rules": [
+      {
+        "trigger": "item_added",
+        "condition": "label:priority-high",
+        "action": "move_to_column:Todo"
+      },
+      {
+        "trigger": "pull_request_merged",
+        "action": "move_to_column:Done"
+      }
+    ],
+    "notification_settings": {
+      "notify_on_migration": true,
+      "notify_team": ["sowhat1989"],
+      "migration_channel": "project-updates"
+    }
+  },
+  "validation_rules": {
+    "required_fields": ["title", "status"],
+    "allowed_statuses": ["Todo", "In Progress", "Review", "Done", "Backlog"],
+    "max_items_per_migration": 50
+  },
+  "backup_settings": {
+    "directory": "project_backups",
+    "format": "json",
+    "include_metadata": true,
+    "retention_days": 90
+  }
+}

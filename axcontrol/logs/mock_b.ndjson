@@ -1,0 +1,2 @@
+{"timestamp": "step-000001", "Chung": "hash1", "state_before": {"val": 10}}
+{"timestamp": "step-000002", "Chung": "hash2_drift", "state_before": {"val": 25}}

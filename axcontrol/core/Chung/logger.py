@@ -33,6 +33,10 @@ class AuditLogger:
             return
         self.sink.append(record)
 
+    def log(self, record: AuditRecord) -> None:
+        """Alias for append, used by CLI and agents."""
+        self.append(record)
+
     def stream(self) -> Iterable[AuditRecord]:
         """Return iterable over records in time order."""
         if not self.sink:

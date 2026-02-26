@@ -1,0 +1,19 @@
+{
+  "current_state": "IDLE",
+  "session_id": null,
+  "last_heartbeat": null,
+  "memory_compaction_due": false,
+  "improvement_proposals_pending": 0,
+  "total_sessions": 0,
+  "total_interactions": 0,
+  "performance_metrics": {
+    "avg_duration": 0.0,
+    "error_rate": 0.0,
+    "alignment_score": 1.0,
+    "uptime_hours": 0.0
+  },
+  "council_last_vote": null,
+  "backup_created": null,
+  "emergency_shutdown": false,
+  "version": "1.0.0"
+}

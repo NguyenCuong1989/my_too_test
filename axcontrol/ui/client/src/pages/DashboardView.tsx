@@ -125,6 +125,24 @@ export function DashboardView() {
                         <div className="font-mono text-xs truncate col-span-1 md:col-span-2">
                             Input: {snapshot?.input?.raw || "(none)"} [{snapshot?.input?.type || "NONE"}]
                         </div>
+
+                        {/* EVIDENCE LAYER: Unmasking Outputs and Errors */}
+                        {(snapshot?.execution?.result || snapshot?.audit?.error) && (
+                            <div className="col-span-1 md:col-span-2 mt-4 space-y-2 border-t pt-4 border-border">
+                                {snapshot?.audit?.error && (
+                                    <div className="p-3 bg-destructive/10 text-destructive rounded-md border border-destructive/20">
+                                        <div className="text-xs font-bold mb-1 uppercase tracking-wider">Audit Error</div>
+                                        <pre className="font-mono text-xs whitespace-pre-wrap">{snapshot.audit.error}</pre>
+                                    </div>
+                                )}
+                                {snapshot?.execution?.result && (
+                                    <div className="p-3 bg-secondary/30 rounded-md border border-border">
+                                        <div className="text-xs font-bold mb-1 uppercase tracking-wider text-muted-foreground">Execution Result</div>
+                                        <pre className="font-mono text-xs whitespace-pre-wrap max-h-40 overflow-y-auto text-foreground">{snapshot.execution.result}</pre>
+                                    </div>
+                                )}
+                            </div>
+                        )}
                     </div>
                 </CardContent>
             </Card>

@@ -48,7 +48,7 @@ class _InMemorySink:
     def __init__(self):
         self.records = []
 
-    def write(self, record):
+    def append(self, record):
         self.records.append(record)
 
 
@@ -99,15 +99,15 @@ class ControlLoop:
         self, snap, intent, envelope, verdict, stop_reason, state_hash, hex_bits
     ):
         record = AuditRecord(
-            Chung=compute_Chung(state_hash, envelope.command_id),
             timestamp=time.time(),
-            app=snap.app,
-            role=snap.role,
-            hexagram=hex_bits,
-            intent_id=intent.intent_id,
-            command_id=envelope.command_id,
-            verdict=verdict.outcome.value,
+            state_before={"app": snap.app, "role": snap.role},
+            intent={"intent_id": intent.intent_id},
+            command={"command_id": envelope.command_id},
+            policy_decision={"verdict": verdict.outcome.value},
+            state_after={},
+            Chung=compute_Chung(state_hash, intent.intent_id, envelope.command_id, verdict.outcome.value),
             stop_reason=stop_reason,
+            hex_bits=hex_bits,
         )
         self.logger.log(record)
 

@@ -1,0 +1,11 @@
+{
+  "source_directories": [
+    "axcontrol"
+  ],
+  "search_path": [
+    "/Users/andy/my_too_test/axcontrol"
+  ],
+  "exclude": [
+    "**/node_modules/**"
+  ]
+}

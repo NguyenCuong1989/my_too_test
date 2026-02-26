@@ -1,0 +1,61 @@
+⚠️ Agent framework observability not available, tracing disabled
+[2026-02-26 08:09:47,107] [DAIOF_ORCHESTRATOR] [INFO] 🔥 DAIOF AUTONOMOUS OPERATOR v3.8 (NEURAL-LINKED) ACTIVATED
+🎼[SYMPHONY] 2026-02-26 08:09:47,107 - INFO - 🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟
+[2026-02-26 08:09:47,107] [SymphonyControlCenter] [INFO] 🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟
+🎼[SYMPHONY] 2026-02-26 08:09:47,107 - INFO - 🎼 SYMPHONY CONTROL CENTER ACTIVATION
+[2026-02-26 08:09:47,107] [SymphonyControlCenter] [INFO] 🎼 SYMPHONY CONTROL CENTER ACTIVATION
+🎼[SYMPHONY] 2026-02-26 08:09:47,107 - INFO - 🎯 ULTIMATE CREATOR: Andy (alpha_prime_omega)
+[2026-02-26 08:09:47,107] [SymphonyControlCenter] [INFO] 🎯 ULTIMATE CREATOR: Andy (alpha_prime_omega)
+🎼[SYMPHONY] 2026-02-26 08:09:47,107 - INFO - 🤝 HUMAN CREATOR: Andy (alpha_prime_omega)
+[2026-02-26 08:09:47,107] [SymphonyControlCenter] [INFO] 🤝 HUMAN CREATOR: Andy (alpha_prime_omega)
+🎼[SYMPHONY] 2026-02-26 08:09:47,107 - INFO - 📜 HIERARCHY: Andy (alpha_prime_omega) - Single Source Creator
+[2026-02-26 08:09:47,107] [SymphonyControlCenter] [INFO] 📜 HIERARCHY: Andy (alpha_prime_omega) - Single Source Creator
+🎼[SYMPHONY] 2026-02-26 08:09:47,107 - INFO - 🔑 VERIFICATION: 4287
+[2026-02-26 08:09:47,107] [SymphonyControlCenter] [INFO] 🔑 VERIFICATION: 4287
+🎼[SYMPHONY] 2026-02-26 08:09:47,107 - INFO - 🎵 CONDUCTOR: Andy (alpha_prime_omega)
+[2026-02-26 08:09:47,107] [SymphonyControlCenter] [INFO] 🎵 CONDUCTOR: Andy (alpha_prime_omega)
+🎼[SYMPHONY] 2026-02-26 08:09:47,107 - INFO - 📜 SIGNATURE: 559c24e3b4243d56
+[2026-02-26 08:09:47,107] [SymphonyControlCenter] [INFO] 📜 SIGNATURE: 559c24e3b4243d56
+🎼[SYMPHONY] 2026-02-26 08:09:47,107 - INFO - ⚡ HARMONY PROTOCOL: D&R Protocol Active
+[2026-02-26 08:09:47,107] [SymphonyControlCenter] [INFO] ⚡ HARMONY PROTOCOL: D&R Protocol Active
+🎼[SYMPHONY] 2026-02-26 08:09:47,107 - INFO - 🏛️ FOUNDATION: 4 Pillars - Safety, Long-term, Data-driven, Human&AI-risk-protection
+[2026-02-26 08:09:47,107] [SymphonyControlCenter] [INFO] 🏛️ FOUNDATION: 4 Pillars - Safety, Long-term, Data-driven, Human&AI-risk-protection
+🎼[SYMPHONY] 2026-02-26 08:09:47,108 - INFO - 🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟
+[2026-02-26 08:09:47,108] [SymphonyControlCenter] [INFO] 🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟🌟
+[2026-02-26 08:09:47,112] [BizNode] [INFO] 🤖 BizNode using LOCAL AI: qwen3:8b
+🎼[SYMPHONY] 2026-02-26 08:09:47,113 - INFO - 🎵 Registered component: AutonomousOperator_v3
+[2026-02-26 08:09:47,113] [SymphonyControlCenter] [INFO] 🎵 Registered component: AutonomousOperator_v3
+🎼[SYMPHONY] 2026-02-26 08:09:47,113 - INFO - 🎵 Registered component: BizNode
+[2026-02-26 08:09:47,113] [SymphonyControlCenter] [INFO] 🎵 Registered component: BizNode
+🎼[SYMPHONY] 2026-02-26 08:09:47,113 - INFO - 🎵 Registered component: GuardianNode
+[2026-02-26 08:09:47,113] [SymphonyControlCenter] [INFO] 🎵 Registered component: GuardianNode
+🎼[SYMPHONY] 2026-02-26 08:09:47,113 - INFO - 🎵 Registered component: RecoveryNode
+[2026-02-26 08:09:47,113] [SymphonyControlCenter] [INFO] 🎵 Registered component: RecoveryNode
+🎼[SYMPHONY] 2026-02-26 08:09:47,113 - INFO - 🎵 Registered component: WebNode
+[2026-02-26 08:09:47,113] [SymphonyControlCenter] [INFO] 🎵 Registered component: WebNode
+🎼[SYMPHONY] 2026-02-26 08:09:47,113 - INFO - 🎵 Registered component: AuditNode
+[2026-02-26 08:09:47,113] [SymphonyControlCenter] [INFO] 🎵 Registered component: AuditNode
+[2026-02-26 08:09:47,113] [DAIOF_ORCHESTRATOR] [INFO] --- 🌀 CYCLE 1 STARTING (Neural Link Active) ---
+[2026-02-26 08:09:47,114] [RecoveryNode] [INFO] 🩺 Checking LOCAL AI Engine (Ollama) Health...
+[2026-02-26 08:09:53,280] [httpx] [INFO] HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2026-02-26 08:09:53,433] [RecoveryNode] [INFO] ✅ Ollama (qwen3:8b) is healthy. Response:
+[2026-02-26 08:09:53,668] [WebNode] [INFO] 🌐 WebNode: Scanning Ecosystem Organs...
+[2026-02-26 08:09:56,858] [WebNode] [INFO] 🔎 Scouting: DataCamp (https://www.datacamp.com)
+[2026-02-26 08:09:57,740] [WebNode] [WARNING] ⚠️ DataCamp returned status: 403
+[2026-02-26 08:09:57,749] [WebNode] [INFO] 🔎 Scouting: DEWA (https://www.dewa.gov.ae)
+[2026-02-26 08:10:01,369] [WebNode] [INFO] ✅ DEWA is OK. Latency: 3.58s
+[2026-02-26 08:10:01,378] [WebNode] [INFO] 🔎 Scouting: Internshala (https://internshala.com)
+[2026-02-26 08:10:02,467] [WebNode] [INFO] ✅ Internshala is OK. Latency: 1.03s
+[2026-02-26 08:10:02,562] [BizNode] [INFO] Scanning for business emails...
+[2026-02-26 08:10:03,000] [googleapiclient.discovery_cache] [INFO] file_cache is only supported with oauth2client<4.0.0
+[2026-02-26 08:10:04,406] [BizNode] [INFO] Processing: FxPro - Trước giờ mở cửa thị trường phiên Châu Mỹ, Phân tích kỹ thuật hàng ngày 30 Tháng Giêng 2019
+[2026-02-26 08:10:29,272] [httpx] [INFO] HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2026-02-26 08:10:30,395] [BizNode] [INFO] Processing: FxPro - Trước Giờ mở cửa thị trường Châu Âu, Phân tích Kỹ thuật Hàng ngày 30 Tháng Giêng 2019
+[2026-02-26 08:10:52,484] [httpx] [INFO] HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2026-02-26 08:10:53,697] [BizNode] [INFO] Processing: FxPro - Trước giờ mở cửa thị trường phiên Châu Mỹ, Phân tích kỹ thuật hàng ngày 29 Tháng Giêng 2019
+[2026-02-26 08:11:11,387] [httpx] [INFO] HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2026-02-26 08:11:12,566] [BizNode] [INFO] Processing: FxPro - Trước Giờ mở cửa thị trường Châu Âu, Phân tích Kỹ thuật Hàng ngày 29 Tháng Giêng 2019
+[2026-02-26 08:11:30,552] [httpx] [INFO] HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2026-02-26 08:11:31,738] [BizNode] [INFO] Processing: FxPro - Trước giờ mở cửa thị trường phiên Châu Mỹ, Phân tích kỹ thuật hàng ngày 28 Tháng Giêng 2019
+[2026-02-26 08:11:49,773] [httpx] [INFO] HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2026-02-26 08:11:50,424] [GuardianNode] [INFO] Guardian sweeping for anomalies...

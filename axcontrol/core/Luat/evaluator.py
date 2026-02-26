@@ -22,8 +22,8 @@ Applies deterministic rule order: app allowlist → UI surface allowlist → rat
 """
 
 from typing import Dict, Any
-from ..Chinh.command import CommandEnvelope
-from ..Chinh.policy import PolicyVerdict, PolicyOutcome
+from core.Chinh.command import CommandEnvelope
+from core.Chinh.policy import PolicyVerdict, PolicyOutcome
 
 
 class PolicyEvaluator:

@@ -21,7 +21,7 @@ import hashlib
 import json
 from typing import Any
 
-from .ui_state import UIState, Window, UIElement
+from core.The.ui_state import UIState, Window, UIElement
 
 
 def normalize_ui_state(raw_snapshot: Any) -> UIState:
