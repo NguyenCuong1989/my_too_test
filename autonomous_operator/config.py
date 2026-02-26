@@ -48,7 +48,7 @@ def get_secret(path):
         return p.read_text().strip()
     return None
 
-GEMINI_API_KEY = "AIzaSyA4phW8utb9qRXjbbO0vGv4o2GZsZ7stGo" # Primary
+GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY") or get_secret(BASE_DIR / ".gemini_key")
 NOTION_TOKEN = get_secret(BASE_DIR / "notion_secret.txt")
 NOTION_DB_ID = get_secret(BASE_DIR / "notion_db_id.txt")
 
