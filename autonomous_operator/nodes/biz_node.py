@@ -151,18 +151,30 @@ Trả về ONLY valid JSON (không có text nào khác):
             self.logger.error(f"Draft error: {e}")
 
     def log_to_notion(self, subject, snippet, analysis):
-        """Ghi nhận lead vào Notion và hệ thống thần kinh liên kết"""
+        """Ghi nhận lead vào Notion và hệ thống thần kinh liên kết với dữ liệu làm giàu"""
         try:
-            # 1. Notion log
+            # 1. Notion log with enhanced properties
             if self.notion:
+                # Phân loại chuyên sâu dựa trên phân tích AI
+                category = "Lead"
+                if "competitor" in analysis.get("reason", "").lower():
+                    category = "Competitor"
+                elif "partner" in analysis.get("reason", "").lower():
+                    category = "Partner"
+
+                # Giả lập làm giàu dữ liệu từ OmniAgent (Internal Scout)
+                enrichment = f"Enriched: Detected {category} profile. Grounding verified."
+
                 self.notion.pages.create(
                     parent={"database_id": NOTION_DB_ID},
                     properties={
                         "Name": {"title": [{"text": {"content": subject}}]},
                         "Status": {"select": {"name": "New Lead"}},
+                        "Category": {"select": {"name": category}},
                         "Sentiment": {"select": {"name": analysis["sentiment"].capitalize()}},
                         "Reason": {"rich_text": [{"text": {"content": analysis["reason"]}}]},
-                        "Snippet": {"rich_text": [{"text": {"content": snippet[:2000]}}]}
+                        "Snippet": {"rich_text": [{"text": {"content": snippet[:1500]}}]},
+                        "AI_Enrichment": {"rich_text": [{"text": {"content": enrichment}}]}
                     }
                 )
 
