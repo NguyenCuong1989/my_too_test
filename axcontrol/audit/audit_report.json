@@ -1,0 +1,53 @@
+{
+  "verdict": "COMPLIANT",
+  "layers": {
+    "sovereignty": "PROVEN",
+    "routing": "PROVEN",
+    "identity": "PERMISSIBLE",
+    "retry": "NOT ESTABLISHED"
+  },
+  "raw_summary": {
+    "sovereignty": {
+      "level1": 2,
+      "level2": 0,
+      "level3": 0,
+      "total": 2
+    },
+    "identity": {
+      "level1": 0,
+      "level2": 1,
+      "level3": 0,
+      "total": 1
+    },
+    "routing": {
+      "level1": 1,
+      "level2": 0,
+      "level3": 0,
+      "total": 1
+    },
+    "retry": {
+      "level1": 0,
+      "level2": 0,
+      "level3": 0,
+      "total": 0
+    },
+    "fallback": {
+      "level1": 0,
+      "level2": 0,
+      "level3": 0,
+      "total": 0
+    },
+    "threat": {
+      "level1": 0,
+      "level2": 0,
+      "level3": 0,
+      "total": 0
+    },
+    "verdict": {
+      "level1": 0,
+      "level2": 0,
+      "level3": 0,
+      "total": 0
+    }
+  }
+}

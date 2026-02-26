@@ -21,16 +21,29 @@
 Enforces timeouts, rate limits, and STOP conditions during execution.
 """
 
+import time
 from typing import Optional
+
+from core.Menh.stop_reasons import StopReason
 
 
 class Watchdog:
-    def __init__(self, max_duration_ms: int, max_events: int):
+    def __init__(self, max_duration_ms: int = 5000, max_events: int = 100):
         self.max_duration_ms = max_duration_ms
         self.max_events = max_events
 
-    def guard(self, start_ts: float, event_count: int) -> Optional[str]:
-        """Return stop reason if limits exceeded, else None."""
-        raise NotImplementedError(
-            "Phase 1 stub: watchdog checks to be implemented in Phase 2"
-        )
+    def guard(
+        self, start_ts: float, event_count: int, kill_switch_engaged: bool = False
+    ) -> Optional[StopReason]:
+        """Return stop reason if limits exceeded or human override triggered."""
+        if kill_switch_engaged:
+            return StopReason.KILL_SWITCH
+
+        elapsed_ms = (time.time() - start_ts) * 1000
+        if elapsed_ms > self.max_duration_ms:
+            return StopReason.TIMING_VIOLATION
+
+        if event_count > self.max_events:
+            return StopReason.CAUSALITY_VIOLATION  # Excessive events implies loop or malfunction
+
+        return None

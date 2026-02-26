@@ -31,5 +31,10 @@ class AuditRecord:
     policy_decision: Any
     state_after: Any
     Chung: str
+    step_index: int = 0
+    chained_hash: Optional[str] = None
     stop_reason: Optional[str] = None
     hex_bits: Optional[str] = None
+    override_flag: bool = False
+    kill_switch_active: bool = False
+    evidence_level: int = 2  # Default to Level 2 (strong signal)

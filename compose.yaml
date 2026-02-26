@@ -1,0 +1,10 @@
+services:
+  daiofframework:
+    image: daiofframework
+    build:
+      context: DAIOF-Framework
+      dockerfile: ./Dockerfile
+    environment:
+      NODE_ENV: production
+    ports:
+      - 3000:3000

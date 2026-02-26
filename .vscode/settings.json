@@ -1,4 +1,6 @@
 {
+    "typescript.tsdk": "DAIOF-Framework/vscode-merged/node_modules/typescript/lib",
+    "typescript.enablePromptUseWorkspaceTsdk": true,
     "python.analysis.extraPaths": [
         "${workspaceFolder}/axcontrol"
     ],
@@ -10,5 +12,14 @@
     "github-actions.workflows.pinned.workflows": [
         ".github/workflows/no-drift-gate.yml"
     ],
-    "workbench.colorTheme": "Default Dark+"
+    "workbench.colorTheme": "Default Dark+",
+    "python.defaultInterpreterPath": "/opt/homebrew/bin/python3.13",
+    "php.validate.executablePath": "",
+    "php.suggest.basic": false,
+    "python.testing.pytestArgs": [
+        "."
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true,
+    "markdown.validate.enabled": true
 }

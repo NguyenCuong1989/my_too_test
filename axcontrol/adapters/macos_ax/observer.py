@@ -6,7 +6,7 @@ import itertools
 import os
 import sys
 from dataclasses import dataclass
-from typing import Optional
+from typing import Optional, cast, Any, Dict
 
 try:
     import ApplicationServices as AS
@@ -36,17 +36,23 @@ _sim_iter = itertools.cycle(SIM_SEQUENCE)
 
 
 def _ax_attr(elem, attr: str):
-    err, value = AS.AXUIElementCopyAttributeValue(elem, attr, None)
+    _as = AS
+    if _as is None:
+        return None
+    err, value = _as.AXUIElementCopyAttributeValue(elem, attr, None)
     if err != 0:
         return None
     return value
 
 
 def _ax_bbox(elem) -> Optional[tuple[int, int, int, int]]:
-    err, val = AS.AXUIElementCopyAttributeValue(elem, "AXFrame", None)
+    _as = AS
+    if _as is None:
+        return None
+    err, val = _as.AXUIElementCopyAttributeValue(elem, "AXFrame", None)
     if err != 0 or val is None:
         return None
-    ok, rect = AS.AXValueGetValue(val, AS.kAXValueCGRectType, None)
+    ok, rect = _as.AXValueGetValue(val, _as.kAXValueCGRectType, None)
     if not ok or rect is None:
         return None
     x = int(rect.origin.x)
@@ -57,19 +63,24 @@ def _ax_bbox(elem) -> Optional[tuple[int, int, int, int]]:
 
 
 def _real_snapshot() -> Optional[Snapshot]:
-    if AS is None or NSWorkspace is None:
+    _as = AS
+    _nsw = NSWorkspace
+    if _as is None or _nsw is None:
         return None
-    if not AS.AXIsProcessTrusted():
+    if not _as.AXIsProcessTrusted():
         return None
 
-    app = NSWorkspace.sharedWorkspace().frontmostApplication()
+    ws = _nsw.sharedWorkspace()
+    if ws is None:
+        return None
+    app = ws.frontmostApplication()
     if not app:
         return None
     pid = app.processIdentifier()
     app_name = app.localizedName() or "Unknown"
 
-    app_elem = AS.AXUIElementCreateApplication(pid)
-    err, focused = AS.AXUIElementCopyAttributeValue(app_elem, "AXFocusedUIElement", None)
+    app_elem = _as.AXUIElementCreateApplication(pid)
+    err, focused = _as.AXUIElementCopyAttributeValue(app_elem, "AXFocusedUIElement", None)
     if err != 0 or focused is None:
         return None
 
