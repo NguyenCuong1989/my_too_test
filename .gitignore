@@ -12,3 +12,5 @@ autonomous_operator/state/
 .gemini_key
 autonomous_operator/logs/
 trust_of_copilot/
+.github_token
+.env.local
