@@ -2,6 +2,7 @@ import logging
 import asyncio
 import sys
 import random
+import json
 from datetime import datetime
 from pathlib import Path
 from playwright.async_api import async_playwright
@@ -55,6 +56,12 @@ class WebNode:
                     content=f"Service '{name}' is responsive (200 OK)",
                     intensity=1.0
                 )
+                self.link.log_service_event(
+                    service="WebScoutService",
+                    e_type="STATUS",
+                    content=f"Service {name} verified healthy. Latency: {latency:.2f}s",
+                    meta=json.dumps({"url": url, "latency": latency})
+                )
             else:
                 self.logger.warning(f"⚠️ {name} returned status: {status}")
                 self.link.send_pulse(
@@ -62,6 +69,12 @@ class WebNode:
                     pulse_type="ECOSYSTEM_WARNING",
                     content=f"Service '{name}' returned status {status}",
                     intensity=0.5
+                )
+                self.link.log_service_event(
+                    service="WebScoutService",
+                    e_type="SLA_BREACH",
+                    content=f"Service {name} returned non-200 status: {status}",
+                    meta=json.dumps({"url": url, "status": status})
                 )
 
             await page.close()

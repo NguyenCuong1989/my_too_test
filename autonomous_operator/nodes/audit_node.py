@@ -39,12 +39,14 @@ class AuditNode:
         for pillar, status in compliance_report.items():
             self.logger.info(f"🏛️ Pillar {pillar}: {status}")
 
+        audit_msg = f"System passed 4 Pillars Audit: {compliance_report}"
         self.link.send_pulse(
             node_name="AuditNode",
             pulse_type="COMPLIANCE_AUDIT",
-            content=f"System passed 4 Pillars Audit: {compliance_report}",
+            content=audit_msg,
             intensity=1.0
         )
+        self.link.log_service_event("AuditNode", "COMPLIANCE_AUDIT", audit_msg)
 
     def check_convergence(self):
         """Kiểm tra chỉ số hội tụ theo công thức D_{k+1} <= D_k"""
@@ -57,9 +59,13 @@ class AuditNode:
 
             if len(scores) >= 2:
                 if scores[0] <= scores[1]:
-                    self.logger.info(f"📈 Convergence OK: {scores[0]} <= {scores[1]}")
+                    msg = f"📈 Convergence OK: {scores[0]} <= {scores[1]}"
+                    self.logger.info(msg)
+                    self.link.log_service_event("AuditNode", "CONVERGENCE_OK", msg)
                 else:
-                    self.logger.warning(f"📉 Divergence Detected: {scores[0]} > {scores[1]}!")
+                    err_msg = f"📉 Divergence Detected: {scores[0]} > {scores[1]}!"
+                    self.logger.warning(err_msg)
+                    self.link.log_service_event("AuditNode", "CONVERGENCE_WARNING", err_msg)
                     self.link.add_autonomous_task(
                         title="Fix System Divergence",
                         description="Audit system detected complexity increase.",

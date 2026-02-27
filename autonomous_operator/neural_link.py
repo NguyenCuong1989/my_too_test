@@ -19,11 +19,44 @@ except ImportError:
 DAIOF_DB = CONFIG_BASE_DIR / "DAIOF-Framework" / "autonomous_todo.db"
 
 class NeuralLink:
-    """Cầu nối thần kinh giữa Autonomous Operator và DAIOF-Framework"""
+    """Cầu nối thần kinh giữa Autonomous Operator và DAIOF-Framework + Notion Sync"""
     def __init__(self):
         self.logger = logging.getLogger("NeuralLink")
         self.db_path = DAIOF_DB
+        self.notion = None
+        self.notion_db_id = None
         self._init_neural_tables()
+        self._init_notion()
+
+    def _init_notion(self):
+        try:
+            from config import NOTION_TOKEN, NOTION_DB_ID
+            from notion_client import Client
+            if NOTION_TOKEN and NOTION_DB_ID:
+                self.notion = Client(auth=NOTION_TOKEN)
+                self.notion_db_id = NOTION_DB_ID
+                self.logger.info("🏛️ NeuralLink: Universal Notion Sync Enabled.")
+            else:
+                self.logger.warning("⚠️ Notion Token/DB ID missing. Universal sync disabled.")
+        except Exception as e:
+            self.logger.error(f"Failed to init Notion inside NeuralLink: {e}")
+
+    def _sync_to_notion(self, event_type, service, content, priority="Medium"):
+        if not self.notion or not self.notion_db_id:
+            return
+        try:
+            self.notion.pages.create(
+                parent={"database_id": self.notion_db_id},
+                properties={
+                    "Command Name": {"title": [{"text": {"content": f"[{service}] {event_type}"}}]},
+                    "Status": {"select": {"name": "Log"}},
+                    "Target": {"select": {"name": "NotionDB"}},
+                    "Arguments": {"rich_text": [{"text": {"content": content[:1500]}}]}
+                }
+            )
+        except Exception as e:
+            # Silently fail or log to local to prevent infinite loops
+            self.logger.debug(f"Notion Sync soft-fail: {e}")
 
     def _init_neural_tables(self):
         try:
@@ -39,6 +72,41 @@ class NeuralLink:
                     timestamp TEXT NOT NULL
                 )
             """)
+            cursor.execute("""
+                CREATE TABLE IF NOT EXISTS agent_discourse (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    session_id TEXT NOT NULL,
+                    source_node TEXT NOT NULL,
+                    discourse_type TEXT NOT NULL,
+                    content TEXT NOT NULL,
+                    reasoning TEXT,
+                    status TEXT DEFAULT 'open', -- open, committed, archived
+                    timestamp TEXT NOT NULL
+                )
+            """)
+            cursor.execute("""
+                CREATE TABLE IF NOT EXISTS service_governance_logs (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    service_name TEXT NOT NULL,
+                    event_type TEXT NOT NULL, -- SLA_BREACH, TASK_HANDOVER, CAPABILITY_EXEC, STATUS
+                    content TEXT NOT NULL,
+                    metadata TEXT, -- JSON metadata
+                    timestamp TEXT NOT NULL
+                )
+            """)
+            cursor.execute("""
+                CREATE TABLE IF NOT EXISTS node_capabilities (
+                    service_name TEXT PRIMARY KEY,
+                    capabilities TEXT NOT NULL, -- Comma separated list
+                    sla_standard TEXT,
+                    last_audit TEXT
+                )
+            """)
+            # Initialize default capabilities
+            cursor.execute("INSERT OR IGNORE INTO node_capabilities VALUES ('BizService', 'OAUTH_GMAIL,NOTION_SYNC,REASONING_LEAD', '99.9% Up-time', ?)", (datetime.now().isoformat(),))
+            cursor.execute("INSERT OR IGNORE INTO node_capabilities VALUES ('WebScoutService', 'DYNAMIC_SCRAPING,EVALUATION_STATIC,ADAPTIVE_PROXY', '99.5% Success Rate', ?)", (datetime.now().isoformat(),))
+            cursor.execute("INSERT OR IGNORE INTO node_capabilities VALUES ('GuardianService', 'CODE_AUDIT,RESOURCE_WATCHDOG,SECURITY_RECOVERY', 'Real-time Monitoring', ?)", (datetime.now().isoformat(),))
+
             conn.commit()
             conn.close()
         except Exception as e:
@@ -54,9 +122,99 @@ class NeuralLink:
             """, (node_name, pulse_type, content, intensity, datetime.now().isoformat()))
             conn.commit()
             conn.close()
-            # self.logger.info(f"🧠 Pulse sent: [{node_name}] {pulse_type}")
+
+            # Optional: Sync critical pulses to Notion
+            if intensity >= 1.0:
+                self._sync_to_notion(f"Pulse: {pulse_type}", node_name, content)
+
         except Exception as e:
             self.logger.error(f"Failed to send neural pulse: {e}")
+
+    def add_discourse(self, session_id: str, node: str, d_type: str, content: str, reasoning: str = ""):
+        try:
+            conn = sqlite3.connect(self.db_path)
+            cursor = conn.cursor()
+            cursor.execute("""
+                INSERT INTO agent_discourse (session_id, source_node, discourse_type, content, reasoning, timestamp)
+                VALUES (?, ?, ?, ?, ?, ?)
+            """, (session_id, node, d_type, content, reasoning, datetime.now().isoformat()))
+            conn.commit()
+            conn.close()
+            self.logger.info(f"🎙️ Discourse added to session {session_id} by {node}")
+        except Exception as e:
+            self.logger.error(f"Failed to add discourse: {e}")
+
+    def get_active_discourse(self, session_id: str = None):
+        try:
+            conn = sqlite3.connect(self.db_path)
+            cursor = conn.cursor()
+            if session_id:
+                cursor.execute("SELECT * FROM agent_discourse WHERE session_id = ? ORDER BY timestamp ASC", (session_id,))
+            else:
+                cursor.execute("SELECT * FROM agent_discourse WHERE status = 'open' ORDER BY timestamp ASC")
+
+            rows = cursor.fetchall()
+            conn.close()
+            return rows
+        except Exception as e:
+            self.logger.error(f"Failed to fetch discourse: {e}")
+            return []
+
+    def commit_discourse(self, session_id: str):
+        try:
+            conn = sqlite3.connect(self.db_path)
+            cursor = conn.cursor()
+            cursor.execute("UPDATE agent_discourse SET status = 'committed' WHERE session_id = ?", (session_id,))
+            conn.commit()
+            conn.close()
+            self.logger.info(f"⚖️ Discourse session {session_id} COMMITTED.")
+        except Exception as e:
+            self.logger.error(f"Failed to commit discourse: {e}")
+
+    def log_service_event(self, service: str, e_type: str, content: str, meta: str = "{}"):
+        try:
+            conn = sqlite3.connect(self.db_path)
+            cursor = conn.cursor()
+            cursor.execute("""
+                INSERT INTO service_governance_logs (service_name, event_type, content, metadata, timestamp)
+                VALUES (?, ?, ?, ?, ?)
+            """, (service, e_type, content, meta, datetime.now().isoformat()))
+            conn.commit()
+            conn.close()
+            self.logger.info(f"🏢 [SaaS Event] {service}: {e_type}")
+
+            # 🌐 Sync to Notion (Universal Integration)
+            self._sync_to_notion(e_type, service, content)
+
+        except Exception as e:
+            self.logger.error(f"Failed to log service event: {e}")
+
+    def check_capability(self, service: str, required_capability: str) -> bool:
+        try:
+            conn = sqlite3.connect(self.db_path)
+            cursor = conn.cursor()
+            cursor.execute("SELECT capabilities FROM node_capabilities WHERE service_name = ?", (service,))
+            row = cursor.fetchone()
+            conn.close()
+            if row:
+                caps = [c.strip() for c in row[0].split(',')]
+                return required_capability in caps
+            return False
+        except Exception as e:
+            self.logger.error(f"Failed to check capability: {e}")
+            return False
+
+    def get_service_logs(self, limit: int = 20):
+        try:
+            conn = sqlite3.connect(self.db_path)
+            cursor = conn.cursor()
+            cursor.execute("SELECT * FROM service_governance_logs ORDER BY timestamp DESC LIMIT ?", (limit,))
+            rows = cursor.fetchall()
+            conn.close()
+            return rows
+        except Exception as e:
+            self.logger.error(f"Failed to fetch service logs: {e}")
+            return []
 
     def add_autonomous_task(self, title: str, description: str, action: str, priority: int = 1):
         try:
