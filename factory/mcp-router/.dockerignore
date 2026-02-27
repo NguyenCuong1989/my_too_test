@@ -1,0 +1,10 @@
+node_modules
+dist
+npm-debug.log
+src/test_ril_mock.ts
+src/test_ril.ts
+**/__tests__
+**/*.test.ts
+.git
+.gitignore
+README.md

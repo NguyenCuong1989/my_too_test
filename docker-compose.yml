@@ -1,40 +1,38 @@
-version: '3.8'
 
 services:
-  daiof-orchestrator:
+  mcp-router:
     build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: daiof-orchestrator
+      context: ./factory/mcp-router
+    ports:
+      - "3000:3000"
     environment:
-      - OLLAMA_HOST=http://host.docker.internal:11434
-    volumes:
-      - .:/app
-      - ./.gemini_key:/app/.gemini_key:ro
-      - ./.github_token:/app/.github_token:ro
-      - ./token.json:/app/token.json:ro
-      - ./notion_secret.txt:/app/notion_secret.txt:ro
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-    restart: unless-stopped
-    command: ["orchestrator"]
-
-  daiof-monitor:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: daiof-monitor
-    environment:
-      - OLLAMA_HOST=http://host.docker.internal:11434
-    volumes:
-      - .:/app
-      - ./.gemini_key:/app/.gemini_key:ro
-      - ./.github_token:/app/.github_token:ro
-      - ./token.json:/app/token.json:ro
-      - ./notion_secret.txt:/app/notion_secret.txt:ro
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-    restart: unless-stopped
-    command: ["monitor"]
+      - NODE_ENV=development
+      - JWT_SECRET=super-secret-mcp-key
+      - FIRESTORE_EMULATOR_HOST=firebase-emulator:8080
+      - GOOGLE_CLOUD_PROJECT=gen-lang-client-0863690953
     depends_on:
-      - daiof-orchestrator
+      - firebase-emulator
+
+  factory-worker:
+    build:
+      context: ./factory
+    ports:
+      - "8081:8080"
+    environment:
+      - JWT_SECRET=super-secret-mcp-key
+      - PORT=8080
+    volumes:
+      - ./factory/inbox:/app/inbox
+      - ./factory/processed:/app/processed
+      - ./factory/failed:/app/failed
+
+  firebase-emulator:
+    image: andreysenov/firebase-tools:latest
+    ports:
+      - "4000:4000" # UI
+      - "8080:8080" # Firestore
+      - "9099:9099" # Auth
+    working_dir: /app
+    volumes:
+      - ./factory:/app
+    command: firebase emulators:start --project gen-lang-client-0863690953

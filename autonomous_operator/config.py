@@ -57,3 +57,6 @@ GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN")
 
 # Heartbeat Settings
 HEARTBEAT_INTERVAL = 300 # 5 minutes
+
+# Governance Settings
+BALANCEHUB_URL = "http://localhost:8000"
