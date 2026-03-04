@@ -1,0 +1,15 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": [ "TEAMID.com.daiof.sli" ],
+        "components": [
+          {
+            "/": "/execute/*",
+            "comment": "Allowing deep links to specific execution results"
+          }
+        ]
+      }
+    ]
+  }
+}

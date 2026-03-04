@@ -1,8 +1,38 @@
-
 services:
+  firebase-emulator:
+    image: andreysenov/firebase-tools:latest
+    container_name: my_too_test-firebase-emulator
+    ports:
+      - "4000:4000" # UI
+      - "8083:8080" # Firestore (shifted from 8080 to avoid conflict with code-server)
+      - "9099:9099" # Auth
+      - "4400:4400" # Emulator Hub
+    working_dir: /app
+    volumes:
+      - ./factory:/app
+    command: >
+      sh -c "firebase emulators:start --project gen-lang-client-0863690953"
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "require('http').get('http://localhost:4400/', (res) => process.exit(res.statusCode === 200 ? 0 : 1)).on('error', () => process.exit(1))",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 20s
+    networks:
+      - app-network
+    environment:
+      - FIRESTORE_EMULATOR_HOST=firebase-emulator:8080
+
   mcp-router:
     build:
       context: ./factory/mcp-router
+    container_name: my_too_test-mcp-router
     ports:
       - "3000:3000"
     environment:
@@ -11,11 +41,16 @@ services:
       - FIRESTORE_EMULATOR_HOST=firebase-emulator:8080
       - GOOGLE_CLOUD_PROJECT=gen-lang-client-0863690953
     depends_on:
-      - firebase-emulator
+      firebase-emulator:
+        condition: service_healthy
+    networks:
+      - app-network
+    restart: unless-stopped
 
   factory-worker:
     build:
       context: ./factory
+    container_name: my_too_test-factory-worker
     ports:
       - "8081:8080"
     environment:
@@ -25,14 +60,13 @@ services:
       - ./factory/inbox:/app/inbox
       - ./factory/processed:/app/processed
       - ./factory/failed:/app/failed
+    depends_on:
+      firebase-emulator:
+        condition: service_healthy
+    networks:
+      - app-network
+    restart: unless-stopped
 
-  firebase-emulator:
-    image: andreysenov/firebase-tools:latest
-    ports:
-      - "4000:4000" # UI
-      - "8080:8080" # Firestore
-      - "9099:9099" # Auth
-    working_dir: /app
-    volumes:
-      - ./factory:/app
-    command: firebase emulators:start --project gen-lang-client-0863690953
+networks:
+  app-network:
+    driver: bridge

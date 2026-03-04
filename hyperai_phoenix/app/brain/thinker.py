@@ -1,3 +1,13 @@
+import sys
+from pathlib import Path
+try:
+    from autonomous_operator.key_manager import GeminiKeyManager
+except (ImportError, ModuleNotFoundError):
+    BASE_DIR = Path("/Users/andy/my_too_test")
+    if str(BASE_DIR) not in sys.path:
+        sys.path.append(str(BASE_DIR))
+    from autonomous_operator.key_manager import GeminiKeyManager
+
 """
 HyperAI Phoenix - Strategic Thinker
 Implements reasoning protocols: APP, ICP, PSP, D&R
@@ -24,6 +34,7 @@ load_dotenv()
 @dataclass
 class StructuredWillObject:
     """SWO - Structured Will Object for parsed intentions"""
+
     source: str
     raw_text: str
     intent: str
@@ -61,7 +72,6 @@ class StrategicThinker:
         self.templates = self._load_config("templates.json")
 
         # Initialize LLM
-        self.api_key = os.getenv('GOOGLE_API_KEY')
         if not self.api_key:
             self.logger.warning("No GOOGLE_API_KEY found. LLM features will be limited.")
             self.llm = None

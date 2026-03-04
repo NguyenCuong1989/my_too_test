@@ -1,0 +1,7 @@
+{
+  "skill_name": "hello_world_skill",
+  "task_id": "real-verification-test",
+  "parameters": {
+    "message": "This is a REAL test, not simulation!"
+  }
+}

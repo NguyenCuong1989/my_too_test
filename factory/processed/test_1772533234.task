@@ -1,0 +1,9 @@
+{
+  "skill_name": "sli_enrichment",
+  "task_id": "test-auto-001",
+  "parameters": {
+    "company_name": "Google",
+    "industry": "AI & Search",
+    "geo": "US"
+  }
+}

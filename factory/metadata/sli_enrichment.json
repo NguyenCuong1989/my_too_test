@@ -1,0 +1,15 @@
+{
+  "skill_name": "sli_enrichment",
+  "version": "1.0.1",
+  "allow_network": true,
+  "resource_limits": {
+    "timeout_seconds": 30,
+    "memory_mb": 256,
+    "cpu_seconds": 20,
+    "max_output_size_kb": 1024
+  },
+  "hash_seal": {
+    "algorithm": "sha256",
+    "value": "d290b66a81aebe46104b17543f7accca380977e8d6ef3c8fa43a1bf203d7b446"
+  }
+}

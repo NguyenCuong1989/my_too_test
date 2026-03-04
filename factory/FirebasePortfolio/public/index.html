@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sovereign Axis — AI Production Factory</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <script async src="https://js.stripe.com/v3/pricing-table.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0a0a0a;
+            color: #f9f9f9;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .accent-gradient {
+            background: linear-gradient(135deg, #00ccff, #00ffaa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .glow {
+            box-shadow: 0 0 30px -5px rgba(0, 204, 255, 0.3);
+        }
+    </style>
+</head>
+
+<body class="overflow-x-hidden">
+    <!-- Navbar -->
+    <nav class="fixed top-0 w-full z-50 p-6">
+        <div class="max-w-7xl mx-auto flex justify-between items-center glass px-8 py-4 rounded-2xl">
+            <div class="text-xl font-extrabold tracking-tighter">SOVEREIGN<span
+                    class="text-hyper-accent accent-gradient">AXIS</span></div>
+            <div class="hidden md:flex gap-8 text-sm font-medium text-white/60">
+                <a href="#" class="hover:text-white transition-colors">Về nhà máy</a>
+                <a href="#" class="hover:text-white transition-colors">Năng lực AI</a>
+                <a href="#" class="hover:text-white transition-colors">Danh mục</a>
+            </div>
+            <button
+                class="bg-white text-black px-5 py-2 rounded-full text-sm font-bold hover:scale-105 transition-transform">Liên
+                hệ</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="min-h-screen flex flex-col justify-center items-center relative px-6 text-center">
+        <div
+            class="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-blue-900/20 via-transparent to-transparent">
+        </div>
+
+        <div class="space-y-6 relative z-10">
+            <span class="text-xs font-bold uppercase tracking-[0.5em] text-white/30">Phase 1: Sovereign
+                Infrastructure</span>
+            <h1 class="text-6xl md:text-8xl font-black tracking-tighter leading-tight">
+                NHÀ MÁY SẢN XUẤT <br>
+                <span class="accent-gradient">PHẦN MỀM TỰ TRỊ</span>
+            </h1>
+            <p class="max-w-2xl mx-auto text-lg text-white/60">
+                Tối ưu hóa khả năng sản xuất AI Agent, Web Dashboard và Backend thông qua hệ sinh thái
+                <span class="text-white">Sovereign Axis</span>. Chuẩn hóa — Tự động — Bền vững.
+            </p>
+            <div class="flex gap-4 justify-center pt-8">
+                <button
+                    class="px-8 py-4 bg-white text-black font-bold rounded-2xl hover:bg-white/90 transition-all glow">Khám
+                    phá ngay</button>
+                <button class="px-8 py-4 glass text-white font-bold rounded-2xl hover:bg-white/5 transition-all">Tài
+                    liệu kỹ thuật</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Factory Features -->
+    <section class="py-32 px-6">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="glass p-10 rounded-3xl space-y-4 hover:border-white/20 transition-colors">
+                <div class="w-12 h-12 bg-blue-500/10 rounded-xl flex items-center justify-center text-blue-400">⚡</div>
+                <h3 class="text-xl font-bold">Factory Core</h3>
+                <p class="text-sm text-white/40 leading-relaxed">Mẫu template chuẩn hóa cho Go, React và VSCode, giúp
+                    rút ngắn 90% thời gian phát triển.</p>
+            </div>
+            <div class="glass p-10 rounded-3xl space-y-4 hover:border-white/20 transition-colors">
+                <div class="w-12 h-12 bg-green-500/10 rounded-xl flex items-center justify-center text-green-400">🧬
+                </div>
+                <h3 class="text-xl font-bold">Capability Mesh</h3>
+                <p class="text-sm text-white/40 leading-relaxed">Mạng lưới năng lực đa dạng từ thanh toán, quản lý dữ
+                    liệu đến phân tích thị trường.</p>
+            </div>
+            <div class="glass p-10 rounded-3xl space-y-4 hover:border-white/20 transition-colors">
+                <div class="w-12 h-12 bg-purple-500/10 rounded-xl flex items-center justify-center text-purple-400">🛡️
+                </div>
+                <h3 class="text-xl font-bold">Autonomous Control</h3>
+                <p class="text-sm text-white/40 leading-relaxed">Hệ thống giám sát và vận hành tự động thông qua Factory
+                    Worker và MCP Router.</p>
+            </div>
+    </section>
+
+    <!-- Stripe Pricing Table Section -->
+    <section id="pricing" class="py-24 px-6 bg-black">
+        <div class="max-w-7xl mx-auto space-y-12 text-center">
+            <h2 class="text-4xl font-black accent-gradient">CHỌN GÓI NĂNG LỰC</h2>
+            <p class="text-white/40">Kích hoạt sức mạnh AI cho doanh nghiệp của bạn với các gói ưu đãi.</p>
+
+            <div class="glass p-8 rounded-3xl overflow-hidden glow">
+                <!--
+                  IMPORTANT: Sếp cần điền pricing-table-id và publishable-key từ Stripe Dashboard
+                  vào component bên dưới sau khi cấu hình xong.
+                -->
+                <stripe-pricing-table pricing-table-id="PRICING_TABLE_ID" publishable-key="PUBLISHABLE_KEY">
+                </stripe-pricing-table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lead Capture Section -->
+    <section class="py-24 px-6 bg-gradient-to-b from-transparent to-blue-900/10">
+        <div class="max-w-3xl mx-auto glass p-12 rounded-[2rem] space-y-8 text-left glow">
+            <div class="space-y-2 text-center md:text-left">
+                <h2 class="text-3xl font-black">LIÊN HỆ ĐẶT HÀNG</h2>
+                <p class="text-white/40">Để lại thông tin để nhận tư vấn về việc tối ưu hóa quy trình sản xuất AI.</p>
+            </div>
+            <form class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="space-y-2">
+                    <label class="text-[10px] font-bold uppercase tracking-widest text-white/30">Họ & Tên</label>
+                    <input type="text" placeholder="Nguyễn Văn A"
+                        class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:border-hyper-accent transition-colors outline-none">
+                </div>
+                <div class="space-y-2">
+                    <label class="text-[10px] font-bold uppercase tracking-widest text-white/30">Email</label>
+                    <input type="email" placeholder="ceo@company.com"
+                        class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:border-hyper-accent transition-colors outline-none">
+                </div>
+                <div class="md:col-span-2 space-y-2">
+                    <label class="text-[10px] font-bold uppercase tracking-widest text-white/30">Lời nhắn</label>
+                    <textarea rows="4" placeholder="Tôi muốn xây dựng một hệ thống..."
+                        class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:border-hyper-accent transition-colors outline-none"></textarea>
+                </div>
+                <button type="submit"
+                    class="md:col-span-2 py-4 bg-white text-black font-black rounded-xl hover:scale-[1.02] transition-transform">GỬI
+                    YÊU CẦU NGAY</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Status Bar -->
+    <footer class="p-12 border-t border-white/5 text-center">
+        <p class="text-xs text-white/20 font-medium">© 2026 DAIOF UNIFIED SYSTEM — GEN-LANG-CLIENT-0863690953</p>
+    </footer>
+</body>
+
+</html>
