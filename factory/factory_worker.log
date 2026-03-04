@@ -1,0 +1,16 @@
+/Users/andy/my_too_test/factory/factory_worker.py:31: DeprecationWarning:
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+
+  @app.on_event("startup")
+{"timestamp": "2026-02-28 14:38:43,240", "level": "INFO", "module": "ACE_WORKER", "message": "Inbox poller started..."}
+INFO:     Started server process [11784]
+INFO:     Waiting for application startup.
+{"timestamp": "2026-02-28 14:38:43,250", "level": "INFO", "module": "ACE_WORKER", "message": "Inbox poller started..."}
+{"timestamp": "2026-02-28 14:38:43,251", "level": "INFO", "module": "ACE_WORKER", "message": "Background inbox poller and Telegram Guardian threads started."}
+INFO:     Application startup complete.
+{"timestamp": "2026-02-28 14:38:43,251", "level": "INFO", "module": "ACE_GUARDIAN_BOT", "message": "Telegram Bot Poller started..."}
+INFO:     Uvicorn running on http://0.0.0.0:8181 (Press CTRL+C to quit)
+INFO:     127.0.0.1:63357 - "GET /health HTTP/1.1" 200 OK

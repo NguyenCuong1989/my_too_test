@@ -12,6 +12,12 @@ sys.path.append(str(BASE_DIR))
 sys.path.append(str(BASE_DIR / "autonomous_operator"))
 sys.path.append(str(BASE_DIR / "autonomous_operator" / "nodes"))
 sys.path.append(str(BASE_DIR / "DAIOF-Framework"))
+sys.path.append("/Users/andy/balancehub")
+
+try:
+    from app.core import apo_canon
+except ImportError:
+    apo_canon = None
 
 from config import HEARTBEAT_INTERVAL, LOG_DIR, NOTION_TOKEN, NOTION_DB_ID
 from nodes.biz_node import BizNode
@@ -30,11 +36,25 @@ except ImportError:
     SymphonyControlCenter = None
 
 # Cấu hình LOG
+class NdjsonFormatter(logging.Formatter):
+    def format(self, record):
+        log_obj = {
+            "timestamp": self.formatTime(record, self.datefmt),
+            "level": record.levelname,
+            "name": record.name,
+            "message": record.getMessage()
+        }
+        return json.dumps(log_obj)
+
+ndjson_handler = logging.FileHandler(LOG_DIR / "observe.ndjson")
+ndjson_handler.setFormatter(NdjsonFormatter())
+
 logging.basicConfig(
     level=logging.INFO,
     format='[%(asctime)s] [%(name)s] [%(levelname)s] %(message)s',
     handlers=[
         logging.FileHandler(LOG_DIR / "orchestrator.log"),
+        ndjson_handler,
         logging.StreamHandler(sys.stdout)
     ]
 )
@@ -56,7 +76,7 @@ class AutonomousOperator:
         self.web = WebNode()
         self.audit = AuditNode()
 
-        # Map nodes for iteration
+        # Map nodes for iteration (Static Nodes)
         self.nodes = {
             "Recovery": self.recovery,
             "WebScout": self.web,
@@ -64,6 +84,14 @@ class AutonomousOperator:
             "Guardian": self.guardian,
             "AuditNode": self.audit
         }
+
+        # ⚖️ CANONICAL TOPOLOGY GROUPS (O -> R -> E -> P -> L -> I -> F -> B)
+        self.operator_sequence = ["O", "R", "E", "P", "L", "I", "F", "B"]
+        self.canonical_groups = {op: [] for op in self.operator_sequence}
+        self.rebuild_canonical_topology()
+
+        # 🌐 Dynamic AI CLI Mesh Loading
+        self.load_mesh_agents()
 
         # 🏛️ Notion Hub (Command Center)
         self.notion = Client(auth=NOTION_TOKEN) if NOTION_TOKEN else None
@@ -76,6 +104,67 @@ class AutonomousOperator:
                 self.symphony.register_component(name, node)
 
         self.is_running = False
+
+    def load_mesh_agents(self):
+        """Tự động quét và nạp các Specialized Agents từ thư mục agents/."""
+        import importlib.util
+        agents_dir = BASE_DIR / "autonomous_operator" / "nodes" / "agents"
+        if not agents_dir.exists():
+            return
+
+        self.logger.info("📡 Scanning for Specialized Agents in Mesh...")
+        for f in os.listdir(agents_dir):
+            if f.endswith("_agent.py") and not f.startswith("base_"):
+                agent_name = f.replace("_agent.py", "").replace("_", " ").title().replace(" ", "")
+                file_path = agents_dir / f
+
+                try:
+                    spec = importlib.util.spec_from_file_location(agent_name, file_path)
+                    module = importlib.util.module_from_spec(spec)
+                    # Thêm agents path vào sys.path
+                    sys.path.insert(0, str(agents_dir))
+                    spec.loader.exec_module(module)
+
+                    # Tìm agent class (vd: StripeAgent)
+                    agent_class = None
+                    for attr in dir(module):
+                        if attr.lower().endswith("agent") and attr != "DAIOFAgent":
+                            agent_class = getattr(module, attr)
+                            break
+
+                    if agent_class:
+                        instance = agent_class()
+                        # Use the canonical agent_name if available in instance
+                        final_id = getattr(instance, "agent_name", agent_name)
+                        self.nodes[final_id] = instance
+                        self.logger.info(f"✅ Mesh Agent Registered: {final_id}")
+                except Exception as e:
+                    self.logger.error(f"❌ Failed to load Mesh Agent {f}: {e}")
+
+        # Re-build topology after dynamic loading
+        self.rebuild_canonical_topology()
+
+    def rebuild_canonical_topology(self):
+        """Map all registered nodes to their Σ_APΩ–COS operator ID."""
+        for op in self.operator_sequence:
+            self.canonical_groups[op] = []
+
+        for name, node in self.nodes.items():
+            op_id = "I" # Default to Interface
+            if apo_canon:
+                op_id = apo_canon.operator_id_for(name)
+
+            # Manual overrides for nodes not in balancehub binding mapping
+            if name == "Recovery": op_id = "O"
+            elif name == "WebScout": op_id = "P"
+            elif name == "Guardian": op_id = "L"
+            elif name == "AuditNode": op_id = "L"
+            elif name == "BizService": op_id = "I"
+
+            if op_id in self.canonical_groups:
+                self.canonical_groups[op_id].append(name)
+
+        self.logger.info(f"⚖️ Canonical Topology Rebuilt: { {k: v for k, v in self.canonical_groups.items() if v} }")
 
     async def main_loop(self):
         """Vòng lặp điều hành chính — Trực chiến 24/7"""
@@ -98,19 +187,37 @@ class AutonomousOperator:
                     self.logger.info(f"⚖️ Governance: GSSI {health_data.get('gssi', 'N/A')}")
 
                 # 2. Log Cycle Start to Notion
-                self.log_to_notion("Cycle Start", "SYSTEM", f"Initiating Cycle {cycle_count}. Governance Active.")
+                self.log_to_notion("Cycle Start", "SYSTEM", f"Initiating Cycle {cycle_count}. Σ_APΩ–COS Topology Active.")
 
-                # 3. Execute Service Mesh Sequential
-                for name, node in self.nodes.items():
-                    self.logger.info(f"⚡ Executing Node: {name}")
-                    try:
-                        if asyncio.iscoroutinefunction(node.run_cycle):
-                            await node.run_cycle()
-                        else:
-                            node.run_cycle()
-                    except Exception as node_err:
-                        self.logger.error(f"❌ Node {name} failed: {node_err}")
-                        self.log_to_notion("NODE_FAILURE", name, str(node_err)[:200], priority="High")
+                # 3. Execute Service Mesh strictly by Canonical Order (O -> E -> P -> L -> I -> F -> B)
+                # Note: Handling δ(s) state transition with Fail-Closed logic.
+                cycle_healthy = True
+
+                for op_id in self.operator_sequence:
+                    if not cycle_healthy and op_id not in ["F", "B"]:
+                        # Skip processing normal nodes if system state is invalid
+                        continue
+
+                    node_names = self.canonical_groups.get(op_id, [])
+                    for name in node_names:
+                        node = self.nodes[name]
+                        self.logger.info(f"⚡ [OP:{op_id}] Executing Node: {name}")
+                        try:
+                            result = None
+                            if asyncio.iscoroutinefunction(node.run_cycle):
+                                result = await node.run_cycle()
+                            else:
+                                result = node.run_cycle()
+
+                            # 🛡️ FAIL-CLOSED DETECTION: If node returns False or explicit Failure
+                            if result is False:
+                                self.logger.warning(f"⚠️ Node {name} returned failure state. Activating Fail-Closed.")
+                                cycle_healthy = False
+
+                        except Exception as node_err:
+                            self.logger.error(f"❌ Node {name} crashed: {node_err}")
+                            self.log_to_notion("NODE_FAILURE", name, str(node_err)[:200], priority="High")
+                            cycle_healthy = False # Protocol violation/crash leads to ⊥
 
                 # 4. Global Service Orchestration (Governance Logging)
                 self.service_orchestration()
@@ -172,24 +279,42 @@ class AutonomousOperator:
                     self.log_to_notion(f"Executing: {cmd_name}", target, f"Target: {target} | Args: {args}")
 
                     # Execute logic based on Target
-                    success = True
                     result_msg = "Command processed successfully."
+                    success = True
                     try:
-                        if target == "WebScout":
-                            self.web.run_cycle() # Basic execution, can be enhanced with args
-                        elif target == "BizService":
-                            self.biz.run_cycle()
-                        elif target == "Guardian":
-                            self.guardian.run_cycle()
-                        else:
+                        # ⚖️ CANON LY: Execution and Audit must be bound
+                        node_to_run = self.nodes.get(target)
+                        if not node_to_run:
                             result_msg = f"Unknown Target: {target}. Command logged but not executed."
                             self.logger.warning(result_msg)
+                            success = False
+                        else:
+                            # ⚡ Execute Node with Arguments
+                            if asyncio.iscoroutinefunction(node_to_run.run_cycle):
+                                await node_to_run.run_cycle(command_args=args)
+                            else:
+                                node_to_run.run_cycle(command_args=args)
+
+                            # 📑 AUDIT LOG (Mandatory Proof)
+                            self.link.log_service_event(
+                                service="Orchestrator",
+                                e_type="COMMAND_EXEC",
+                                content=f"Executed {cmd_name} on {target} with args: {args}",
+                                meta=json.dumps({"task_id": page_id, "success": True})
+                            )
+
                     except Exception as exe_err:
                         success = False
                         result_msg = f"Execution Failed: {exe_err}"
                         self.logger.error(result_msg)
+                        self.link.log_service_event(
+                            service="Orchestrator",
+                            e_type="COMMAND_FAILURE",
+                            content=f"Failed {cmd_name} on {target}: {exe_err}",
+                            meta=json.dumps({"task_id": page_id, "success": False})
+                        )
 
-                    # Update Status back to Notion
+                    # Update Status back to Notion (Verdict)
                     new_status = "Complete" if success else "Failed"
                     self.notion.pages.update(
                         page_id=page_id,

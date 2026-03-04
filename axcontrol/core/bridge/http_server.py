@@ -79,7 +79,7 @@ class Bridge:
         self._history: typing.List[dict] = []
         self.step_count = 0
 
-    def process(self, text: str, confirm: Optional[bool]) -> dict:
+    def Vận(self, text: str, confirm: Optional[bool]) -> dict:
         # init snapshot fields
         system = {
             "mode": "IDLE",
@@ -127,7 +127,7 @@ class Bridge:
 
             self.pending_cmd = None
             ui_block["suggestions"] = ["/ax", "status?"]
-            snapshot = self._build_snapshot(
+            snapshot = self.Hoá_Thế(
                 system,
                 input_block,
                 intent_block,
@@ -141,7 +141,7 @@ class Bridge:
             return snapshot
 
         if not text:
-            return self._build_snapshot(
+            return self.Hoá_Thế(
                 system,
                 input_block,
                 intent_block,
@@ -183,7 +183,7 @@ class Bridge:
                 except Exception as exc:
                     decision = {"verdict": "STOP", "command": cmd}
                     stop_block = {"reason": "SHELL_ERROR", "message": str(exc)}
-            return self._build_snapshot(
+            return self.Hoá_Thế(
                 system,
                 input_block,
                 intent_block,
@@ -221,7 +221,7 @@ class Bridge:
                 if stop is not None:
                     stop_block = {"reason": stop.value, "message": None}
                 system["mode"] = "EXECUTING"
-            return self._build_snapshot(
+            return self.Hoá_Thế(
                 system,
                 input_block,
                 intent_block,
@@ -247,7 +247,7 @@ class Bridge:
                 "message": "free text not in lexicon",
             }
             ui_block["suggestions"] = ["status?", "/ax"]
-            return self._build_snapshot(
+            return self.Hoá_Thế(
                 system,
                 input_block,
                 intent_block,
@@ -261,7 +261,7 @@ class Bridge:
         intent_block = {"kind": intent_kind, "value": text_clean, "source": "human"}
         decision = {"verdict": "ALLOW", "command": None}
         execution = {"executed": False, "executor": "NONE", "result": "intent logged"}
-        return self._build_snapshot(
+        return self.Hoá_Thế(
             system,
             input_block,
             intent_block,
@@ -272,7 +272,7 @@ class Bridge:
             now,
         )
 
-    def _build_snapshot(
+    def Hoá_Thế(
         self,
         system,
         input_block,
@@ -364,7 +364,7 @@ class Handler(BaseHTTPRequestHandler):
         meta = payload.get("meta") or {}
         if "confirm" in meta:
             confirm = bool(meta.get("confirm"))
-        snapshot = bridge.process(text, confirm)
+        snapshot = bridge.Vận(text, confirm)
         self._json(200, snapshot)
 
     def log_message(self, format: str, *args: typing.Any) -> None:

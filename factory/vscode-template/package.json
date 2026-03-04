@@ -1,0 +1,46 @@
+{
+  "name": "factory-vscode-extension",
+  "displayName": "DAIOF Factory Extension",
+  "description": "Standardized VSCode Extension Template for DAIOF Unified System",
+  "version": "1.0.0",
+  "publisher": "DAIOF",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "daiof.factory.status",
+        "title": "DAIOF: Check Harmony Status"
+      }
+    ],
+    "terminal": {
+      "profiles": [
+        {
+          "title": "HyperAI Sovereign Shell",
+          "terminalCompletionProvider": true
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.85.0",
+    "@types/node": "20.x",
+    "typescript": "^5.3.3"
+  }
+}

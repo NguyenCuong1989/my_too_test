@@ -96,3 +96,9 @@ def run(content):
             "status": "error",
             "message": f"Skill execution failed: {str(e)}"
         })
+
+if __name__ == "__main__":
+    import sys
+    # Read input from argument or stdin
+    input_data = sys.argv[1] if len(sys.argv) > 1 else sys.stdin.read()
+    print(run(input_data))

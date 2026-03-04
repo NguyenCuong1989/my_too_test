@@ -239,3 +239,36 @@ class NeuralLink:
             self.logger.info(f"📋 Linked Task Created: {title}")
         except Exception as e:
             self.logger.error(f"Failed to link task: {e}")
+
+    def complete_task_with_audit(self, task_id: str, log_message: str):
+        """
+        Attempts to complete a task and write an audit log.
+        *V2 FINAL - STRICT CANON LY COMPLIANCE*
+        Transactions are atomic. If the audit log fails, the state MUST NOT mutate.
+        """
+        conn = sqlite3.connect(self.db_path)
+        try:
+            cursor = conn.cursor()
+
+            # 1. Start explicit transaction
+            cursor.execute("BEGIN TRANSACTION")
+
+            # 2. Mutate State
+            cursor.execute("UPDATE tasks SET status = 'completed' WHERE id = ?", (task_id,))
+
+            # 3. Insert the Log (This MUST succeed for state to be saved)
+            cursor.execute("""
+                INSERT INTO service_governance_logs (service_name, event_type, content, timestamp)
+                VALUES (?, ?, ?, ?)
+            """, ('NeuralLink', 'TASK_COMPLETED', log_message, datetime.now().isoformat()))
+
+            # 4. Commit ONLY if both succeed
+            conn.commit()
+            self.logger.info(f"⚖️ Task {task_id} COMPLETED with Proof.")
+        except Exception as e:
+            # 5. CANON LY: No log = No Progress
+            conn.rollback()
+            self.logger.error(f"🚨 Audit Governance Failure! Action reverted: {e}")
+            raise e
+        finally:
+            conn.close()
