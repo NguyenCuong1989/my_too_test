@@ -77,7 +77,7 @@ hyperai_phoenix/
 
 1. Cài đặt dependencies:
 ```bash
-pip install -r requirements.txt
+pip install -r app/requirements.txt
 ```
 
 2. Cấu hình API key trong `.env`:
