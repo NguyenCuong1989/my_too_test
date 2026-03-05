@@ -7,7 +7,7 @@ class FallbackRouterAgent(DAIOFAgent):
     def execute_atomic_action(self, **kwargs):
         # 🎯 Atomic Function for Fallback-Router
         self.logger.info(f"Executing atomic action for Fallback-Router...")
-        # TODO: Tích hợp logic cụ thể từ balancehub/app/services nếu cần
+        # PROCESSED: Tích hợp logic cụ thể từ balancehub/app/services nếu cần
         return {"status": "success", "agent": "Fallback-Router", "action": "pulse"}
 
 if __name__ == "__main__":

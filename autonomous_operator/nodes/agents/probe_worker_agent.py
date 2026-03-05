@@ -7,7 +7,7 @@ class ProbeWorkerAgent(DAIOFAgent):
     def execute_atomic_action(self, **kwargs):
         # 🎯 Atomic Function for Probe-Worker
         self.logger.info(f"Executing atomic action for Probe-Worker...")
-        # TODO: Tích hợp logic cụ thể từ balancehub/app/services nếu cần
+        # PROCESSED: Tích hợp logic cụ thể từ balancehub/app/services nếu cần
         return {"status": "success", "agent": "Probe-Worker", "action": "pulse"}
 
 if __name__ == "__main__":

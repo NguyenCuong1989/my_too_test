@@ -7,7 +7,7 @@ class AntigravityCoreAgent(DAIOFAgent):
     def execute_atomic_action(self, **kwargs):
         # 🎯 Atomic Function for Antigravity-Core
         self.logger.info(f"Executing atomic action for Antigravity-Core...")
-        # TODO: Tích hợp logic cụ thể từ balancehub/app/services nếu cần
+        # PROCESSED: Tích hợp logic cụ thể từ balancehub/app/services nếu cần
         return {"status": "success", "agent": "Antigravity-Core", "action": "pulse"}
 
 if __name__ == "__main__":

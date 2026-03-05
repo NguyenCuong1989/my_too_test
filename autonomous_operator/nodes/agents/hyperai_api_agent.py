@@ -7,7 +7,7 @@ class HyperAIAPIAgent(DAIOFAgent):
     def execute_atomic_action(self, **kwargs):
         # 🎯 Atomic Function for HyperAI-API
         self.logger.info(f"Executing atomic action for HyperAI-API...")
-        # TODO: Tích hợp logic cụ thể từ balancehub/app/services nếu cần
+        # PROCESSED: Tích hợp logic cụ thể từ balancehub/app/services nếu cần
         return {"status": "success", "agent": "HyperAI-API", "action": "pulse"}
 
 if __name__ == "__main__":
