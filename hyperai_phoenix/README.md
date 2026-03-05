@@ -23,6 +23,19 @@ hyperai_phoenix/
 │       └── tools/
 │           ├── __init__.py
 │           └── file_system_tools.py
+├── core/                          # Extended kernel & protocol layer
+│   ├── kernel/                   # Genesis core
+│   ├── protocols/                # MOP, OCP, LSP, DKCP protocols
+│   ├── learning/                 # Velocity optimizer
+│   ├── monitoring/               # Performance monitor
+│   ├── optimization/             # Memory optimizer
+│   └── testing/                  # Self-improvement & experiment runners
+├── consciousness_components/      # High-level cognitive modules
+│   ├── data_analysis_engine.py
+│   ├── education_master_controller.py
+│   ├── machine_learning_module.py
+│   └── performance_optimization_system.py
+├── support_systems/               # API design, mobile resources, ML support
 ├── configs/
 │   ├── di_chuc.json              # Di chúc hệ thống
 │   ├── fasr_state.json           # Trạng thái FASR
@@ -54,7 +67,7 @@ hyperai_phoenix/
   - `templates.json` - Response templates
   - Configuration cho các modules khác nhau
 
-### 📁 `core/` - Logic nghiệp vụ cốt lõi
+### 📁 `app/brain/` - Logic nghiệp vụ cốt lõi
 
 - **Tác dụng**: Chứa các engines và modules cốt lõi của HyperAI
 - **Nội dung chính**:
@@ -75,9 +88,10 @@ hyperai_phoenix/
 
 ## 🚀 KHỞI ĐỘNG NHANH
 
-1. Cài đặt dependencies:
+1. Cài đặt dependencies (xem DAIOF-Framework/requirements.txt):
 ```bash
-pip install -r app/requirements.txt
+git submodule update --init --recursive
+pip install -r DAIOF-Framework/requirements.txt
 ```
 
 2. Cấu hình API key trong `.env`:
@@ -97,22 +111,22 @@ Truy cập: `http://localhost:8501`
 ## 🧠 MODULES CỐT LÕI
 
 ### Meta-Optimization Protocol (MOP)
-- **File**: `core/coordinator.py`
+- **File**: `app/brain/coordinator.py`
 - **Chức năng**: Điều phối và tối ưu hóa toàn hệ thống
 - **Khả năng**: Resource allocation, task prioritization
 
 ### Intelligence Core Protocol (ICP)
-- **File**: `core/thinker.py`
+- **File**: `app/brain/thinker.py`
 - **Chức năng**: Strategic reasoning và decision making
 - **Khả năng**: Problem decomposition, solution synthesis
 
 ### Optimization Core Protocol (OCP)
-- **File**: `core/improver.py`
+- **File**: `app/brain/improver.py`
 - **Chức năng**: Continuous self-improvement
 - **Khả năng**: Performance analysis, code optimization
 
 ### Memory Management System
-- **File**: `core/memory.py`
+- **File**: `app/brain/memory.py`
 - **Chức năng**: Persistent memory với vector search
 - **Database**: SQLite + ChromaDB
 
