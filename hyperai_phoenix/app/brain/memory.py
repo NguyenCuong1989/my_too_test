@@ -1,3 +1,8 @@
+# Σ_APΩ₂ CORE MODULE
+# Authority: BỐ CƯỐNG Supreme System Commander
+# Creator: alpha_prime_omega (4287)
+# Status: CANONICAL
+
 """
 HyperAI Phoenix - Memory Engine
 Dual storage system with SQLite (structured data) + ChromaDB (semantic search)

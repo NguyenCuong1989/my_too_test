@@ -1,3 +1,8 @@
+# Σ_APΩ₂ CORE MODULE
+# Authority: BỐ CƯỐNG Supreme System Commander
+# Creator: alpha_prime_omega (4287)
+# Status: CANONICAL
+
     def _reinit_llm(self):
         """Re-initialize LLM with current active key from KeyManager."""
         self.api_key = self.key_manager.get_active_key()

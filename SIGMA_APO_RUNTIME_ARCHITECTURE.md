@@ -438,7 +438,7 @@ Task Injector            task_injector.py        Atomic .task creation, temp→f
 Factory Worker           factory_worker.py       Polling, skill execution, task lifecycle
 Skill Layer              factory/tools/*.py      Domain-specific logic execution
 Log Streamer             log_streamer.py         Tail processing, drift detection, feedback
-Gemini Planner Bridge    gemini_planner_         DAG synthesis, reverse planning, healing
+Gemini Planner Bridge    gemini_planner_DAG synthesis, reverse planning, healing
                          bridge.py
 Governance Loop Ctrl     telegram_bot.py         State machine, phase orchestration
                          (AntigravityLoop
@@ -475,10 +475,10 @@ GEMINI AI:
 ├─ Model: gemini-pro-latest
 ├─ API Key: managed by autonomous_operator.key_manager.GeminiKeyManager
 ├─ Base Dir: /Users/andy/my_too_test
-└─ System Prompt: [Defined in GeminiPlannerBridge.__init__]
+└─ System Prompt: [Defined in GeminiPlannerBridge.**init**]
 
 BALANCEHUB:
-├─ API Endpoint: http://localhost:8000
+├─ API Endpoint: <http://localhost:8000>
 ├─ Health Check: /system/health
 ├─ Connector State: /connectors/{connector}/state
 ├─ Audit Logs: PostgreSQL (balancehub_pgdata volume)
@@ -541,11 +541,12 @@ PRODUCTION READINESS:
    Operator notified in Telegram chat
 
 ✅ CONTROL PLANES:
-   - Governance Plane (Telegram Interface): ACTIVE
-   - Control Plane (Task Scheduler): ACTIVE
-   - Execution Plane (Factory Worker): ACTIVE
-   - Data Plane (State Management): ACTIVE
-   - BalanceHub Integration: ACTIVE
+
+- Governance Plane (Telegram Interface): ACTIVE
+- Control Plane (Task Scheduler): ACTIVE
+- Execution Plane (Factory Worker): ACTIVE
+- Data Plane (State Management): ACTIVE
+- BalanceHub Integration: ACTIVE
 
 ✅ SYSTEM STATUS:
    Antigravity Layer: NOMINAL ✅
@@ -592,3 +593,1339 @@ Telegram Governance Interface: Fully provisioned & documented
 BalanceHub Integration: Connected and operational
 
 ═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+
+# SECTION 44 — ADAPTIVE PLANNING ARCHITECTURE
+
+```
+Subsystem: Adaptive Planning
+Component: Π_adaptive
+Purpose: dynamic plan generation via graph search
+Planner Type: Capability Graph Search Planner
+Algorithm: Deterministic Shortest Path (Dijkstra/BFS hybrid)
+```
+
+---
+
+## Adaptive Planner Topology
+
+```
+Goal
+  │
+  ▼
+Goal Decomposer
+  │
+  ▼
+Capability Graph Resolver
+  │
+  ▼
+Graph Search Engine
+  │
+  ▼
+Task Graph Constructor
+  │
+  ▼
+Canonical Phase Assignment
+  │
+  ▼
+PlanEnvelope Serializer
+```
+
+---
+
+# SECTION 45 — CAPABILITY GRAPH MODEL
+
+```
+Graph G = (V, E)
+
+V = capabilities + skills
+E = valid transitions
+```
+
+---
+
+## Node Definition
+
+```
+Node = {
+  id: string,
+  type: capability | skill
+}
+```
+
+---
+
+## Edge Definition
+
+```
+Edge = {
+  from: node_id,
+  to: node_id,
+  weight: integer
+}
+```
+
+---
+
+## Example Capability Graph
+
+```
+phoenix.analysis ──► phoenix.reasoning
+       │
+       ▼
+factory.deploy ──► axcontrol.runtime
+```
+
+---
+
+# SECTION 46 — GRAPH STORAGE MODEL
+
+Database Extension
+
+```sql
+CREATE TABLE capability_nodes (
+    node_id TEXT PRIMARY KEY,
+    capability TEXT,
+    skill TEXT
+);
+```
+
+---
+
+```sql
+CREATE TABLE capability_edges (
+    id UUID PRIMARY KEY,
+    from_node TEXT,
+    to_node TEXT,
+    weight INTEGER
+);
+```
+
+---
+
+# SECTION 47 — GOAL DECOMPOSITION MODEL
+
+```
+GoalDescriptor
+```
+
+```json
+{
+ "type":"STABILITY",
+ "target":"system"
+}
+```
+
+---
+
+Goal Mapping
+
+```
+STABILITY → phoenix.analysis
+DEPLOYMENT → factory.deploy
+CONTROL → axcontrol.runtime
+```
+
+---
+
+## Goal Map
+
+```python
+GOAL_MAP = {
+    "STABILITY": ("phoenix", "analysis"),
+    "DEPLOYMENT": ("factory", "deploy"),
+    "CONTROL": ("axcontrol", "runtime")
+}
+```
+
+---
+
+# SECTION 48 — GRAPH SEARCH ENGINE
+
+```
+Component: GraphSearchPlanner
+Algorithm: Deterministic BFS
+Constraint: DAG generation
+```
+
+---
+
+## Python Implementation
+
+```python
+from collections import deque
+
+
+class GraphSearchPlanner:
+
+    def __init__(self, graph):
+        self.graph = graph
+
+    def search(self, start, goal):
+
+        queue = deque([[start]])
+        visited = set()
+
+        while queue:
+
+            path = queue.popleft()
+            node = path[-1]
+
+            if node == goal:
+                return path
+
+            if node not in visited:
+
+                visited.add(node)
+
+                for neighbor in self.graph.get(node, []):
+
+                    new_path = list(path)
+                    new_path.append(neighbor)
+
+                    queue.append(new_path)
+
+        return None
+```
+
+---
+
+# SECTION 49 — TASK GRAPH CONSTRUCTOR
+
+```
+Component: TaskGraphBuilder
+```
+
+---
+
+## Python Implementation
+
+```python
+import uuid
+
+
+class TaskGraphBuilder:
+
+    PHASES = [
+        "origin",
+        "event",
+        "propagation",
+        "observe",
+        "interface",
+        "failure",
+        "boundary"
+    ]
+
+    def build(self, path):
+
+        tasks = []
+        edges = []
+
+        for i, node in enumerate(path):
+
+            capability, skill = node.split(".")
+
+            task_id = f"t{i+1}"
+
+            task = {
+                "id": task_id,
+                "phase": self.PHASES[min(i, len(self.PHASES)-1)],
+                "capability": capability,
+                "skill": skill,
+                "input": {}
+            }
+
+            tasks.append(task)
+
+            if i > 0:
+                edges.append({
+                    "from": f"t{i}",
+                    "to": task_id
+                })
+
+        return {
+            "plan_id": str(uuid.uuid4()),
+            "tasks": tasks,
+            "edges": edges
+        }
+```
+
+---
+
+# SECTION 50 — ADAPTIVE PLANNER ENGINE
+
+```
+Component: AdaptivePlannerEngine
+```
+
+---
+
+## Python Implementation
+
+```python
+class AdaptivePlannerEngine:
+
+    def __init__(self, graph, goal_map):
+
+        self.graph = graph
+        self.goal_map = goal_map
+        self.search_engine = GraphSearchPlanner(graph)
+        self.builder = TaskGraphBuilder()
+
+    def build_plan(self, state, goal, context, capabilities):
+
+        goal_type = goal["type"]
+
+        capability, skill = self.goal_map[goal_type]
+
+        goal_node = f"{capability}.{skill}"
+
+        start_node = "phoenix.analysis"
+
+        path = self.search_engine.search(start_node, goal_node)
+
+        if path is None:
+            raise Exception("No valid plan path")
+
+        plan = self.builder.build(path)
+
+        return plan
+```
+
+---
+
+# SECTION 51 — REGISTRY-DRIVEN GRAPH LOADER
+
+```
+Component: CapabilityGraphLoader
+Source: capability_registry + capability_edges
+```
+
+---
+
+## Python Implementation
+
+```python
+class CapabilityGraphLoader:
+
+    def __init__(self, persistence):
+        self.persistence = persistence
+
+    def load_graph(self):
+
+        cursor = self.persistence.conn.cursor()
+
+        cursor.execute("""
+        SELECT from_node, to_node FROM capability_edges
+        """)
+
+        graph = {}
+
+        for row in cursor.fetchall():
+
+            src = row["from_node"]
+            dst = row["to_node"]
+
+            if src not in graph:
+                graph[src] = []
+
+            graph[src].append(dst)
+
+        return graph
+```
+
+---
+
+# SECTION 52 — ADAPTIVE PLANNER SERVICE
+
+```
+Service: planner-adaptive
+Endpoint: POST /planner
+```
+
+---
+
+## Python Service
+
+```python
+from flask import Flask, request, jsonify
+
+app = Flask(__name__)
+
+
+class PlannerService:
+
+    def __init__(self, planner_engine):
+        self.engine = planner_engine
+
+    def plan(self, payload):
+
+        state = payload["state"]
+        goal = payload["goal"]
+        context = payload.get("context", {})
+        caps = payload["allowed_capabilities"]
+
+        plan = self.engine.build_plan(
+            state,
+            goal,
+            context,
+            caps
+        )
+
+        return plan
+
+
+@app.route("/planner", methods=["POST"])
+def planner_endpoint():
+
+    payload = request.json
+
+    plan = planner_service.plan(payload)
+
+    return jsonify(plan)
+```
+
+---
+
+# SECTION 53 — UPDATED PLANNER PIPELINE
+
+```
+StateLoad
+     │
+GoalEvaluation
+     │
+GoalDecomposition
+     │
+CapabilityGraphLoad
+     │
+GraphSearchPlanning
+     │
+TaskGraphConstruction
+     │
+PhaseAssignment
+     │
+PlanSerialization
+```
+
+---
+
+# SECTION 54 — UPDATED APΩ RUNTIME GRAPH
+
+```
+                     ┌────────────────────────┐
+                     │      Goal Input        │
+                     └────────────┬───────────┘
+                                  │
+                     ┌────────────▼───────────┐
+                     │   Goal Decomposer Γ    │
+                     └────────────┬───────────┘
+                                  │
+                     ┌────────────▼───────────┐
+                     │ Capability Graph Loader│
+                     └────────────┬───────────┘
+                                  │
+                     ┌────────────▼───────────┐
+                     │ Graph Search Planner   │
+                     │       Π_adaptive       │
+                     └────────────┬───────────┘
+                                  │
+                     ┌────────────▼───────────┐
+                     │ Task Graph Builder     │
+                     └────────────┬───────────┘
+                                  │
+                     ┌────────────▼───────────┐
+                     │ Canon Phase Validator  │
+                     └────────────┬───────────┘
+                                  │
+                     ┌────────────▼───────────┐
+                     │ Omni Orchestrator      │
+                     └────────────┬───────────┘
+                                  │
+                ┌─────────────────┼─────────────────┐
+                │                 │                 │
+         ┌──────▼──────┐   ┌──────▼──────┐   ┌──────▼──────┐
+         │  Factory    │   │  AXControl  │   │   Phoenix   │
+         └──────┬──────┘   └──────┬──────┘   └──────┬──────┘
+                │                 │                 │
+                └────────────── Execution ──────────┘
+                                  │
+                                  ▼
+                        ┌──────────────────┐
+                        │ Persistence Ω_p  │
+                        └─────────┬────────┘
+                                  │
+                                  ▼
+                           Runtime Update
+                                  │
+                                  └──── LOOP
+```
+
+═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+
+# SECTION 55 — ADAPTIVE PLANNER IMPLEMENTATION DIRECTIVE
+
+```
+Directive: IMPLEMENTATION_START
+Target: Π_adaptive runtime modules
+Scope: GraphSearchPlanner + TaskGraphBuilder + PlannerEngine integration
+Constraint: Deterministic DAG generation
+```
+
+---
+
+# SECTION 56 — MODULE STRUCTURE
+
+```
+kernel/
+ ├─ adaptive_planner_v1.py
+ ├─ graph_search_v1.py
+ ├─ task_graph_builder_v1.py
+ ├─ goal_mapper_v1.py
+ └─ capability_graph_loader_v1.py
+```
+
+---
+
+# SECTION 57 — GRAPH SEARCH ENGINE MODULE
+
+```
+Module: graph_search_v1.py
+Component: GraphSearchPlanner
+Algorithm: Deterministic BFS
+```
+
+```python
+from collections import deque
+
+
+class GraphSearchPlanner:
+
+    def __init__(self, graph: dict):
+        self.graph = graph
+
+    def search(self, start: str, goal: str):
+
+        queue = deque([[start]])
+        visited = set()
+
+        while queue:
+
+            path = queue.popleft()
+            node = path[-1]
+
+            if node == goal:
+                return path
+
+            if node not in visited:
+
+                visited.add(node)
+
+                for neighbor in self.graph.get(node, []):
+
+                    new_path = list(path)
+                    new_path.append(neighbor)
+
+                    queue.append(new_path)
+
+        raise Exception("No path found in capability graph")
+```
+
+---
+
+# SECTION 58 — GOAL MAPPER MODULE
+
+```
+Module: goal_mapper_v1.py
+Component: GoalMapper Γ
+```
+
+```python
+class GoalMapper:
+
+    GOAL_MAP = {
+        "STABILITY": ("phoenix", "analysis"),
+        "DEPLOYMENT": ("factory", "deploy"),
+        "CONTROL": ("axcontrol", "runtime")
+    }
+
+    def resolve(self, goal: dict):
+
+        goal_type = goal["type"]
+
+        if goal_type not in self.GOAL_MAP:
+            raise Exception("Undefined goal type")
+
+        capability, skill = self.GOAL_MAP[goal_type]
+
+        return f"{capability}.{skill}"
+```
+
+---
+
+# SECTION 59 — TASK GRAPH BUILDER MODULE
+
+```
+Module: task_graph_builder_v1.py
+Component: TaskGraphBuilder
+Constraint: Canon phase ordering
+```
+
+```python
+import uuid
+import time
+
+
+class TaskGraphBuilder:
+
+    PHASES = [
+        "origin",
+        "event",
+        "propagation",
+        "observe",
+        "interface",
+        "failure",
+        "boundary"
+    ]
+
+    def build(self, path):
+
+        tasks = []
+        edges = []
+
+        for i, node in enumerate(path):
+
+            capability, skill = node.split(".")
+
+            task_id = f"t{i+1}"
+
+            phase = self.PHASES[min(i, len(self.PHASES)-1)]
+
+            task = {
+                "id": task_id,
+                "phase": phase,
+                "capability": capability,
+                "skill": skill,
+                "input": {}
+            }
+
+            tasks.append(task)
+
+            if i > 0:
+                edges.append({
+                    "from": f"t{i}",
+                    "to": task_id
+                })
+
+        return {
+            "plan_id": str(uuid.uuid4()),
+            "created_at": int(time.time()),
+            "planner_version": "adaptive_v1",
+            "tasks": tasks,
+            "edges": edges
+        }
+```
+
+---
+
+# SECTION 60 — CAPABILITY GRAPH LOADER MODULE
+
+```
+Module: capability_graph_loader_v1.py
+Component: CapabilityGraphLoader
+Source: runtime.db
+```
+
+```python
+class CapabilityGraphLoader:
+
+    def __init__(self, persistence):
+        self.persistence = persistence
+
+    def load(self):
+
+        cursor = self.persistence.conn.cursor()
+
+        cursor.execute(
+            "SELECT from_node, to_node FROM capability_edges"
+        )
+
+        graph = {}
+
+        for row in cursor.fetchall():
+
+            src = row[0]
+            dst = row[1]
+
+            if src not in graph:
+                graph[src] = []
+
+            graph[src].append(dst)
+
+        return graph
+```
+
+---
+
+# SECTION 61 — ADAPTIVE PLANNER ENGINE
+
+```
+Module: adaptive_planner_v1.py
+Component: AdaptivePlannerEngine
+Role: runtime planner Π_adaptive
+```
+
+```python
+from graph_search_v1 import GraphSearchPlanner
+from task_graph_builder_v1 import TaskGraphBuilder
+from goal_mapper_v1 import GoalMapper
+from capability_graph_loader_v1 import CapabilityGraphLoader
+
+
+class AdaptivePlannerEngine:
+
+    def __init__(self, persistence):
+
+        self.persistence = persistence
+        self.goal_mapper = GoalMapper()
+        self.builder = TaskGraphBuilder()
+
+        loader = CapabilityGraphLoader(persistence)
+        graph = loader.load()
+
+        self.search_engine = GraphSearchPlanner(graph)
+
+    def build_plan(self, state, goal, context, capabilities):
+
+        start_node = "phoenix.analysis"
+
+        goal_node = self.goal_mapper.resolve(goal)
+
+        path = self.search_engine.search(start_node, goal_node)
+
+        plan = self.builder.build(path)
+
+        return plan
+```
+
+---
+
+# SECTION 62 — PLANNER SERVICE INTEGRATION
+
+```
+Component: planner_service_v2
+Planner: AdaptivePlannerEngine
+```
+
+```python
+from flask import Flask, request, jsonify
+from adaptive_planner_v1 import AdaptivePlannerEngine
+
+app = Flask(__name__)
+
+planner_engine = AdaptivePlannerEngine(persistence)
+
+
+@app.route("/planner", methods=["POST"])
+def planner():
+
+    payload = request.json
+
+    state = payload["state"]
+    goal = payload["goal"]
+    context = payload.get("context", {})
+    caps = payload["allowed_capabilities"]
+
+    plan = planner_engine.build_plan(
+        state,
+        goal,
+        context,
+        caps
+    )
+
+    return jsonify(plan)
+```
+
+---
+
+# SECTION 63 — RUNTIME INTEGRATION PATCH
+
+```
+Target: runtime_v7.py
+Component: planner replacement
+```
+
+Replace
+
+```
+planner = StaticPlanner()
+```
+
+With
+
+```
+from adaptive_planner_v1 import AdaptivePlannerEngine
+
+planner = AdaptivePlannerEngine(persistence)
+```
+
+---
+
+# SECTION 64 — EXECUTION FLOW WITH ADAPTIVE PLANNER
+
+```
+Ψ_t
+ │
+ ▼
+Goal Γ
+ │
+ ▼
+GoalMapper
+ │
+ ▼
+CapabilityGraphLoader
+ │
+ ▼
+GraphSearchPlanner
+ │
+ ▼
+TaskGraphBuilder
+ │
+ ▼
+PlanEnvelope
+ │
+ ▼
+Canonical Validators
+ │
+ ▼
+Omni Orchestrator
+ │
+ ▼
+Execution
+ │
+ ▼
+Observation Ω
+ │
+ ▼
+Persistence Ω_p
+ │
+ ▼
+Ψ_{t+1}
+```
+
+---
+
+# SECTION 65 — VALIDATION INVARIANTS
+
+```
+Invariant 1
+Plan must remain DAG
+
+Invariant 2
+Phases must follow canonical order
+
+Invariant 3
+All nodes must exist in capability graph
+
+Invariant 4
+Plan hash must remain deterministic
+```
+
+---
+
+# SECTION 66 — ADAPTIVE PLANNER SYSTEM GRAPH
+
+```
+                ┌───────────────────────┐
+                │        Goal Γ         │
+                └────────────┬──────────┘
+                             │
+                             ▼
+                ┌───────────────────────┐
+                │      GoalMapper       │
+                └────────────┬──────────┘
+                             │
+                             ▼
+                ┌───────────────────────┐
+                │ CapabilityGraphLoader │
+                └────────────┬──────────┘
+                             │
+                             ▼
+                ┌───────────────────────┐
+                │   GraphSearchPlanner  │
+                │      Π_adaptive       │
+                └────────────┬──────────┘
+                             │
+                             ▼
+                ┌───────────────────────┐
+                │   TaskGraphBuilder    │
+                └────────────┬──────────┘
+                             │
+                             ▼
+                ┌───────────────────────┐
+                │    Plan Envelope      │
+                └────────────┬──────────┘
+                             │
+                             ▼
+                ┌───────────────────────┐
+                │   Canon Validators    │
+                └────────────┬──────────┘
+                             │
+                             ▼
+                ┌───────────────────────┐
+                │   Omni Orchestrator   │
+                └────────────┬──────────┘
+                             │
+                 ┌───────────┼───────────┐
+                 │           │           │
+           ┌─────▼─────┐ ┌───▼─────┐ ┌───▼─────┐
+           │  Factory  │ │AXControl│ │ Phoenix │
+           └─────┬─────┘ └───┬─────┘ └───┬─────┘
+                 │           │           │
+                 └──────── Execution ────┘
+                             │
+                             ▼
+                ┌───────────────────────┐
+                │    Persistence Ω_p    │
+                └────────────┬──────────┘
+                             │
+                             ▼
+                        Runtime State
+                             │
+                             └──── LOOP
+```
+
+═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+
+# SECTION 67 — SYSTEM ARCHITECTURE DIAGRAM
+
+```
+                    ┌─────────────────────────┐
+                    │        USER (U)         │
+                    └─────────────┬───────────┘
+                                  │
+                                  ▼
+                     ┌─────────────────────────┐
+                     │   TelegramInterface     │
+                     └─────────────┬───────────┘
+                                   │
+                                   ▼
+                     ┌─────────────────────────┐
+                     │     CommandRouter       │
+                     └─────────────┬───────────┘
+                                   │
+                                   ▼
+                     ┌─────────────────────────┐
+                     │      StateManager       │
+                     │        (Ψ_t)            │
+                     └─────────────┬───────────┘
+                                   │
+                                   ▼
+                     ┌─────────────────────────┐
+                     │     PlannerService      │
+                     │           G             │
+                     │    (Stateless Planner)  │
+                     └─────────────┬───────────┘
+                                   │
+                                   ▼
+                     ┌─────────────────────────┐
+                     │      CanonValidator     │
+                     │            V            │
+                     └─────────────┬───────────┘
+                                   │
+                                   ▼
+                     ┌─────────────────────────┐
+                     │     OmniOrchestrator    │
+                     │            Ω            │
+                     └─────────────┬───────────┘
+                                   │
+                     ┌─────────────┼─────────────┐
+                     │             │             │
+                     ▼             ▼             ▼
+             ┌────────────┐ ┌────────────┐ ┌────────────┐
+             │  Factory   │ │ AXControl  │ │  Phoenix   │
+             │     F      │ │     A      │ │     P      │
+             └──────┬─────┘ └──────┬─────┘ └──────┬─────┘
+                    │              │              │
+                    └────── Skill Executors ──────┘
+                                   │
+                                   ▼
+                           ┌────────────┐
+                           │   Observe  │
+                           │   Ψ_{t+1}  │
+                           └────────────┘
+                                   │
+                                   └────── LOOP
+```
+
+---
+
+# SECTION 68 — PLANNER PROTOCOL SPECIFICATION
+
+### Endpoint
+
+```
+POST /planner
+```
+
+### Request Contract
+
+```
+Input :=
+⟨Ψ , Goal , Context , AllowedCapabilities⟩
+```
+
+### Request JSON
+
+```json
+{
+  "state": {},
+  "goal": {
+    "type": "STABILITY",
+    "target": "system"
+  },
+  "context": {},
+  "allowed_capabilities": [
+    "factory",
+    "axcontrol",
+    "phoenix"
+  ]
+}
+```
+
+### Response Contract
+
+```
+Output := Plan DAG
+```
+
+Response JSON
+
+```json
+{
+  "plan_id": "uuid",
+  "tasks": [],
+  "edges": []
+}
+```
+
+---
+
+# SECTION 69 — JSON SCHEMAS
+
+## Planner Input Schema
+
+```json
+{
+  "type": "object",
+  "required": [
+    "state",
+    "goal",
+    "allowed_capabilities"
+  ],
+  "properties": {
+
+    "state": {
+      "type": "object"
+    },
+
+    "goal": {
+      "type": "object",
+      "required": ["type"],
+      "properties": {
+        "type": { "type": "string" },
+        "target": { "type": "string" }
+      }
+    },
+
+    "context": {
+      "type": "object"
+    },
+
+    "allowed_capabilities": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}
+```
+
+---
+
+## SECTION 70 — TASK SCHEMA
+
+```json
+{
+  "type": "object",
+  "required": [
+    "id",
+    "phase",
+    "capability",
+    "skill",
+    "input"
+  ],
+  "properties": {
+
+    "id": { "type": "string" },
+
+    "phase": {
+      "type": "string",
+      "enum": [
+        "origin",
+        "event",
+        "propagation",
+        "observe",
+        "interface",
+        "failure",
+        "boundary"
+      ]
+    },
+
+    "capability": { "type": "string" },
+
+    "skill": { "type": "string" },
+
+    "input": { "type": "object" }
+
+  }
+}
+```
+
+---
+
+## SECTION 71 — PLAN SCHEMA
+
+```json
+{
+  "type": "object",
+  "required": [
+    "plan_id",
+    "tasks",
+    "edges"
+  ],
+  "properties": {
+
+    "plan_id": {
+      "type": "string"
+    },
+
+    "tasks": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/task" }
+    },
+
+    "edges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["from","to"],
+        "properties": {
+          "from": { "type": "string" },
+          "to": { "type": "string" }
+        }
+      }
+    }
+
+  }
+}
+```
+
+---
+
+# SECTION 72 — PYTHON PLANNER SERVICE
+
+```python
+from flask import Flask, request, jsonify
+from adaptive_planner_v1 import AdaptivePlannerEngine
+
+app = Flask(__name__)
+
+planner = AdaptivePlannerEngine()
+
+
+@app.route("/planner", methods=["POST"])
+def planner_endpoint():
+
+    payload = request.json
+
+    state = payload["state"]
+    goal = payload["goal"]
+    context = payload.get("context", {})
+    allowed = payload["allowed_capabilities"]
+
+    plan = planner.build_plan(
+        state,
+        goal,
+        context,
+        allowed
+    )
+
+    return jsonify(plan)
+
+
+if __name__ == "__main__":
+    app.run(port=8080)
+```
+
+---
+
+# SECTION 73 — CANON VALIDATOR
+
+```python
+class CanonValidator:
+
+    PHASES = [
+        "origin",
+        "event",
+        "propagation",
+        "observe",
+        "interface",
+        "failure",
+        "boundary"
+    ]
+
+    def validate(self, plan):
+
+        task_ids = {t["id"] for t in plan["tasks"]}
+
+        for e in plan["edges"]:
+
+            if e["from"] not in task_ids:
+                raise Exception("Invalid edge source")
+
+            if e["to"] not in task_ids:
+                raise Exception("Invalid edge target")
+
+        phases = [t["phase"] for t in plan["tasks"]]
+
+        last_index = -1
+
+        for p in phases:
+
+            idx = self.PHASES.index(p)
+
+            if idx < last_index:
+                raise Exception("Phase order violation")
+
+            last_index = idx
+
+        return True
+```
+
+---
+
+# SECTION 74 — RUNTIME CONTROL LOOP
+
+```python
+class RuntimeKernel:
+
+    def __init__(self, planner, validator, orchestrator, state_manager):
+
+        self.planner = planner
+        self.validator = validator
+        self.orchestrator = orchestrator
+        self.state_manager = state_manager
+
+
+    def run(self, goal):
+
+        while True:
+
+            state = self.state_manager.get_state()
+
+            plan = self.planner.build_plan(
+                state,
+                goal,
+                {},
+                ["factory","axcontrol","phoenix"]
+            )
+
+            self.validator.validate(plan)
+
+            self.orchestrator.execute(plan)
+
+            new_state = self.state_manager.observe()
+
+            if new_state.get("goal_achieved"):
+                break
+```
+
+---
+
+# SECTION 75 — OMNI ORCHESTRATOR INTEGRATION
+
+```python
+class OmniOrchestrator:
+
+    def __init__(self, capability_graph):
+        self.capability_graph = capability_graph
+
+    def execute(self, plan):
+
+        tasks = {t["id"]: t for t in plan["tasks"]}
+
+        for task in plan["tasks"]:
+
+            capability = task["capability"]
+            skill = task["skill"]
+            payload = task["input"]
+
+            executor = self.capability_graph.get_executor(capability)
+
+            executor.run(skill, payload)
+```
+
+---
+
+# SECTION 76 — COMPLETE RUNTIME EQUATION
+
+```
+Ψ_t
+ │
+ ▼
+PlannerService (Π_plan)
+ │
+ ▼
+Plan DAG τ
+ │
+ ▼
+CanonValidator (V)
+ │
+ ▼
+OmniOrchestrator (Ω)
+ │
+ ▼
+SkillExecutors
+ │
+ ▼
+Observation
+ │
+ ▼
+Ψ_{t+1}
+ │
+ └──── LOOP UNTIL GoalReached
+```
+
+---
+
+# SECTION 77 — SYSTEM PROPERTY
+
+```
+DeterministicRuntime = True
+
+PlannerStateless = True
+
+ExecutionExternalized = True
+
+RuntimeClosedLoop = True
+```
+
+---
+
+# SECTION 78 — CONCLUSION
+
+```
+Σ_APΩ
+Deterministic Runtime Planning System
+Canonical Architecture
+```

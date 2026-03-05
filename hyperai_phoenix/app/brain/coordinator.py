@@ -1,3 +1,8 @@
+# Σ_APΩ₂ CORE MODULE
+# Authority: BỐ CƯỐNG Supreme System Commander
+# Creator: alpha_prime_omega (4287)
+# Status: CANONICAL
+
 """
 HyperAI Phoenix - Meta-Optimization Coordinator
 Central orchestration with state machine and queue-based communication

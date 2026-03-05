@@ -1,25 +1,10 @@
-"""
-HyperAI Phoenix - Brain Module
-Central AI processing and decision-making modules
-"""
+# Σ_APΩ₂ CORE MODULE
+# Authority: BỐ CƯỐNG Supreme System Commander
+# Creator: alpha_prime_omega (4287)
+# Status: CANONICAL
 
-from .coordinator import MetaOptimizationCoordinator
-from .memory import MemoryEngine
-from .thinker import StrategicThinker
-from .improver import SelfImprover
-from .narrator import SystemNarrator, narrator
-from .system_observer import SystemObserver, observer
-from .tool_registry import ToolRegistry, TOOL_REGISTRY
-
-__all__ = [
-    'MetaOptimizationCoordinator',
-    'MemoryEngine',
-    'StrategicThinker',
-    'SelfImprover',
-    'SystemNarrator',
-    'narrator',
-    'SystemObserver',
-    'observer',
-    'ToolRegistry',
-    'TOOL_REGISTRY'
-]
+"""
+Σ_APΩ₂ NEURAL NODE
+Authority: BỐ CƯỜNG Supreme System Commander
+Status: ASSIMILATED
+"""

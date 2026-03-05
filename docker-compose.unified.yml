@@ -1,0 +1,65 @@
+version: "3.9"
+services:
+  aios-kernel:
+    build:
+      context: ./factory
+      dockerfile: Dockerfile.kernel
+    container_name: aios-kernel
+    environment:
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - JWT_SECRET=${JWT_SECRET}
+    volumes:
+      - taskbus:/taskbus
+      - logs:/logs
+    networks:
+      - aios-net
+    restart: unless-stopped
+
+  aios-worker:
+    build:
+      context: ./factory
+    container_name: aios-worker
+    command: python factory_worker.py
+    volumes:
+      - taskbus:/taskbus
+      - logs:/logs
+    networks:
+      - aios-net
+    restart: unless-stopped
+
+  aios-router:
+    build:
+      context: ./factory/mcp-router
+    container_name: aios-router
+    environment:
+      - NODE_ENV=production
+    networks:
+      - aios-net
+
+  aios-postgres:
+    image: postgres:15
+    container_name: aios-postgres
+    environment:
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - aios-net
+
+  aios-prometheus:
+    image: prom/prometheus
+    container_name: aios-prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - aios-net
+
+volumes:
+  taskbus:
+  logs:
+  pgdata:
+
+networks:
+  aios-net:
+    driver: bridge

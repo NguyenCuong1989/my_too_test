@@ -1,0 +1,23 @@
+#!/bin/bash
+# Omni Command Line Interface (AI OS 2.0)
+# Cách dùng: ./omni <tên_skill> <payload>
+
+if [ -z "$1" ]; then
+    echo "⚡ OMNI CLI - The Ultimate Invoker"
+    echo "Usage: ./omni <skill_name> '<payload_string_or_json>'"
+    echo "Example: ./omni shortest_path_navigation_engine '{\"start\": \"A\", \"goal\": \"B\"}'"
+    exit 1
+fi
+
+SKILL=$1
+PAYLOAD=$2
+
+# Gói gọn thành JSON chuẩn và bắn vào Orchestrator
+JSON_DATA="{\"skill\": \"$SKILL\", \"payload\": $PAYLOAD}"
+
+# Nếu payload không phải là valid JSON (ví dụ là một đường dẫn string), hãy bọc nó trong chuỗi
+if ! echo "$PAYLOAD" | jq . >/dev/null 2>&1; then
+    JSON_DATA="{\"skill\": \"$SKILL\", \"payload\": \"$PAYLOAD\"}"
+fi
+
+python3 /Users/andy/my_too_test/omni_orchestrator.py "$JSON_DATA"

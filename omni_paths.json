@@ -1,0 +1,9 @@
+[
+  "factory/tools",
+  "axcontrol/core/tools",
+  "axcontrol/tools",
+  "hyperai_phoenix/app/brain/tools",
+  "autonomous_operator/nodes",
+  "/Users/andy/factory/tools",
+  "/Users/andy/my_too_test/tests"
+]
