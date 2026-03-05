@@ -1,0 +1,25 @@
+🧬 [APΩ] ANALYZING MACHINE GENOME: /Users/andy/.gemini/antigravity/brain/d5cc148e-bc23-4310-b4a8-bc292edee330/anti_gravity.apo
+📊 Format: APOV v1 | Total Facts: 946
+
+📡 [AXIS RESONANCE] (Top Activities)
+- SIM: 313 logic blocks (33.09%)
+- MEMORY: 156 logic blocks (16.49%)
+- APP: 156 logic blocks (16.49%)
+- OPS: 84 logic blocks (8.88%)
+- AUDIT: 80 logic blocks (8.46%)
+
+🧠 [LOGICAL DNA CLUSTERS] (Most Frequent States)
+- FactID[310]: Axis CORE | State 54 (Freq: 77)
+- FactID[184]: Axis APP | State 56 (Freq: 77)
+- FactID[133]: Axis APP | State 05 (Freq: 77)
+- FactID[413]: Axis AUDIT | State 29 (Freq: 77)
+- FactID[338]: Axis OPS | State 18 (Freq: 77)
+
+⛓️ [SENSORY LOOPS] (Top Predicted Transitions)
+- CORE(54) --> APP(56) | Freq: 77
+- APP(56) --> APP(5) | Freq: 77
+- APP(5) --> AUDIT(29) | Freq: 77
+- AUDIT(29) --> OPS(18) | Freq: 77
+- OPS(18) --> MEMORY(60) | Freq: 77
+
+✨ CONCLUSION: The Genome at /Users/andy/.gemini/antigravity/brain/d5cc148e-bc23-4310-b4a8-bc292edee330/anti_gravity.apo shows high deterministic density.
