@@ -64,8 +64,8 @@ Resource balancing and load distribution across the cluster.
 ### Docker (Recommended)
 
 ```bash
-# Clone the repository
-git clone https://github.com/NguyenCuong1989/my_too_test.git
+# Clone the repository (including submodules)
+git clone --recurse-submodules https://github.com/NguyenCuong1989/my_too_test.git
 cd my_too_test
 
 # Configure environment
