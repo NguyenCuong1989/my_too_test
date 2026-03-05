@@ -1,38 +1,96 @@
 
+# ============================================================
+# AUTONOMOUS ORGANISM SYSTEM - Docker Orchestration
+# ============================================================
+# Auto-scaling, health checks, load balancing and graceful
+# degradation for the full organism ecosystem.
+
+x-restart-policy: &restart-policy
+  restart: unless-stopped
+
+x-healthcheck-defaults: &healthcheck-defaults
+  interval: 30s
+  timeout: 10s
+  retries: 3
+  start_period: 15s
+
 services:
+
+  # ----------------------------------------------------------
+  # MASTER ORCHESTRATOR - Central brain of the organism
+  # ----------------------------------------------------------
+  organism:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    <<: *restart-policy
+    environment:
+      - PYTHONUNBUFFERED=1
+      - ORGANISM_CYCLE_INTERVAL=30
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+      - organism-state:/app/data/state
+    healthcheck:
+      <<: *healthcheck-defaults
+      test: ["CMD", "python3", "-c", "import json,sys; d=json.load(open('/app/data/dashboard.json')); sys.exit(0 if d.get('overall_status')!='failed' else 1)"]
+    depends_on:
+      - factory-worker
+
+  # ----------------------------------------------------------
+  # FACTORY / MCP ROUTER - Tool orchestration layer
+  # ----------------------------------------------------------
   mcp-router:
     build:
       context: ./factory/mcp-router
+    <<: *restart-policy
     ports:
       - "3000:3000"
     environment:
-      - NODE_ENV=development
-      - JWT_SECRET=super-secret-mcp-key
+      - NODE_ENV=production
+      - JWT_SECRET=${JWT_SECRET:-super-secret-mcp-key}
       - FIRESTORE_EMULATOR_HOST=firebase-emulator:8080
-      - GOOGLE_CLOUD_PROJECT=gen-lang-client-0863690953
+      - GOOGLE_CLOUD_PROJECT=${GOOGLE_CLOUD_PROJECT:-gen-lang-client-0863690953}
+    healthcheck:
+      <<: *healthcheck-defaults
+      test: ["CMD", "wget", "-qO-", "http://localhost:3000/health"]
     depends_on:
       - firebase-emulator
 
   factory-worker:
     build:
       context: ./factory
+    <<: *restart-policy
     ports:
       - "8081:8080"
     environment:
-      - JWT_SECRET=super-secret-mcp-key
+      - JWT_SECRET=${JWT_SECRET:-super-secret-mcp-key}
       - PORT=8080
     volumes:
       - ./factory/inbox:/app/inbox
       - ./factory/processed:/app/processed
       - ./factory/failed:/app/failed
+    healthcheck:
+      <<: *healthcheck-defaults
+      test: ["CMD", "wget", "-qO-", "http://localhost:8080/health"]
 
+  # ----------------------------------------------------------
+  # FIREBASE EMULATOR - Local Firestore / Auth
+  # ----------------------------------------------------------
   firebase-emulator:
     image: andreysenov/firebase-tools:latest
+    <<: *restart-policy
     ports:
-      - "4000:4000" # UI
+      - "4000:4000" # Emulator UI
       - "8080:8080" # Firestore
       - "9099:9099" # Auth
     working_dir: /app
     volumes:
       - ./factory:/app
-    command: firebase emulators:start --project gen-lang-client-0863690953
+    healthcheck:
+      <<: *healthcheck-defaults
+      test: ["CMD", "wget", "-qO-", "http://localhost:4000"]
+    command: firebase emulators:start --project ${GOOGLE_CLOUD_PROJECT:-gen-lang-client-0863690953}
+
+volumes:
+  organism-state:

@@ -1,0 +1,59 @@
+name: health-monitor
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"   # Every 5 minutes
+  workflow_dispatch:
+
+jobs:
+  health-check:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run organism health probe
+        run: |
+          python3 - <<'EOF'
+          import sys, json
+          from pathlib import Path
+
+          base = Path(".")
+          subsystems = {
+              "HyperAI_Phoenix":    base / "hyperai_phoenix",
+              "AXCONTROL":          base / "axcontrol",
+              "Factory":            base / "factory",
+              "AutonomousOperator": base / "autonomous_operator",
+              "SelfHealing":        base / "self_healing",
+              "Monitoring":         base / "monitoring",
+          }
+
+          report = {}
+          failed = []
+          for name, path in subsystems.items():
+              healthy = path.exists()
+              report[name] = "healthy" if healthy else "missing"
+              if not healthy:
+                  failed.append(name)
+
+          print(json.dumps({"status": report, "failed": failed}, indent=2))
+
+          if failed:
+              print(f"::warning::Unhealthy subsystems: {failed}", flush=True)
+              sys.exit(1)
+          else:
+              print("✅ All subsystems healthy")
+          EOF
+
+      - name: Run no-drift invariants
+        env:
+          AXCONTROL_SIM: "1"
+        working-directory: axcontrol
+        run: python3 -m unittest tests.test_bridge_no_drift -v

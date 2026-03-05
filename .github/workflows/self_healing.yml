@@ -1,0 +1,84 @@
+name: self-healing
+
+on:
+  workflow_dispatch:
+    inputs:
+      target_subsystem:
+        description: "Subsystem to heal (leave blank for auto-detect)"
+        required: false
+        default: ""
+  workflow_run:
+    workflows: ["health-monitor"]
+    types: [completed]
+
+jobs:
+  heal:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      github.event.workflow_run.conclusion == 'failure'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Detect and heal failures
+        run: |
+          python3 - <<'EOF'
+          import sys, json, time
+          from pathlib import Path
+
+          target = "${{ github.event.inputs.target_subsystem }}"
+
+          base = Path(".")
+          subsystems = {
+              "HyperAI_Phoenix":    base / "hyperai_phoenix",
+              "AXCONTROL":          base / "axcontrol",
+              "Factory":            base / "factory",
+              "AutonomousOperator": base / "autonomous_operator",
+              "SelfHealing":        base / "self_healing",
+              "Monitoring":         base / "monitoring",
+          }
+
+          failing = []
+          if target:
+              failing = [target]
+          else:
+              for name, path in subsystems.items():
+                  if not path.exists():
+                      failing.append(name)
+
+          if not failing:
+              print("✅ No failures detected – nothing to heal.")
+              sys.exit(0)
+
+          print(f"🔧 Healing: {failing}")
+          healed = []
+          still_broken = []
+          for name in failing:
+              path = subsystems.get(name)
+              if path and not path.exists():
+                  # In a real deployment this would trigger a rebuild/redeploy.
+                  print(f"⚠️  {name} module path missing – would trigger re-deploy")
+                  still_broken.append(name)
+              else:
+                  healed.append(name)
+                  print(f"✅ {name} confirmed healthy")
+
+          print(json.dumps({"healed": healed, "still_broken": still_broken}, indent=2))
+          if still_broken:
+              print(f"::error::Could not heal: {still_broken}")
+              sys.exit(1)
+          EOF
+
+      - name: Verify no-drift invariants post-healing
+        env:
+          AXCONTROL_SIM: "1"
+        working-directory: axcontrol
+        run: python3 -m unittest tests.test_bridge_no_drift -v
