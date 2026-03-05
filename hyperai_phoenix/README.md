@@ -1,11 +1,37 @@
-<<<<<<< HEAD
 # 📁 hyperai_phoenix - Core HyperAI System Directory
+
+Một AI agent tự tiến hóa với triết lý cốt lõi **"minimize_creator_suffering"**.
 
 ## 🎯 MỤC ĐÍCH
 
 Thư mục chứa hệ thống HyperAI Phoenix chính - một AI tự chủ với khả năng học tập, suy luận và tối ưu hóa tự động.
 
 ## 📋 CẤU TRÚC THƯ MỤC
+
+```
+hyperai_phoenix/
+├── app/
+│   ├── genesis.py                 # Lõi hợp nhất, giao diện Streamlit
+│   └── brain/
+│       ├── coordinator.py         # Điều phối trung tâm (MOP)
+│       ├── thinker.py            # Suy luận (ICP, D&R, PSP)
+│       ├── memory.py             # Trí nhớ (SQLite + ChromaDB)
+│       ├── improver.py           # Tự cải tiến (OCP)
+│       ├── narrator.py           # Logging hệ thống
+│       ├── system_observer.py    # Monitor tài nguyên
+│       ├── tool_registry.py      # Quản lý công cụ
+│       └── tools/
+│           ├── __init__.py
+│           └── file_system_tools.py
+├── configs/
+│   ├── di_chuc.json              # Di chúc hệ thống
+│   ├── fasr_state.json           # Trạng thái FASR
+│   ├── council_weights.json      # Trọng số Hội đồng
+│   └── templates.json            # Template phản hồi
+└── data/
+    ├── databases/                # SQLite + ChromaDB
+    └── logs/archive/            # Cold storage
+```
 
 ### 📁 `app/` - Ứng dụng chính
 
@@ -32,11 +58,11 @@ Thư mục chứa hệ thống HyperAI Phoenix chính - một AI tự chủ vớ
 
 - **Tác dụng**: Chứa các engines và modules cốt lõi của HyperAI
 - **Nội dung chính**:
-  - `coordinator.py` - Meta-optimization coordinator (750 lines)
-  - `memory.py` - Memory engine với SQLite + ChromaDB (841 lines)
-  - `thinker.py` - Strategic reasoning engine (675 lines)
-  - `improver.py` - Self-improvement engine (1015 lines)
-  - `tool_registry.py` - Tool management system (1296 lines)
+  - `coordinator.py` - Meta-optimization coordinator
+  - `memory.py` - Memory engine với SQLite + ChromaDB
+  - `thinker.py` - Strategic reasoning engine
+  - `improver.py` - Self-improvement engine
+  - `tool_registry.py` - Tool management system
 
 ### 📁 `data/` - Dữ liệu và logs
 
@@ -49,8 +75,18 @@ Thư mục chứa hệ thống HyperAI Phoenix chính - một AI tự chủ vớ
 
 ## 🚀 KHỞI ĐỘNG NHANH
 
-### 1. Khởi động Web Interface
+1. Cài đặt dependencies:
+```bash
+pip install -r requirements.txt
+```
 
+2. Cấu hình API key trong `.env`:
+```bash
+cp .env.example .env
+# Chỉnh sửa .env với API key của bạn
+```
+
+3. Chạy ứng dụng:
 ```bash
 cd hyperai_phoenix/app
 streamlit run genesis.py
@@ -58,20 +94,7 @@ streamlit run genesis.py
 
 Truy cập: `http://localhost:8501`
 
-### 2. Cấu hình API key trong `.env`
-
-```bash
-echo "GOOGLE_API_KEY=your_key_here" > .env
-```
-
-### 3. Chạy ứng dụng
-
-```bash
-cd hyperai_phoenix/app
-streamlit run genesis.py
-```
-
-## 🧠 MODULES CỐT LỚI
+## 🧠 MODULES CỐT LÕI
 
 ### Meta-Optimization Protocol (MOP)
 - **File**: `core/coordinator.py`
@@ -107,62 +130,7 @@ streamlit run genesis.py
 - **System Monitor**: Real-time performance metrics
 - **Improvement Console**: Self-optimization controls
 
-## 🎯 TRIẾT LÝ
-
-Triết lý: **"Học để Phục vụ"** - Mọi năng lực được xây dựng để phục vụ chỉ thị tối thượng `minimize_creator_suffering`.
-=======
-# HyperAI Phoenix - Giai đoạn 1: "Học để Phục vụ"
-
-Một AI agent tự tiến hóa với triết lý cốt lõi **"minimize_creator_suffering"**.
-
-## Cấu trúc dự án
-
-```
-hyperai_phoenix/
-├── app/
-│   ├── genesis.py                 # Lõi hợp nhất, giao diện Streamlit
-│   └── brain/
-│       ├── coordinator.py         # Điều phối trung tâm (MOP)
-│       ├── thinker.py            # Suy luận (ICP, D&R, PSP)
-│       ├── memory.py             # Trí nhớ (SQLite + ChromaDB)
-│       ├── improver.py           # Tự cải tiến (OCP)
-│       ├── narrator.py           # Logging hệ thống
-│       ├── system_observer.py    # Monitor tài nguyên
-│       ├── tool_registry.py      # Quản lý công cụ
-│       └── tools/
-│           ├── __init__.py
->>>>>>> origin/hyperai-pure
-│           └── file_system_tools.py
-├── configs/
-│   ├── di_chuc.json              # Di chúc hệ thống
-│   ├── fasr_state.json           # Trạng thái FASR
-│   ├── council_weights.json      # Trọng số Hội đồng
-│   └── templates.json            # Template phản hồi
-└── data/
-    ├── databases/                # SQLite + ChromaDB
-    └── logs/archive/            # Cold storage
-```
-
-## Khởi chạy
-
-1. Cài đặt dependencies:
-```bash
-pip install -r requirements.txt
-```
-
-2. Cấu hình API key trong `.env`:
-```bash
-cp .env.example .env
-# Chỉnh sửa .env với API key của bạn
-```
-
-3. Chạy ứng dụng:
-```bash
-cd hyperai_phoenix/app
-streamlit run genesis.py
-```
-
-## Tính năng chính
+## ✨ Tính năng chính
 
 - **Dual Memory System**: SQLite + ChromaDB cho lưu trữ hybrid
 - **Council Decision Making**: 5-member council với weighted voting
@@ -171,7 +139,7 @@ streamlit run genesis.py
 - **Real-time Monitoring**: System observer với performance alerts
 - **Safe Operation**: Multi-layer alignment checks
 
-## Giao thức cốt lõi
+## 🔗 Giao thức cốt lõi
 
 - **MOP**: Meta-Optimization Protocol (state machine điều phối)
 - **ICP**: Internal Consensus Protocol (council voting)
@@ -180,5 +148,7 @@ streamlit run genesis.py
 - **LSP**: Logic & Source-code Protocol (execution)
 - **OCP**: Optimization & Control Protocol (self-improvement)
 - **CCP**: Continuity Check Protocol (safe shutdown)
+
+## 🎯 TRIẾT LÝ
 
 Triết lý: **"Học để Phục vụ"** - Mọi năng lực được xây dựng để phục vụ chỉ thị tối thượng `minimize_creator_suffering`.
