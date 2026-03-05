@@ -5,3 +5,15 @@ logs/
 data/
 dist/
 build/
+
+# Coverage & test reports
+htmlcov/
+coverage.xml
+.coverage
+.coverage.*
+
+# Security scan reports
+bandit-report.json
+pip-audit-report.json
+safety-report.json
+trivy-results.sarif
