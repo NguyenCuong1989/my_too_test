@@ -1,0 +1,5 @@
+{
+    "status": "FAILED",
+    "output": "Traceback (most recent call last):\n  File \"/Users/andy/my_too_test/factory/verify_ace.py\", line 5, in <module>\n    from jose import jwt\nModuleNotFoundError: No module named 'jose'\n",
+    "task_id": "test_resolution_001"
+}

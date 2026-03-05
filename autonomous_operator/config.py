@@ -78,4 +78,4 @@ WP_CLIENT_SECRET = get_secret(BASE_DIR / ".wp_client_secret.txt")
 PORTAL_WIKI_DB_ID = get_secret(BASE_DIR / ".portal_wiki_db_id.txt")
 
 # --- APΩ TELEGRAM CONDUIT (Axis 1) ---
-TELEGRAM_BOT_TOKEN = "8524726075:AAGY5oaqoZv1lOCCP-cUDmRCkpAJUHA8ToI"
+TELEGRAM_BOT_TOKEN = "8524726075:AAE2LB7rshE4hMyBrA5WjGFJvErZ2ml92mE"

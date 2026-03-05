@@ -1,0 +1,12 @@
+services:
+  antigravity-runtime:
+    build:
+      context: .
+      dockerfile: Dockerfile.antigravity
+    container_name: antigravity-runtime
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+    # Ensure logs and task bus persist
+    restart: unless-stopped

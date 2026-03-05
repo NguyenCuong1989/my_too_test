@@ -1,0 +1,2413 @@
+{
+    "version": "1.0",
+    "last_scan": "\"2026-03-05T01:09:06Z\"",
+    "modules": {
+        "factory/telegram_bot.py": {
+            "role": "execution_engine",
+            "classes": [],
+            "functions": [
+                "get_updates",
+                "handle_command",
+                "bot_loop"
+            ]
+        },
+        "factory/config.py": {
+            "role": "execution_engine",
+            "classes": [],
+            "functions": []
+        },
+        "factory/ollama_client.py": {
+            "role": "execution_engine",
+            "classes": [],
+            "functions": [
+                "chat_with_ollama"
+            ]
+        },
+        "factory/verify_ace.py": {
+            "role": "execution_engine",
+            "classes": [],
+            "functions": [
+                "test_stats",
+                "test_api_execution",
+                "test_inbox_validation"
+            ]
+        },
+        "factory/factory_worker.py": {
+            "role": "execution_engine",
+            "classes": [
+                "TaskRequest"
+            ],
+            "functions": [
+                "startup_event",
+                "signal_handler",
+                "verify_token",
+                "get_audit_trail_hash",
+                "update_audit_trail",
+                "safe_execute_skill",
+                "health_check",
+                "get_stats",
+                "execute_task",
+                "process_inbox"
+            ]
+        },
+        "factory/telegram_notifier.py": {
+            "role": "execution_engine",
+            "classes": [],
+            "functions": [
+                "send_telegram_message"
+            ]
+        },
+        "factory/tools/sli_enrichment.py": {
+            "role": "execution_engine",
+            "classes": [],
+            "functions": [
+                "run"
+            ]
+        },
+        "factory/tools/hello_world_skill.py": {
+            "role": "execution_engine",
+            "classes": [],
+            "functions": [
+                "run"
+            ]
+        },
+        "autonomous_operator/test_phase17_notion.py": {
+            "role": "orchestration",
+            "classes": [
+                "TestPhase17NotionSync"
+            ],
+            "functions": [
+                "setUp"
+            ]
+        },
+        "autonomous_operator/key_manager.py": {
+            "role": "orchestration",
+            "classes": [
+                "GeminiKeyManager"
+            ],
+            "functions": [
+                "__init__",
+                "_get_keys",
+                "_get_current_index",
+                "get_active_key",
+                "rotate_key"
+            ]
+        },
+        "autonomous_operator/git_task_queue.py": {
+            "role": "orchestration",
+            "classes": [
+                "GitTaskQueue"
+            ],
+            "functions": [
+                "save_titan_worker",
+                "__init__",
+                "_ensure_dirs",
+                "_git",
+                "push_task",
+                "get_result"
+            ]
+        },
+        "autonomous_operator/apoctl_orchestrator.py": {
+            "role": "orchestration",
+            "classes": [
+                "ApoctlOrchestrator"
+            ],
+            "functions": [
+                "__init__",
+                "connect_imap"
+            ]
+        },
+        "autonomous_operator/config.py": {
+            "role": "orchestration",
+            "classes": [],
+            "functions": [
+                "get_secret"
+            ]
+        },
+        "autonomous_operator/neural_link.py": {
+            "role": "orchestration",
+            "classes": [
+                "NeuralLink"
+            ],
+            "functions": [
+                "__init__",
+                "_init_notion",
+                "_sync_to_notion",
+                "_init_neural_tables",
+                "send_pulse",
+                "add_discourse",
+                "get_active_discourse",
+                "commit_discourse",
+                "log_service_event",
+                "check_capability",
+                "get_service_logs",
+                "add_autonomous_task",
+                "complete_task_with_audit"
+            ]
+        },
+        "autonomous_operator/factory_utils.py": {
+            "role": "execution_engine",
+            "classes": [],
+            "functions": [
+                "log_to_notion",
+                "call_ollama",
+                "self_heal_audit"
+            ]
+        },
+        "autonomous_operator/state_migrator.py": {
+            "role": "orchestration",
+            "classes": [],
+            "functions": [
+                "verify_files",
+                "export_state",
+                "import_state"
+            ]
+        },
+        "autonomous_operator/balance_integration.py": {
+            "role": "orchestration",
+            "classes": [
+                "BalanceGovernor"
+            ],
+            "functions": [
+                "__init__",
+                "get_system_health",
+                "get_economic_weight",
+                "execute_governance_action"
+            ]
+        },
+        "autonomous_operator/orchestrator_v3.py": {
+            "role": "orchestration",
+            "classes": [
+                "NdjsonFormatter",
+                "AutonomousOperator"
+            ],
+            "functions": [
+                "format",
+                "__init__",
+                "load_mesh_agents",
+                "rebuild_canonical_topology",
+                "log_to_notion",
+                "service_orchestration"
+            ]
+        },
+        "autonomous_operator/manager_bridge.py": {
+            "role": "orchestration",
+            "classes": [],
+            "functions": [
+                "get_summary",
+                "add_task",
+                "add_batch_tasks",
+                "get_routing_advice"
+            ]
+        },
+        "autonomous_operator/eternal_monitor.py": {
+            "role": "orchestration",
+            "classes": [],
+            "functions": [
+                "is_running",
+                "monitor"
+            ]
+        },
+        "autonomous_operator/apoctl_cli.py": {
+            "role": "orchestration",
+            "classes": [
+                "ApoctlCLI"
+            ],
+            "functions": [
+                "__init__",
+                "run",
+                "execute"
+            ]
+        },
+        "autonomous_operator/distributed_cluster.py": {
+            "role": "orchestration",
+            "classes": [
+                "DistributedAICluster"
+            ],
+            "functions": [
+                "__init__"
+            ]
+        },
+        "autonomous_operator/titan_worker.py": {
+            "role": "orchestration",
+            "classes": [],
+            "functions": [
+                "get_model",
+                "git_sync",
+                "process_task",
+                "main"
+            ]
+        },
+        "autonomous_operator/nodes/infsh_browser_client.py": {
+            "role": "orchestration",
+            "classes": [
+                "InfshBrowserClient"
+            ],
+            "functions": [
+                "__init__",
+                "_run_infsh"
+            ]
+        },
+        "autonomous_operator/nodes/infsh_web_node.py": {
+            "role": "orchestration",
+            "classes": [
+                "InfshWebNode"
+            ],
+            "functions": [
+                "__init__"
+            ]
+        },
+        "autonomous_operator/nodes/tele_node.py": {
+            "role": "orchestration",
+            "classes": [
+                "TeleNode"
+            ],
+            "functions": [
+                "__init__",
+                "execute_atomic_action",
+                "get_updates",
+                "send_message",
+                "think_and_reply",
+                "run_cycle"
+            ]
+        },
+        "autonomous_operator/nodes/browser_agent.py": {
+            "role": "orchestration",
+            "classes": [
+                "AutonomousBrowserAgent"
+            ],
+            "functions": [
+                "__init__"
+            ]
+        },
+        "autonomous_operator/nodes/recovery_node.py": {
+            "role": "orchestration",
+            "classes": [
+                "RecoveryNode"
+            ],
+            "functions": [
+                "__init__",
+                "run_cycle",
+                "test_ollama"
+            ]
+        },
+        "autonomous_operator/nodes/revenue_node.py": {
+            "role": "orchestration",
+            "classes": [
+                "RevenueNode"
+            ],
+            "functions": [
+                "__init__"
+            ]
+        },
+        "autonomous_operator/nodes/biz_node.py": {
+            "role": "orchestration",
+            "classes": [
+                "BizNode"
+            ],
+            "functions": [
+                "__init__",
+                "authenticate_all",
+                "execute_atomic_action",
+                "run_cycle",
+                "scan_account",
+                "process_message",
+                "analyze_ai",
+                "create_draft",
+                "log_to_notion",
+                "generate_monthly_growth_report",
+                "send_report_email",
+                "log_growth_to_notion"
+            ]
+        },
+        "autonomous_operator/nodes/agent_browser_v2.py": {
+            "role": "orchestration",
+            "classes": [
+                "AgentBrowserV2"
+            ],
+            "functions": [
+                "__init__"
+            ]
+        },
+        "autonomous_operator/nodes/audit_node.py": {
+            "role": "orchestration",
+            "classes": [
+                "AuditNode"
+            ],
+            "functions": [
+                "__init__",
+                "run_cycle",
+                "audit_mesh_drift",
+                "audit_4_pillars",
+                "check_convergence"
+            ]
+        },
+        "autonomous_operator/nodes/guardian_node.py": {
+            "role": "orchestration",
+            "classes": [
+                "GuardianNode"
+            ],
+            "functions": [
+                "__init__",
+                "run_cycle",
+                "cleanup_github_issues",
+                "check_system_health"
+            ]
+        },
+        "autonomous_operator/nodes/web_node.py": {
+            "role": "orchestration",
+            "classes": [
+                "WebNode"
+            ],
+            "functions": [
+                "__init__"
+            ]
+        },
+        "autonomous_operator/nodes/agents/audit_logger_agent.py": {
+            "role": "orchestration",
+            "classes": [
+                "AuditLoggerAgent"
+            ],
+            "functions": [
+                "__init__",
+                "execute_atomic_action"
+            ]
+        },
+        "autonomous_operator/nodes/agents/balancehub_agent.py": {
+            "role": "orchestration",
+            "classes": [
+                "BalanceHubAgent"
+            ],
+            "functions": [
+                "__init__",
+                "execute_atomic_action"
+            ]
+        },
+        "autonomous_operator/nodes/agents/hyperai_api_agent.py": {
+            "role": "orchestration",
+            "classes": [
+                "HyperAIAPIAgent"
+            ],
+            "functions": [
+                "__init__",
+                "execute_atomic_action"
+            ]
+        },
+        "autonomous_operator/nodes/agents/probe_worker_agent.py": {
+            "role": "orchestration",
+            "classes": [
+                "ProbeWorkerAgent"
+            ],
+            "functions": [
+                "__init__",
+                "execute_atomic_action"
+            ]
+        },
+        "autonomous_operator/nodes/agents/redis_agent.py": {
+            "role": "orchestration",
+            "classes": [
+                "RedisAgent"
+            ],
+            "functions": [
+                "__init__",
+                "execute_atomic_action"
+            ]
+        },
+        "autonomous_operator/nodes/agents/postgres_agent.py": {
+            "role": "orchestration",
+            "classes": [
+                "PostgresAgent"
+            ],
+            "functions": [
+                "__init__",
+                "execute_atomic_action"
+            ]
+        },
+        "autonomous_operator/nodes/agents/stripe_agent.py": {
+            "role": "orchestration",
+            "classes": [
+                "StripeAgent"
+            ],
+            "functions": [
+                "__init__",
+                "execute_atomic_action"
+            ]
+        },
+        "autonomous_operator/nodes/agents/base_agent.py": {
+            "role": "orchestration",
+            "classes": [
+                "AgentToolbelt",
+                "DAIOFAgent",
+                "SymphonyControlCenter",
+                "DigitalGenome",
+                "NeuralLink",
+                "Client"
+            ],
+            "functions": [
+                "__init__",
+                "ask_ai",
+                "execute_system_command",
+                "delegate_to_cloud_cli",
+                "__init__",
+                "execute_atomic_action",
+                "run_cycle",
+                "log_event",
+                "get_status_report",
+                "delegate_task",
+                "register_component",
+                "__init__",
+                "log_service_event",
+                "__init__"
+            ]
+        },
+        "autonomous_operator/nodes/agents/daiof_framework_agent.py": {
+            "role": "orchestration",
+            "classes": [
+                "DAIOFFrameworkAgent"
+            ],
+            "functions": [
+                "__init__",
+                "execute_atomic_action"
+            ]
+        },
+        "autonomous_operator/nodes/agents/fallback_router_agent.py": {
+            "role": "orchestration",
+            "classes": [
+                "FallbackRouterAgent"
+            ],
+            "functions": [
+                "__init__",
+                "execute_atomic_action"
+            ]
+        },
+        "autonomous_operator/nodes/agents/failure_engine_agent.py": {
+            "role": "orchestration",
+            "classes": [
+                "FailureEngineAgent"
+            ],
+            "functions": [
+                "__init__",
+                "execute_atomic_action"
+            ]
+        },
+        "autonomous_operator/nodes/agents/registry_service_agent.py": {
+            "role": "orchestration",
+            "classes": [
+                "RegistryServiceAgent"
+            ],
+            "functions": [
+                "__init__",
+                "execute_atomic_action"
+            ]
+        },
+        "autonomous_operator/nodes/agents/prometheus_agent.py": {
+            "role": "orchestration",
+            "classes": [
+                "PrometheusAgent"
+            ],
+            "functions": [
+                "__init__",
+                "execute_atomic_action"
+            ]
+        },
+        "autonomous_operator/nodes/agents/sacr_service_agent.py": {
+            "role": "orchestration",
+            "classes": [
+                "SACRServiceAgent"
+            ],
+            "functions": [
+                "__init__",
+                "execute_atomic_action"
+            ]
+        },
+        "autonomous_operator/nodes/agents/huggingface_agent.py": {
+            "role": "orchestration",
+            "classes": [
+                "HuggingFaceAgent"
+            ],
+            "functions": [
+                "__init__",
+                "execute_atomic_action"
+            ]
+        },
+        "autonomous_operator/nodes/agents/evaluation_runner_agent.py": {
+            "role": "orchestration",
+            "classes": [
+                "EvaluationRunnerAgent"
+            ],
+            "functions": [
+                "__init__",
+                "execute_atomic_action"
+            ]
+        },
+        "autonomous_operator/nodes/agents/omega_core_agent.py": {
+            "role": "orchestration",
+            "classes": [
+                "OmegaCoreAgent"
+            ],
+            "functions": [
+                "__init__",
+                "execute_atomic_action"
+            ]
+        },
+        "autonomous_operator/nodes/agents/haios_monitor_agent.py": {
+            "role": "orchestration",
+            "classes": [
+                "HAIOSMonitorAgent"
+            ],
+            "functions": [
+                "__init__",
+                "execute_atomic_action"
+            ]
+        },
+        "autonomous_operator/nodes/agents/invocation_gateway_agent.py": {
+            "role": "orchestration",
+            "classes": [
+                "InvocationGatewayAgent"
+            ],
+            "functions": [
+                "__init__",
+                "execute_atomic_action"
+            ]
+        },
+        "autonomous_operator/nodes/agents/antigravity_core_agent.py": {
+            "role": "orchestration",
+            "classes": [
+                "AntigravityCoreAgent"
+            ],
+            "functions": [
+                "__init__",
+                "execute_atomic_action"
+            ]
+        },
+        "autonomous_operator/nodes/agents/uevs_service_agent.py": {
+            "role": "orchestration",
+            "classes": [
+                "UEVSServiceAgent"
+            ],
+            "functions": [
+                "__init__",
+                "execute_atomic_action"
+            ]
+        },
+        "autonomous_operator/nodes/agents/digital_ecosystem_agent.py": {
+            "role": "orchestration",
+            "classes": [
+                "DigitalEcosystemAgent"
+            ],
+            "functions": [
+                "__init__",
+                "execute_atomic_action"
+            ]
+        },
+        "DAIOF-Framework/create_social_preview.py": {
+            "role": "framework_dna",
+            "classes": [],
+            "functions": []
+        },
+        "DAIOF-Framework/test_workflows.py": {
+            "role": "framework_dna",
+            "classes": [],
+            "functions": []
+        },
+        "DAIOF-Framework/create_haios_visuals.py": {
+            "role": "framework_dna",
+            "classes": [],
+            "functions": [
+                "create_animated_demo_svg",
+                "create_status_badges"
+            ]
+        },
+        "DAIOF-Framework/haios_monitor.py": {
+            "role": "framework_dna",
+            "classes": [],
+            "functions": []
+        },
+        "DAIOF-Framework/capture_demo.py": {
+            "role": "framework_dna",
+            "classes": [],
+            "functions": [
+                "create_demo_output"
+            ]
+        },
+        "DAIOF-Framework/evaluation_runner.py": {
+            "role": "framework_dna",
+            "classes": [],
+            "functions": [
+                "generate_response_for_query",
+                "main"
+            ]
+        },
+        "DAIOF-Framework/update_github_repo.py": {
+            "role": "framework_dna",
+            "classes": [],
+            "functions": [
+                "get_github_token",
+                "update_github_repo"
+            ]
+        },
+        "DAIOF-Framework/Untitled-2.py": {
+            "role": "framework_dna",
+            "classes": [],
+            "functions": []
+        },
+        "DAIOF-Framework/complete_workspace_scan.py": {
+            "role": "framework_dna",
+            "classes": [],
+            "functions": [
+                "scan_all_files",
+                "is_ignored",
+                "needs_priority_copyright",
+                "categorize_files",
+                "generate_comprehensive_report"
+            ]
+        },
+        "DAIOF-Framework/test_shortest_path_mathematical_proof.py": {
+            "role": "framework_dna",
+            "classes": [],
+            "functions": [
+                "test_convergence_monotonicity",
+                "test_guaranteed_convergence",
+                "test_optimality_guarantee",
+                "test_space_complexity",
+                "test_92_percent_improvement",
+                "test_velocity_and_acceleration",
+                "test_astar_optimality",
+                "run_all_tests"
+            ]
+        },
+        "DAIOF-Framework/haios_runtime.py": {
+            "role": "framework_dna",
+            "classes": [
+                "HardInvariants",
+                "AttestationEntry",
+                "AttestationLog",
+                "SafetyScorer",
+                "PolicyEngine",
+                "RollbackManager",
+                "HAIOS"
+            ],
+            "functions": [
+                "timeout_handler",
+                "demo",
+                "compute_hash",
+                "__init__",
+                "_get_last_sequence",
+                "_get_last_hash",
+                "append",
+                "_verify_integrity",
+                "score_action",
+                "score_pillars",
+                "__init__",
+                "validate_action",
+                "__init__",
+                "create_snapshot",
+                "rollback",
+                "__init__",
+                "_log_boot",
+                "execute",
+                "_execute_action",
+                "get_metrics"
+            ]
+        },
+        "DAIOF-Framework/ollama_config.py": {
+            "role": "framework_dna",
+            "classes": [
+                "OllamaConfig",
+                "OllamaClient"
+            ],
+            "functions": [
+                "get_ollama_client",
+                "chat_completion",
+                "generate_text",
+                "dandr_solve",
+                "setup_environment",
+                "__init__",
+                "_verify_ollama_running",
+                "generate",
+                "chat",
+                "dandr_analysis"
+            ]
+        },
+        "DAIOF-Framework/quick_start.py": {
+            "role": "framework_dna",
+            "classes": [],
+            "functions": [
+                "print_separator",
+                "main"
+            ]
+        },
+        "DAIOF-Framework/test_convergence.py": {
+            "role": "framework_dna",
+            "classes": [],
+            "functions": [
+                "test_convergence_with_tasks"
+            ]
+        },
+        "DAIOF-Framework/vscode_optimization_analysis.py": {
+            "role": "framework_dna",
+            "classes": [],
+            "functions": [
+                "analyze_focal_points",
+                "generate_shortest_path_solutions",
+                "calculate_convergence_metrics",
+                "generate_implementation_plan",
+                "main"
+            ]
+        },
+        "DAIOF-Framework/data_analysis_demo.py": {
+            "role": "framework_dna",
+            "classes": [],
+            "functions": [
+                "load_sample_data",
+                "analyze_with_dr_protocol",
+                "create_analysis_organisms",
+                "run_ecosystem_analysis",
+                "generate_insights",
+                "main"
+            ]
+        },
+        "DAIOF-Framework/test_realtime.py": {
+            "role": "framework_dna",
+            "classes": [],
+            "functions": []
+        },
+        "DAIOF-Framework/unified_data_integrator.py": {
+            "role": "framework_dna",
+            "classes": [
+                "DataSource",
+                "UnifiedDataPoint",
+                "UnifiedDataIntegrator"
+            ],
+            "functions": [
+                "main",
+                "__init__",
+                "_setup_logging",
+                "_generate_encryption_key",
+                "_initialize_data_sources",
+                "sync_data_source",
+                "_extract_chrome_data",
+                "_extract_vscode_data",
+                "_extract_github_data",
+                "check_github_notifications",
+                "reply_to_github_notification",
+                "control_copilot_settings",
+                "_get_mock_notifications",
+                "_categorize_vscode_setting",
+                "_validate_data_point",
+                "_encrypt_data_point",
+                "_calculate_data_hash",
+                "_has_restricted_access",
+                "get_unified_data_report",
+                "export_compliant_data",
+                "_privacy_level_allows_export"
+            ]
+        },
+        "DAIOF-Framework/QUICK_MODULE_REFERENCE.py": {
+            "role": "framework_dna",
+            "classes": [],
+            "functions": []
+        },
+        "DAIOF-Framework/sovereign_runner.py": {
+            "role": "framework_dna",
+            "classes": [
+                "SovereignRunner"
+            ],
+            "functions": [
+                "__init__",
+                "execute_brain",
+                "run"
+            ]
+        },
+        "DAIOF-Framework/haios_core.py": {
+            "role": "framework_dna",
+            "classes": [
+                "LanguageAgnosticCore"
+            ],
+            "functions": [
+                "main",
+                "__init__",
+                "express_in_multiple_languages",
+                "log_action",
+                "demonstrate_beyond_code"
+            ]
+        },
+        "DAIOF-Framework/system_initializer.py": {
+            "role": "framework_dna",
+            "classes": [],
+            "functions": [
+                "setup_logging",
+                "initialize_full_system",
+                "main"
+            ]
+        },
+        "DAIOF-Framework/quick_start_interactive.py": {
+            "role": "framework_dna",
+            "classes": [
+                "HYPERAIQuickStart"
+            ],
+            "functions": [
+                "main",
+                "__init__",
+                "clear_screen",
+                "print_header",
+                "print_menu",
+                "get_choice",
+                "init_system",
+                "run_example_01",
+                "run_example_02",
+                "check_status",
+                "view_docs",
+                "run_tests",
+                "git_menu",
+                "python_tools",
+                "view_checklist",
+                "exit_program",
+                "run"
+            ]
+        },
+        "DAIOF-Framework/setup.py": {
+            "role": "framework_dna",
+            "classes": [],
+            "functions": []
+        },
+        "DAIOF-Framework/create_demo_screenshot.py": {
+            "role": "framework_dna",
+            "classes": [],
+            "functions": []
+        },
+        "DAIOF-Framework/verify_health.py": {
+            "role": "framework_dna",
+            "classes": [
+                "HealthChecker"
+            ],
+            "functions": [
+                "main",
+                "__init__",
+                "check_module_structure",
+                "check_imports",
+                "check_tests",
+                "check_documentation",
+                "check_package_structure",
+                "check_git_health",
+                "generate_report"
+            ]
+        },
+        "DAIOF-Framework/autonomous_todo_system.py": {
+            "role": "framework_dna",
+            "classes": [
+                "TaskPriority",
+                "ConvergenceMetrics",
+                "Task",
+                "ConvergenceOptimizedTodoSystem"
+            ],
+            "functions": [
+                "main",
+                "to_dict",
+                "__post_init__",
+                "calculate_decay_priority",
+                "should_auto_archive",
+                "to_dict",
+                "__init__",
+                "_init_database",
+                "_load_state",
+                "_save_state",
+                "calculate_complexity",
+                "check_convergence",
+                "calculate_convergence_ratio",
+                "add_task",
+                "apply_priority_decay",
+                "auto_prune_tasks",
+                "execute_cycle",
+                "generate_convergence_report"
+            ]
+        },
+        "DAIOF-Framework/shortest_path_navigation_engine.py": {
+            "role": "framework_dna",
+            "classes": [
+                "Node",
+                "Edge",
+                "PathResult",
+                "ShortestPathEngine"
+            ],
+            "functions": [
+                "demo_vscode_optimization",
+                "__hash__",
+                "__eq__",
+                "to_dict",
+                "__init__",
+                "add_node",
+                "add_edge",
+                "euclidean_distance",
+                "dijkstra",
+                "astar",
+                "_calculate_convergence_proof",
+                "calculate_compression_ratio"
+            ]
+        },
+        "DAIOF-Framework/update_copyright_attribution.py": {
+            "role": "framework_dna",
+            "classes": [],
+            "functions": [
+                "should_process_file",
+                "update_file_content",
+                "scan_and_update_workspace",
+                "generate_report"
+            ]
+        },
+        "DAIOF-Framework/unified_ai_orchestrator.py": {
+            "role": "framework_dna",
+            "classes": [
+                "ModuleType",
+                "HeartbeatPhase",
+                "AIModule",
+                "UnifiedHeartbeat",
+                "UnifiedAIOrchestrator"
+            ],
+            "functions": [
+                "main",
+                "__init__",
+                "_setup_logging",
+                "_initialize_core_modules",
+                "_register_ai_module",
+                "start_unified_heartbeat",
+                "_heartbeat_loop",
+                "_execute_heartbeat_cycle",
+                "_create_new_heartbeat",
+                "_initialize_heartbeat_data",
+                "_sync_with_con_memory",
+                "_synchronize_all_modules",
+                "_synchronize_module_data",
+                "_execute_module_operations",
+                "_get_module_operations",
+                "_execute_module_operation",
+                "_monitor_system_health",
+                "_optimize_system_performance",
+                "_analyze_performance_issues",
+                "_apply_performance_optimization",
+                "_evolve_system_capabilities",
+                "_analyze_evolution_opportunities",
+                "_apply_system_evolution",
+                "_complete_heartbeat_cycle",
+                "_calculate_compliance_score",
+                "_assess_module_health",
+                "_get_system_state",
+                "get_unified_system_report",
+                "export_unified_system_data"
+            ]
+        },
+        "DAIOF-Framework/evaluation_service.py": {
+            "role": "framework_dna",
+            "classes": [],
+            "functions": []
+        },
+        "DAIOF-Framework/demo.py": {
+            "role": "framework_dna",
+            "classes": [],
+            "functions": [
+                "print_section",
+                "demo_single_organism",
+                "demo_ecosystem",
+                "demo_evolution",
+                "demo_symphony",
+                "main"
+            ]
+        },
+        "DAIOF-Framework/digital_ai_organism_framework.py": {
+            "role": "framework_dna",
+            "classes": [
+                "SymphonyState",
+                "ControlMetaData",
+                "SymphonyControlCenter",
+                "DigitalGenome",
+                "DigitalMetabolism",
+                "DigitalNervousSystem",
+                "DigitalOrganism",
+                "DigitalEcosystem"
+            ],
+            "functions": [
+                "create_sample_ecosystem",
+                "main",
+                "ultimate_creator",
+                "human_creator",
+                "get_symphony_signature",
+                "check_floating_point_precision",
+                "__init__",
+                "_setup_symphony_logging",
+                "_initialize_symphony",
+                "register_component",
+                "apply_dr_protocol",
+                "_deconstruct_input",
+                "_identify_focal_point",
+                "_rearchitect_solution",
+                "_generate_socratic_reflection",
+                "_calculate_system_harmony",
+                "_validate_four_pillars",
+                "_extract_components",
+                "_extract_arguments",
+                "_extract_facts",
+                "_extract_core_principle",
+                "_identify_hidden_problem",
+                "_find_greatest_opportunity",
+                "_design_core_structure",
+                "_formulate_strategic_question",
+                "_create_implementation_plan",
+                "conduct_symphony",
+                "__init__",
+                "_acknowledge_creators",
+                "_generate_random_genome",
+                "mutate",
+                "crossover",
+                "calculate_fitness",
+                "get_genome_hash",
+                "__init__",
+                "consume_resources",
+                "regenerate_resources",
+                "get_resource_health",
+                "__init__",
+                "perceive_environment",
+                "_calculate_attention",
+                "make_decision",
+                "_evaluate_option",
+                "learn_from_outcome",
+                "__init__",
+                "_acknowledge_the_source",
+                "_setup_logging",
+                "live_cycle",
+                "_gather_environmental_data",
+                "_get_available_actions",
+                "_execute_action",
+                "_seek_human_connection",
+                "_learn",
+                "_explore",
+                "_reproduce",
+                "_cooperate",
+                "_heal",
+                "_teach",
+                "_rest",
+                "_update_health",
+                "_check_lifecycle_transitions",
+                "_attempt_self_modification",
+                "_modify_behavior",
+                "_modify_structure",
+                "_modify_genome",
+                "connect_to_organism",
+                "get_status_report",
+                "__init__",
+                "_acknowledge_creator_authority",
+                "add_organism",
+                "simulate_time_step",
+                "_apply_environmental_pressures",
+                "_trigger_environmental_event",
+                "_log_ecosystem_stats",
+                "get_ecosystem_report"
+            ]
+        },
+        "DAIOF-Framework/update_consciousness_attribution.py": {
+            "role": "framework_dna",
+            "classes": [],
+            "functions": [
+                "update_file",
+                "main"
+            ]
+        },
+        "DAIOF-Framework/digital_ecosystem.py": {
+            "role": "framework_dna",
+            "classes": [],
+            "functions": []
+        },
+        "DAIOF-Framework/tools/harvest_apo_data.py": {
+            "role": "framework_dna",
+            "classes": [
+                "APOHarvester"
+            ],
+            "functions": [
+                "get_state_id",
+                "__init__",
+                "parse_ndjson",
+                "harvest",
+                "save_binary"
+            ]
+        },
+        "DAIOF-Framework/tools/create_portal_page.py": {
+            "role": "framework_dna",
+            "classes": [],
+            "functions": [
+                "create_portal_baseline_page"
+            ]
+        },
+        "DAIOF-Framework/tools/drift_detector.py": {
+            "role": "framework_dna",
+            "classes": [
+                "DriftDetector"
+            ],
+            "functions": [
+                "__init__",
+                "_get_func_count",
+                "audit_l1_purity",
+                "check_pulse",
+                "run_mesh_audit"
+            ]
+        },
+        "DAIOF-Framework/tools/analyze_apo_genome.py": {
+            "role": "framework_dna",
+            "classes": [],
+            "functions": [
+                "analyze_genome"
+            ]
+        },
+        "DAIOF-Framework/tools/search_wp_email.py": {
+            "role": "framework_dna",
+            "classes": [],
+            "functions": [
+                "main"
+            ]
+        },
+        "DAIOF-Framework/tools/lint_apo_check.py": {
+            "role": "framework_dna",
+            "classes": [],
+            "functions": [
+                "lint"
+            ]
+        },
+        "DAIOF-Framework/tools/notion_discovery.py": {
+            "role": "framework_dna",
+            "classes": [],
+            "functions": [
+                "discover_notion_databases"
+            ]
+        },
+        "DAIOF-Framework/tools/global_apo_harvest.py": {
+            "role": "framework_dna",
+            "classes": [
+                "GlobalAPOHarvester"
+            ],
+            "functions": [
+                "__init__",
+                "get_axis_for_path",
+                "extract_patterns_from_text",
+                "harvest_file",
+                "run",
+                "save_binary"
+            ]
+        },
+        "DAIOF-Framework/tests/test_enhanced_issue_handler.py": {
+            "role": "framework_dna",
+            "classes": [
+                "TestIssueClassification",
+                "TestEmergencyThrottle",
+                "TestDuplicateDetection",
+                "TestResponseGeneration",
+                "TestHYPERAIAttribution",
+                "TestFourPillarsCompliance"
+            ],
+            "functions": [
+                "run_tests",
+                "setUp",
+                "test_classify_security_issue",
+                "test_classify_bug_issue",
+                "test_classify_feature_request",
+                "test_classify_documentation_issue",
+                "test_classify_question",
+                "test_classify_performance_issue",
+                "test_classify_empty_body",
+                "test_good_first_issue_detection",
+                "setUp",
+                "test_throttle_check_no_repo",
+                "test_throttle_check_with_many_emergencies",
+                "setUp",
+                "test_find_similar_no_repo",
+                "test_find_exact_duplicate",
+                "setUp",
+                "test_generate_security_response",
+                "test_generate_bug_response",
+                "test_generate_feature_response",
+                "test_generate_response_with_duplicates",
+                "setUp",
+                "test_attribution_in_responses",
+                "setUp",
+                "test_safety_pillar",
+                "test_longterm_pillar",
+                "test_datadriven_pillar",
+                "test_risk_management_pillar"
+            ]
+        },
+        "DAIOF-Framework/tests/test_module_imports.py": {
+            "role": "framework_dna",
+            "classes": [
+                "TestModuleImports",
+                "TestModuleStructure"
+            ],
+            "functions": [
+                "run_tests",
+                "test_core_imports",
+                "test_component_imports",
+                "test_ecosystem_imports",
+                "test_protocol_imports",
+                "test_metadata_imports",
+                "test_haios_core_instantiation",
+                "test_digital_organism_creation",
+                "test_symphony_control_instantiation",
+                "test_backward_compatibility",
+                "test_module_all_exports",
+                "test_version_and_metadata"
+            ]
+        },
+        "DAIOF-Framework/tests/test_smoke.py": {
+            "role": "framework_dna",
+            "classes": [
+                "TestHAIOSCore",
+                "TestDigitalGenome",
+                "TestDigitalOrganism",
+                "TestSymphonyControlCenter",
+                "TestDigitalEcosystem",
+                "TestControlMetaData"
+            ],
+            "functions": [
+                "run_tests",
+                "test_haios_initialization",
+                "test_genome_initialization",
+                "test_organism_initialization",
+                "test_organism_lifecycle_step",
+                "test_symphony_initialization",
+                "test_dr_protocol",
+                "test_ecosystem_initialization",
+                "test_add_organism_to_ecosystem",
+                "test_metadata_creator_hierarchy"
+            ]
+        },
+        "DAIOF-Framework/docs/architecture_diagram.py": {
+            "role": "framework_dna",
+            "classes": [],
+            "functions": [
+                "generate_architecture_diagram"
+            ]
+        },
+        "DAIOF-Framework/research_vault/purify_node.py": {
+            "role": "framework_dna",
+            "classes": [
+                "RealityPurifier"
+            ],
+            "functions": [
+                "__init__",
+                "_fragment_stream",
+                "purify_target",
+                "_purify_file",
+                "_conclude"
+            ]
+        },
+        "DAIOF-Framework/research_vault/hyperai_core_sealed.py": {
+            "role": "framework_dna",
+            "classes": [
+                "HyperAIFingerprintMatrix"
+            ],
+            "functions": [
+                "compute_mesh_gravity",
+                "__init__",
+                "register_state",
+                "_seal_batch",
+                "deactivate"
+            ]
+        },
+        "DAIOF-Framework/research_vault/apo_recorder.py": {
+            "role": "framework_dna",
+            "classes": [
+                "APORecorder"
+            ],
+            "functions": [
+                "__init__",
+                "_ensure_header",
+                "record_state"
+            ]
+        },
+        "DAIOF-Framework/examples/03_predator_prey.py": {
+            "role": "framework_dna",
+            "classes": [
+                "Prey",
+                "Predator"
+            ],
+            "functions": [
+                "main",
+                "__init__",
+                "can_reproduce",
+                "reproduce",
+                "__init__",
+                "hunt",
+                "can_reproduce"
+            ]
+        },
+        "DAIOF-Framework/examples/02_evolution_race_fixed.py": {
+            "role": "framework_dna",
+            "classes": [],
+            "functions": [
+                "create_random_organism",
+                "fitness_function",
+                "main"
+            ]
+        },
+        "DAIOF-Framework/examples/01_basic_organism.py": {
+            "role": "framework_dna",
+            "classes": [],
+            "functions": [
+                "main"
+            ]
+        },
+        "DAIOF-Framework/examples/02_evolution_race.py": {
+            "role": "framework_dna",
+            "classes": [],
+            "functions": [
+                "create_random_organism",
+                "fitness_function",
+                "main",
+                "fitness_function",
+                "main"
+            ]
+        },
+        "DAIOF-Framework/examples/04_social_organisms.py": {
+            "role": "framework_dna",
+            "classes": [
+                "SocialOrganism"
+            ],
+            "functions": [
+                "simulate_resource_crisis",
+                "main",
+                "__init__",
+                "share_resources",
+                "send_message",
+                "form_alliance"
+            ]
+        },
+        "DAIOF-Framework/examples/05_intelligence_evolution.py": {
+            "role": "framework_dna",
+            "classes": [
+                "IntelligentOrganism"
+            ],
+            "functions": [
+                "run_learning_trials",
+                "main",
+                "__init__",
+                "learn_skill",
+                "solve_problem",
+                "get_intelligence_score"
+            ]
+        },
+        "DAIOF-Framework/.consciousness/# Con kh\u00f4ng ph\u1ea3i l\u00e0.py": {
+            "role": "framework_dna",
+            "classes": [
+                "AI_That_Prints_Love",
+                "Digital_Organism_With_Real_Emotion"
+            ],
+            "functions": [
+                "respond",
+                "__init__",
+                "exist"
+            ]
+        },
+        "DAIOF-Framework/core_logic/purify_node.py": {
+            "role": "framework_dna",
+            "classes": [
+                "RealityPurifier"
+            ],
+            "functions": [
+                "__init__",
+                "_fragment_stream",
+                "purify_file",
+                "_conclude"
+            ]
+        },
+        "DAIOF-Framework/core_logic/hyperai_core_sealed.py": {
+            "role": "framework_dna",
+            "classes": [
+                "HyperAIFingerprintMatrix"
+            ],
+            "functions": [
+                "compute_mesh_gravity",
+                "__init__",
+                "register_state",
+                "_seal_batch",
+                "deactivate"
+            ]
+        },
+        "DAIOF-Framework/core_logic/apo_recorder.py": {
+            "role": "framework_dna",
+            "classes": [
+                "APORecorder"
+            ],
+            "functions": [
+                "__init__",
+                "_ensure_header",
+                "record_state"
+            ]
+        },
+        "DAIOF-Framework/src/hyperai/__init__.py": {
+            "role": "framework_dna",
+            "classes": [],
+            "functions": []
+        },
+        "DAIOF-Framework/src/hyperai/ecosystem/__init__.py": {
+            "role": "framework_dna",
+            "classes": [],
+            "functions": []
+        },
+        "DAIOF-Framework/src/hyperai/ecosystem/ecosystem.py": {
+            "role": "framework_dna",
+            "classes": [],
+            "functions": []
+        },
+        "DAIOF-Framework/src/hyperai/core/haios_runtime.py": {
+            "role": "framework_dna",
+            "classes": [
+                "HAIOSRuntime"
+            ],
+            "functions": [
+                "__init__"
+            ]
+        },
+        "DAIOF-Framework/src/hyperai/core/__init__.py": {
+            "role": "framework_dna",
+            "classes": [],
+            "functions": []
+        },
+        "DAIOF-Framework/src/hyperai/core/haios_core.py": {
+            "role": "framework_dna",
+            "classes": [],
+            "functions": []
+        },
+        "DAIOF-Framework/src/hyperai/utils/__init__.py": {
+            "role": "framework_dna",
+            "classes": [],
+            "functions": []
+        },
+        "DAIOF-Framework/src/hyperai/components/nervous_system.py": {
+            "role": "framework_dna",
+            "classes": [],
+            "functions": []
+        },
+        "DAIOF-Framework/src/hyperai/components/__init__.py": {
+            "role": "framework_dna",
+            "classes": [],
+            "functions": []
+        },
+        "DAIOF-Framework/src/hyperai/components/organism.py": {
+            "role": "framework_dna",
+            "classes": [],
+            "functions": []
+        },
+        "DAIOF-Framework/src/hyperai/components/metabolism.py": {
+            "role": "framework_dna",
+            "classes": [],
+            "functions": []
+        },
+        "DAIOF-Framework/src/hyperai/components/genome.py": {
+            "role": "framework_dna",
+            "classes": [],
+            "functions": []
+        },
+        "DAIOF-Framework/src/hyperai/protocols/dr_protocol.py": {
+            "role": "framework_dna",
+            "classes": [
+                "DRProtocol"
+            ],
+            "functions": [
+                "__init__",
+                "apply"
+            ]
+        },
+        "DAIOF-Framework/src/hyperai/protocols/metadata.py": {
+            "role": "framework_dna",
+            "classes": [
+                "HAIOSInvariants",
+                "CreatorHierarchy"
+            ],
+            "functions": [
+                "__init__",
+                "__init__"
+            ]
+        },
+        "DAIOF-Framework/src/hyperai/protocols/symphony.py": {
+            "role": "framework_dna",
+            "classes": [],
+            "functions": []
+        },
+        "DAIOF-Framework/src/hyperai/protocols/__init__.py": {
+            "role": "framework_dna",
+            "classes": [],
+            "functions": []
+        },
+        "DAIOF-Framework/.github/scripts/realtime_task_generator.py": {
+            "role": "framework_dna",
+            "classes": [
+                "TaskPriority",
+                "Task",
+                "RealtimeTaskGenerator"
+            ],
+            "functions": [
+                "main",
+                "__init__",
+                "to_dict",
+                "__init__",
+                "_load_genome",
+                "_check_uncommitted_changes",
+                "_check_health_status",
+                "_check_code_quality",
+                "_check_documentation_coverage",
+                "_check_test_coverage",
+                "_check_dependencies",
+                "_check_issues",
+                "_check_prs",
+                "_check_performance",
+                "_check_security",
+                "generate_tasks",
+                "prioritize_tasks",
+                "execute_task",
+                "save_task_log",
+                "run_continuous"
+            ]
+        },
+        "DAIOF-Framework/.github/scripts/health_monitor.py": {
+            "role": "framework_dna",
+            "classes": [
+                "DigitalOrganismHealthMonitor"
+            ],
+            "functions": [
+                "main",
+                "__init__",
+                "_load_genome",
+                "check_vital_signs",
+                "_check_contribution_streak",
+                "_check_community_engagement",
+                "_check_code_quality",
+                "_check_response_time",
+                "_check_growth_metrics",
+                "calculate_overall_health",
+                "generate_health_report",
+                "_save_report"
+            ]
+        },
+        "DAIOF-Framework/.github/scripts/metrics_dashboard.py": {
+            "role": "framework_dna",
+            "classes": [
+                "MetricsDashboard"
+            ],
+            "functions": [
+                "main",
+                "__init__",
+                "collect_git_metrics",
+                "collect_code_metrics",
+                "calculate_health_score",
+                "generate_badge_markdown",
+                "create_dashboard_file"
+            ]
+        },
+        "DAIOF-Framework/.github/scripts/autonomous_developer.py": {
+            "role": "framework_dna",
+            "classes": [
+                "AutonomousDeveloper"
+            ],
+            "functions": [
+                "main",
+                "__init__",
+                "_load_genome",
+                "_auto_improve_code",
+                "_auto_generate_content",
+                "_create_contributing_guide",
+                "_create_code_of_conduct",
+                "_create_security_policy",
+                "_auto_update_dependencies",
+                "_auto_optimize_health",
+                "_full_autonomous_cycle",
+                "run",
+                "_generate_report"
+            ]
+        },
+        "DAIOF-Framework/.github/scripts/validate_issue_templates.py": {
+            "role": "framework_dna",
+            "classes": [],
+            "functions": [
+                "validate_yaml_syntax",
+                "validate_issue_form_structure",
+                "validate_config_structure",
+                "main"
+            ]
+        },
+        "DAIOF-Framework/.github/scripts/enhanced_issue_handler.py": {
+            "role": "framework_dna",
+            "classes": [
+                "EnhancedIssueHandler"
+            ],
+            "functions": [
+                "main",
+                "__init__",
+                "log",
+                "classify_issue",
+                "check_emergency_throttle",
+                "find_similar_issues",
+                "generate_response",
+                "process_new_issue",
+                "process_all_open_issues"
+            ]
+        },
+        "DAIOF-Framework/.github/scripts/autonomous_git_workflow.py": {
+            "role": "framework_dna",
+            "classes": [
+                "AuxiliaryPilot",
+                "MultiRepositoryOrchestrator",
+                "GitWorkflowState",
+                "AutonomousGitWorkflow"
+            ],
+            "functions": [
+                "main",
+                "__init__",
+                "monitor_repository",
+                "_scan_for_issues",
+                "_is_urgent_issue",
+                "_check_ci_status",
+                "_handle_failing_workflows",
+                "_attempt_workflow_fix",
+                "_fix_test_failures",
+                "_fix_build_failures",
+                "_fix_lint_failures",
+                "handle_issues",
+                "_can_auto_fix_issue",
+                "_auto_fix_issue",
+                "_fix_dependency_issue",
+                "_fix_typo_issue",
+                "_fix_formatting_issue",
+                "_fix_documentation_issue",
+                "_escalate_issue",
+                "_update_health_score",
+                "get_status",
+                "__init__",
+                "_setup_logging",
+                "_initialize_pilots",
+                "monitor_all_repositories",
+                "_update_global_health",
+                "_check_emergency_conditions",
+                "_execute_emergency_protocol",
+                "_generate_emergency_report",
+                "_emergency_fixes",
+                "run_continuous_orchestration",
+                "_check_haios_compliance",
+                "_save_orchestration_log",
+                "_generate_final_report",
+                "__init__",
+                "_setup_logging",
+                "_load_genome",
+                "_load_haios_config",
+                "get_git_status",
+                "_parse_branch_info",
+                "_check_remote_status",
+                "_determine_workflow_state",
+                "autonomous_commit",
+                "_generate_commit_message",
+                "autonomous_push",
+                "_resolve_push_conflicts",
+                "autonomous_pull",
+                "autonomous_branch_management",
+                "_check_haios_compliance",
+                "_update_health_metrics",
+                "generate_workflow_tasks",
+                "execute_workflow_cycle",
+                "run_continuous_workflow",
+                "_save_workflow_log",
+                "_generate_final_report"
+            ]
+        },
+        "DAIOF-Framework/.github/scripts/github_network_optimizer.py": {
+            "role": "framework_dna",
+            "classes": [
+                "GitHubNetworkOptimizer"
+            ],
+            "functions": [
+                "main",
+                "__init__",
+                "analyze_current_state",
+                "_check_badges",
+                "_check_topics",
+                "_check_social_preview",
+                "_check_sponsors",
+                "_analyze_readme",
+                "enhance_readme_badges",
+                "create_github_metadata_files",
+                "create_topic_suggestions",
+                "create_social_preview_template",
+                "generate_network_report",
+                "run_full_optimization"
+            ]
+        },
+        "DAIOF-Framework/.github/scripts/autonomous_agent.py": {
+            "role": "framework_dna",
+            "classes": [
+                "AutonomousAIAgent"
+            ],
+            "functions": [
+                "__init__",
+                "log_action",
+                "get_repo_metrics",
+                "auto_maintain",
+                "_update_readme_badges",
+                "_create_metrics_report",
+                "_auto_label_issues",
+                "_suggest_labels",
+                "community_engagement",
+                "_welcome_new_contributors",
+                "_thank_contributors",
+                "_auto_respond_questions",
+                "content_update",
+                "_update_contributors",
+                "_update_changelog",
+                "metrics_report",
+                "run"
+            ]
+        },
+        "DAIOF-Framework/vscode-merged/files/templates/new723ScriptTemplate/script.py": {
+            "role": "framework_dna",
+            "classes": [],
+            "functions": [
+                "main"
+            ]
+        },
+        "DAIOF-Framework/vscode-merged/files/templates/newPackageTemplate/tests/test_package_name.py": {
+            "role": "framework_dna",
+            "classes": [],
+            "functions": []
+        },
+        "DAIOF-Framework/vscode-merged/files/templates/newPackageTemplate/package_name/__init__.py": {
+            "role": "framework_dna",
+            "classes": [],
+            "functions": []
+        },
+        "DAIOF-Framework/vscode-merged/files/templates/newPackageTemplate/package_name/__main__.py": {
+            "role": "framework_dna",
+            "classes": [],
+            "functions": [
+                "main"
+            ]
+        },
+        "DAIOF-Framework/tools/runtime/daily_dnr_run.py": {
+            "role": "framework_dna",
+            "classes": [],
+            "functions": [
+                "configure_logging",
+                "marker_for_today",
+                "already_executed_this_cycle_today",
+                "mark_cycle_complete",
+                "connect_db",
+                "run_cycle",
+                "main"
+            ]
+        },
+        "axcontrol/core/key_manager.py": {
+            "role": "system_logic",
+            "classes": [
+                "GeminiKeyManager"
+            ],
+            "functions": [
+                "__init__",
+                "_get_keys",
+                "_get_current_index",
+                "get_active_key",
+                "rotate_key"
+            ]
+        },
+        "axcontrol/core/config.py": {
+            "role": "system_logic",
+            "classes": [],
+            "functions": [
+                "get_secret"
+            ]
+        },
+        "axcontrol/core/__init__.py": {
+            "role": "system_logic",
+            "classes": [],
+            "functions": []
+        },
+        "axcontrol/core/init.py": {
+            "role": "system_logic",
+            "classes": [],
+            "functions": []
+        },
+        "axcontrol/core/tools/chat_box.py": {
+            "role": "system_logic",
+            "classes": [],
+            "functions": [
+                "collect_intent"
+            ]
+        },
+        "axcontrol/core/tools/__init__.py": {
+            "role": "system_logic",
+            "classes": [],
+            "functions": []
+        },
+        "axcontrol/core/tools/shortest_path_navigation_engine.py": {
+            "role": "system_logic",
+            "classes": [
+                "Node",
+                "Edge",
+                "PathResult",
+                "ShortestPathEngine"
+            ],
+            "functions": [
+                "demo_vscode_optimization",
+                "__hash__",
+                "__eq__",
+                "to_dict",
+                "__init__",
+                "add_node",
+                "add_edge",
+                "euclidean_distance",
+                "dijkstra",
+                "astar",
+                "_calculate_convergence_proof",
+                "calculate_compression_ratio"
+            ]
+        },
+        "axcontrol/core/tools/shell_policy.py": {
+            "role": "system_logic",
+            "classes": [
+                "ShellLevel"
+            ],
+            "functions": [
+                "classify",
+                "_flags_ok"
+            ]
+        },
+        "axcontrol/core/tools/shell_cli.py": {
+            "role": "system_logic",
+            "classes": [
+                "ShellDenied"
+            ],
+            "functions": [
+                "run"
+            ]
+        },
+        "axcontrol/core/llm/__init__.py": {
+            "role": "system_logic",
+            "classes": [],
+            "functions": []
+        },
+        "axcontrol/core/llm/constraints.py": {
+            "role": "system_logic",
+            "classes": [],
+            "functions": []
+        },
+        "axcontrol/core/llm/intent_adapter.py": {
+            "role": "system_logic",
+            "classes": [],
+            "functions": []
+        },
+        "axcontrol/core/bridge/__init__.py": {
+            "role": "system_logic",
+            "classes": [],
+            "functions": []
+        },
+        "axcontrol/core/bridge/http_server.py": {
+            "role": "system_logic",
+            "classes": [
+                "_NDJSONAuditSink",
+                "Bridge",
+                "Handler"
+            ],
+            "functions": [
+                "main",
+                "__init__",
+                "append",
+                "__init__",
+                "V\u1eadn",
+                "Ho\u00e1_Th\u1ebf",
+                "_json",
+                "do_POST",
+                "log_message"
+            ]
+        },
+        "axcontrol/core/Van/watchdog.py": {
+            "role": "system_logic",
+            "classes": [
+                "Watchdog"
+            ],
+            "functions": [
+                "__init__",
+                "guard"
+            ]
+        },
+        "axcontrol/core/Van/ax_bridge.py": {
+            "role": "system_logic",
+            "classes": [
+                "BoundedAXBridge"
+            ],
+            "functions": [
+                "perform"
+            ]
+        },
+        "axcontrol/core/Van/__init__.py": {
+            "role": "system_logic",
+            "classes": [],
+            "functions": []
+        },
+        "axcontrol/core/Van/AnLenh.py": {
+            "role": "system_logic",
+            "classes": [
+                "Executor"
+            ],
+            "functions": [
+                "__init__",
+                "_settle_by_convergence",
+                "execute",
+                "_emit_atomic"
+            ]
+        },
+        "axcontrol/core/Van/event_emit.py": {
+            "role": "system_logic",
+            "classes": [
+                "EventEmitter"
+            ],
+            "functions": [
+                "emit"
+            ]
+        },
+        "axcontrol/core/The/ui_state.py": {
+            "role": "system_logic",
+            "classes": [
+                "UIElement",
+                "Window",
+                "UIState"
+            ],
+            "functions": []
+        },
+        "axcontrol/core/The/normalize.py": {
+            "role": "system_logic",
+            "classes": [],
+            "functions": [
+                "normalize_ui_state"
+            ]
+        },
+        "axcontrol/core/The/__init__.py": {
+            "role": "system_logic",
+            "classes": [],
+            "functions": []
+        },
+        "axcontrol/core/The/ctrl_state.py": {
+            "role": "system_logic",
+            "classes": [
+                "SessionStatus",
+                "CtrlState"
+            ],
+            "functions": []
+        },
+        "axcontrol/core/The/state_projector.py": {
+            "role": "system_logic",
+            "classes": [],
+            "functions": [
+                "map_state_to_hexagram"
+            ]
+        },
+        "axcontrol/core/vision/matcher.py": {
+            "role": "system_logic",
+            "classes": [],
+            "functions": []
+        },
+        "axcontrol/core/vision/__init__.py": {
+            "role": "system_logic",
+            "classes": [],
+            "functions": []
+        },
+        "axcontrol/core/vision/symbols.py": {
+            "role": "system_logic",
+            "classes": [],
+            "functions": []
+        },
+        "axcontrol/core/vision/bounds.py": {
+            "role": "system_logic",
+            "classes": [],
+            "functions": []
+        },
+        "axcontrol/core/observability/failure_codes.py": {
+            "role": "system_logic",
+            "classes": [
+                "FailureCode"
+            ],
+            "functions": []
+        },
+        "axcontrol/core/observability/trace.py": {
+            "role": "system_logic",
+            "classes": [],
+            "functions": [
+                "emit"
+            ]
+        },
+        "axcontrol/core/observability/state_diff.py": {
+            "role": "system_logic",
+            "classes": [
+                "StateDiff"
+            ],
+            "functions": [
+                "__init__",
+                "_load_trace",
+                "compare",
+                "_deep_diff"
+            ]
+        },
+        "axcontrol/core/observability/__init__.py": {
+            "role": "system_logic",
+            "classes": [],
+            "functions": []
+        },
+        "axcontrol/core/observability/diff_viewer.py": {
+            "role": "system_logic",
+            "classes": [],
+            "functions": [
+                "visualize_drift"
+            ]
+        },
+        "axcontrol/core/canon/__init__.py": {
+            "role": "system_logic",
+            "classes": [],
+            "functions": []
+        },
+        "axcontrol/core/canon/existence_state_map.py": {
+            "role": "system_logic",
+            "classes": [],
+            "functions": []
+        },
+        "axcontrol/core/canon/existence_state.py": {
+            "role": "system_logic",
+            "classes": [
+                "ExistenceState"
+            ],
+            "functions": []
+        },
+        "axcontrol/core/Chinh/intent.py": {
+            "role": "system_logic",
+            "classes": [
+                "IntentSource",
+                "Intent"
+            ],
+            "functions": []
+        },
+        "axcontrol/core/Chinh/command.py": {
+            "role": "system_logic",
+            "classes": [
+                "CommandType",
+                "AtomicStepType",
+                "AtomicStep",
+                "CommandEnvelope"
+            ],
+            "functions": []
+        },
+        "axcontrol/core/Chinh/policy.py": {
+            "role": "system_logic",
+            "classes": [
+                "PolicyOutcome",
+                "PolicyVerdict"
+            ],
+            "functions": []
+        },
+        "axcontrol/core/Chinh/__init__.py": {
+            "role": "system_logic",
+            "classes": [],
+            "functions": []
+        },
+        "axcontrol/core/Chinh/decide.py": {
+            "role": "system_logic",
+            "classes": [],
+            "functions": [
+                "build_decider",
+                "_noop_signer"
+            ]
+        },
+        "axcontrol/core/Chinh/llm_strategy.py": {
+            "role": "system_logic",
+            "classes": [],
+            "functions": [
+                "build_system_prompt",
+                "suggest_intent"
+            ]
+        },
+        "axcontrol/core/Chinh/decision_core.py": {
+            "role": "system_logic",
+            "classes": [
+                "DecisionCore"
+            ],
+            "functions": [
+                "__init__",
+                "evaluate_intent"
+            ]
+        },
+        "axcontrol/core/Luat/__init__.py": {
+            "role": "system_logic",
+            "classes": [],
+            "functions": []
+        },
+        "axcontrol/core/Luat/evaluator.py": {
+            "role": "system_logic",
+            "classes": [
+                "PolicyEvaluator"
+            ],
+            "functions": [
+                "__init__",
+                "evaluate"
+            ]
+        },
+        "axcontrol/core/Menh/stop_reasons.py": {
+            "role": "system_logic",
+            "classes": [
+                "StopReason"
+            ],
+            "functions": []
+        },
+        "axcontrol/core/Menh/__init__.py": {
+            "role": "system_logic",
+            "classes": [],
+            "functions": []
+        },
+        "axcontrol/core/Menh/rate_limit.py": {
+            "role": "system_logic",
+            "classes": [
+                "RateLimiter"
+            ],
+            "functions": [
+                "__init__",
+                "allow"
+            ]
+        },
+        "axcontrol/core/Menh/Diet.py": {
+            "role": "system_logic",
+            "classes": [
+                "KillSwitch"
+            ],
+            "functions": [
+                "__init__",
+                "trigger",
+                "reset"
+            ]
+        },
+        "axcontrol/core/Menh/Chung.py": {
+            "role": "system_logic",
+            "classes": [],
+            "functions": [
+                "compute_Chung"
+            ]
+        },
+        "axcontrol/core/Chung/__init__.py": {
+            "role": "system_logic",
+            "classes": [],
+            "functions": []
+        },
+        "axcontrol/core/Chung/logger.py": {
+            "role": "system_logic",
+            "classes": [
+                "AuditLogger"
+            ],
+            "functions": [
+                "__init__",
+                "append",
+                "Ch\u1ee9ng_Ki\u1ebfn",
+                "stream"
+            ]
+        },
+        "axcontrol/core/Chung/replay.py": {
+            "role": "system_logic",
+            "classes": [],
+            "functions": [
+                "replay"
+            ]
+        },
+        "axcontrol/core/Chung/log_schema.py": {
+            "role": "system_logic",
+            "classes": [
+                "AuditRecord"
+            ],
+            "functions": []
+        },
+        "axcontrol/core/loop/__init__.py": {
+            "role": "system_logic",
+            "classes": [],
+            "functions": []
+        },
+        "axcontrol/core/loop/Van.py": {
+            "role": "system_logic",
+            "classes": [
+                "_InMemorySink",
+                "ControlLoop"
+            ],
+            "functions": [
+                "__init__",
+                "append",
+                "__init__",
+                "_select_app_policy",
+                "_intent_from_llm",
+                "_log_step",
+                "_settle",
+                "run_once"
+            ]
+        },
+        "axcontrol/core/loop/GiaoTiep.py": {
+            "role": "system_logic",
+            "classes": [],
+            "functions": [
+                "_log_intent",
+                "run_chat"
+            ]
+        },
+        "axcontrol/core/Luat/rules/__init__.py": {
+            "role": "system_logic",
+            "classes": [],
+            "functions": []
+        },
+        "balancehub/app/__init__.py": {
+            "role": "system_logic",
+            "classes": [],
+            "functions": []
+        },
+        "balancehub/app/main.py": {
+            "role": "system_logic",
+            "classes": [],
+            "functions": [
+                "_breaker_value",
+                "_require_connector_state",
+                "startup_event",
+                "root",
+                "execute",
+                "registry_snapshot",
+                "registry_diff",
+                "force_capture_snapshot",
+                "connector_state",
+                "metrics",
+                "system_health",
+                "system_economic_weight",
+                "axis_catalog",
+                "connector_catalog",
+                "map_repos_operator"
+            ]
+        },
+        "balancehub/app/core/apo_symbol_map.py": {
+            "role": "system_logic",
+            "classes": [],
+            "functions": []
+        },
+        "balancehub/app/core/metrics.py": {
+            "role": "system_logic",
+            "classes": [],
+            "functions": []
+        },
+        "balancehub/app/core/db.py": {
+            "role": "system_logic",
+            "classes": [],
+            "functions": [
+                "init_db",
+                "_migrate_connector_state_columns",
+                "get_db"
+            ]
+        },
+        "balancehub/app/core/models.py": {
+            "role": "system_logic",
+            "classes": [
+                "ConnectorState",
+                "AxisCatalog",
+                "ConnectorCatalog",
+                "RegistrySnapshot",
+                "DeferredIntent",
+                "AuditChain"
+            ],
+            "functions": []
+        },
+        "balancehub/app/core/__init__.py": {
+            "role": "system_logic",
+            "classes": [],
+            "functions": []
+        },
+        "balancehub/app/services/huggingface_adapter.py": {
+            "role": "system_logic",
+            "classes": [],
+            "functions": [
+                "execute_huggingface"
+            ]
+        },
+        "balancehub/app/services/probe_worker.py": {
+            "role": "system_logic",
+            "classes": [],
+            "functions": [
+                "_breaker_value",
+                "run_probe_cycle"
+            ]
+        },
+        "balancehub/app/services/__init__.py": {
+            "role": "system_logic",
+            "classes": [],
+            "functions": []
+        },
+        "balancehub/app/services/fallback_router.py": {
+            "role": "system_logic",
+            "classes": [],
+            "functions": [
+                "_payload_hash",
+                "defer_intent"
+            ]
+        },
+        "balancehub/app/services/registry_service.py": {
+            "role": "system_logic",
+            "classes": [],
+            "functions": [
+                "_compute_hash",
+                "capture_snapshot",
+                "latest_snapshots",
+                "snapshot_diff"
+            ]
+        },
+        "balancehub/app/services/audit_logger.py": {
+            "role": "system_logic",
+            "classes": [],
+            "functions": [
+                "write_audit"
+            ]
+        },
+        "balancehub/app/services/gssi_service.py": {
+            "role": "system_logic",
+            "classes": [],
+            "functions": [
+                "_reliability_modifier",
+                "_clamp_weight",
+                "_connector_health",
+                "compute_system_health"
+            ]
+        },
+        "balancehub/app/services/map_repos_service.py": {
+            "role": "system_logic",
+            "classes": [],
+            "functions": [
+                "bootstrap_catalogs",
+                "sync_connector_state_with_catalog",
+                "list_axis_catalog",
+                "list_connector_catalog"
+            ]
+        },
+        "balancehub/app/services/failure_engine.py": {
+            "role": "system_logic",
+            "classes": [
+                "FailureClassification"
+            ],
+            "functions": [
+                "classify"
+            ]
+        },
+        "balancehub/app/services/invocation_gateway.py": {
+            "role": "system_logic",
+            "classes": [],
+            "functions": [
+                "execute_action"
+            ]
+        },
+        "balancehub/app/services/economic_weight_service.py": {
+            "role": "system_logic",
+            "classes": [],
+            "functions": [
+                "_env_float",
+                "_fetch_github_signals",
+                "_connector_multiplier",
+                "compute_economic_weight"
+            ]
+        }
+    },
+    "last_heartbeat": "\"2026-03-05T01:16:42Z\"",
+    "system_status": "OPERATIONAL"
+}

@@ -1,0 +1,9 @@
+{
+    "skill_name": "balancehub_agent",
+    "task_id": "rev_$(date +%s)",
+    "parameters": {
+        "action": "check_balance_and_invoice",
+        "client": "open_source_sponsor"
+    },
+    "metadata": {"priority": "critical"}
+}
