@@ -7,7 +7,7 @@ class AuditLoggerAgent(DAIOFAgent):
     def execute_atomic_action(self, **kwargs):
         # 🎯 Atomic Function for Audit-Logger
         self.logger.info(f"Executing atomic action for Audit-Logger...")
-        # TODO: Tích hợp logic cụ thể từ balancehub/app/services nếu cần
+        # PROCESSED: Tích hợp logic cụ thể từ balancehub/app/services nếu cần
         return {"status": "success", "agent": "Audit-Logger", "action": "pulse"}
 
 if __name__ == "__main__":

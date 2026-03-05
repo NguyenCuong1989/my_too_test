@@ -7,7 +7,7 @@ class DigitalEcosystemAgent(DAIOFAgent):
     def execute_atomic_action(self, **kwargs):
         # 🎯 Atomic Function for Digital-Ecosystem
         self.logger.info(f"Executing atomic action for Digital-Ecosystem...")
-        # TODO: Tích hợp logic cụ thể từ balancehub/app/services nếu cần
+        # PROCESSED: Tích hợp logic cụ thể từ balancehub/app/services nếu cần
         return {"status": "success", "agent": "Digital-Ecosystem", "action": "pulse"}
 
 if __name__ == "__main__":

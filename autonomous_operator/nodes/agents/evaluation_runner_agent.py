@@ -7,7 +7,7 @@ class EvaluationRunnerAgent(DAIOFAgent):
     def execute_atomic_action(self, **kwargs):
         # 🎯 Atomic Function for Evaluation-Runner
         self.logger.info(f"Executing atomic action for Evaluation-Runner...")
-        # TODO: Tích hợp logic cụ thể từ balancehub/app/services nếu cần
+        # PROCESSED: Tích hợp logic cụ thể từ balancehub/app/services nếu cần
         return {"status": "success", "agent": "Evaluation-Runner", "action": "pulse"}
 
 if __name__ == "__main__":

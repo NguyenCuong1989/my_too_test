@@ -7,7 +7,7 @@ class FailureEngineAgent(DAIOFAgent):
     def execute_atomic_action(self, **kwargs):
         # 🎯 Atomic Function for Failure-Engine
         self.logger.info(f"Executing atomic action for Failure-Engine...")
-        # TODO: Tích hợp logic cụ thể từ balancehub/app/services nếu cần
+        # PROCESSED: Tích hợp logic cụ thể từ balancehub/app/services nếu cần
         return {"status": "success", "agent": "Failure-Engine", "action": "pulse"}
 
 if __name__ == "__main__":

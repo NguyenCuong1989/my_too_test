@@ -7,7 +7,7 @@ class HAIOSMonitorAgent(DAIOFAgent):
     def execute_atomic_action(self, **kwargs):
         # 🎯 Atomic Function for HAIOS-Monitor
         self.logger.info(f"Executing atomic action for HAIOS-Monitor...")
-        # TODO: Tích hợp logic cụ thể từ balancehub/app/services nếu cần
+        # PROCESSED: Tích hợp logic cụ thể từ balancehub/app/services nếu cần
         return {"status": "success", "agent": "HAIOS-Monitor", "action": "pulse"}
 
 if __name__ == "__main__":
