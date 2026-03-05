@@ -1,16 +1,7 @@
-__pycache__/
-*.pyc
-.env
-credentials.json
-token.json
-notion_secret.txt
-*.key
-.env
-autonomous_operator/logs/
-autonomous_operator/state/
-.ai_queue/
-.gemini_key
-autonomous_operator/logs/
-trust_of_copilot/
-.github_token
-.env.local
+# Ignore files that are commonly not needed in the repository
+.DS_Store
+.venv/
+logs/
+data/
+dist/
+build/
