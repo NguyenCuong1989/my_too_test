@@ -1,0 +1,70 @@
+name: performance-optimization
+
+on:
+  schedule:
+    - cron: "0 * * * *"   # Every hour
+  workflow_dispatch:
+
+jobs:
+  optimize:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run performance analysis
+        run: |
+          python3 - <<'EOF'
+          import sys, json, time
+          from pathlib import Path
+
+          base = Path(".")
+
+          # Collect basic size/complexity metrics as a proxy for performance
+          metrics = {}
+          for sub in ["hyperai_phoenix", "axcontrol", "factory", "autonomous_operator",
+                      "self_healing", "monitoring"]:
+              path = base / sub
+              if not path.exists():
+                  metrics[sub] = {"status": "missing"}
+                  continue
+              py_files = list(path.rglob("*.py"))
+              total_lines = 0
+              for f in py_files:
+                  try:
+                      total_lines += len(f.read_text(encoding="utf-8", errors="ignore").splitlines())
+                  except OSError:
+                      pass
+              metrics[sub] = {
+                  "status": "present",
+                  "py_files": len(py_files),
+                  "total_lines": total_lines,
+              }
+
+          report = {
+              "generated_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+              "subsystems": metrics,
+          }
+          print(json.dumps(report, indent=2))
+
+          # Write report to data dir
+          data_dir = base / "data"
+          data_dir.mkdir(exist_ok=True)
+          (data_dir / "performance_report.json").write_text(
+              json.dumps(report, indent=2), encoding="utf-8"
+          )
+          print("✅ Performance report written to data/performance_report.json")
+          EOF
+
+      - name: Run no-drift invariants
+        env:
+          AXCONTROL_SIM: "1"
+        working-directory: axcontrol
+        run: python3 -m unittest tests.test_bridge_no_drift -v

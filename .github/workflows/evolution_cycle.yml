@@ -1,0 +1,80 @@
+name: evolution-cycle
+
+on:
+  schedule:
+    - cron: "0 2 * * *"   # Daily at 02:00 UTC
+  workflow_dispatch:
+
+jobs:
+  evolve:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run evolution analysis
+        run: |
+          python3 - <<'EOF'
+          import sys, json, time
+          from pathlib import Path
+
+          base = Path(".")
+          data_dir = base / "data"
+          data_dir.mkdir(exist_ok=True)
+
+          # Load previous evolution log if it exists
+          evo_log = data_dir / "evolution_log.json"
+          history = []
+          if evo_log.exists():
+              try:
+                  history = json.loads(evo_log.read_text(encoding="utf-8"))
+              except Exception:
+                  history = []
+
+          cycle = len(history) + 1
+          subsystems = ["hyperai_phoenix", "axcontrol", "factory",
+                        "autonomous_operator", "self_healing", "monitoring"]
+
+          health_map = {}
+          for sub in subsystems:
+              health_map[sub] = "present" if (base / sub).exists() else "missing"
+
+          present = sum(1 for v in health_map.values() if v == "present")
+          health_ratio = present / len(subsystems)
+
+          recommendations = []
+          if health_ratio < 1.0:
+              recommendations.append("Restore missing subsystems")
+          if cycle % 7 == 0:
+              recommendations.append("Full system audit due")
+          recommendations.append("Review learning patterns from last 24h")
+
+          record = {
+              "cycle": cycle,
+              "ts": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+              "health_ratio": round(health_ratio, 3),
+              "subsystems": health_map,
+              "recommendations": recommendations,
+          }
+          history.append(record)
+          # Keep last 365 cycles
+          if len(history) > 365:
+              history = history[-365:]
+
+          evo_log.write_text(json.dumps(history, indent=2), encoding="utf-8")
+          print(json.dumps(record, indent=2))
+          print(f"✅ Evolution cycle #{cycle} recorded.")
+          EOF
+
+      - name: Run no-drift invariants
+        env:
+          AXCONTROL_SIM: "1"
+        working-directory: axcontrol
+        run: python3 -m unittest tests.test_bridge_no_drift -v

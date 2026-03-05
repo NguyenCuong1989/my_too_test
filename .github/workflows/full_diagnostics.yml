@@ -1,0 +1,85 @@
+name: full-diagnostics
+
+on:
+  schedule:
+    - cron: "0 3 * * 0"   # Weekly on Sunday at 03:00 UTC
+  workflow_dispatch:
+
+jobs:
+  diagnostics:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Full subsystem inventory
+        run: |
+          python3 - <<'EOF'
+          import sys, json, time
+          from pathlib import Path
+
+          base = Path(".")
+
+          subsystems = {
+              "HyperAI_Phoenix":    base / "hyperai_phoenix",
+              "AXCONTROL":          base / "axcontrol",
+              "Factory":            base / "factory",
+              "AutonomousOperator": base / "autonomous_operator",
+              "SelfHealing":        base / "self_healing",
+              "Monitoring":         base / "monitoring",
+          }
+
+          report = {"generated_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), "subsystems": {}}
+
+          for name, path in subsystems.items():
+              entry = {"present": path.exists()}
+              if path.exists():
+                  py_files = list(path.rglob("*.py"))
+                  entry["py_files"] = len(py_files)
+                  entry["subdirs"] = [d.name for d in path.iterdir() if d.is_dir()]
+              report["subsystems"][name] = entry
+
+          overall_ok = all(v["present"] for v in report["subsystems"].values())
+          report["overall"] = "pass" if overall_ok else "fail"
+
+          print(json.dumps(report, indent=2))
+
+          data_dir = base / "data"
+          data_dir.mkdir(exist_ok=True)
+          (data_dir / "diagnostics_report.json").write_text(
+              json.dumps(report, indent=2), encoding="utf-8"
+          )
+          print("✅ Diagnostics report written to data/diagnostics_report.json")
+
+          if not overall_ok:
+              missing = [n for n, v in report["subsystems"].items() if not v["present"]]
+              print(f"::warning::Missing subsystems: {missing}")
+          EOF
+
+      - name: Validate self-healing module imports
+        run: |
+          python3 -c "
+          from self_healing.detector import FailureDetector
+          from self_healing.recovery import RecoveryManager
+          from self_healing.state_store import StateStore
+          from monitoring.metrics import MetricsCollector
+          from monitoring.health import HealthIndicator
+          from monitoring.dashboard import Dashboard
+          print('✅ All module imports OK')
+          "
+
+      - name: Run no-drift invariants
+        env:
+          AXCONTROL_SIM: "1"
+        working-directory: axcontrol
+        run: python3 -m unittest tests.test_bridge_no_drift -v
+
+      - name: Validate main_organism
+        run: python3 -c "import main_organism; print('✅ main_organism.py OK')"
