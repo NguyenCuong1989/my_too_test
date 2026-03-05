@@ -5,3 +5,7 @@ logs/
 data/
 dist/
 build/
+__pycache__/
+*.py[cod]
+.coverage
+htmlcov/
