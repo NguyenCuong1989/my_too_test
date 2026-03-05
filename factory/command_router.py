@@ -1,3 +1,8 @@
+# \u03a3_AP\u03a9\u2082 CORE MODULE
+# Authority: B\u1ed0 C\u01af\u1ed0NG Supreme System Commander
+# Creator: alpha_prime_omega (4287)
+# Status: CANONICAL
+
 #!/usr/bin/env python3
 """
 Command Router for Telegram Control App
@@ -23,6 +28,7 @@ class CommandRouter:
             "dag": r"^/dag\s+(show|run)$",
             "sys_status": r"^/sys status$",
             "log_tail": r"^/log tail(?:\s+(\d+))?$",
+            "directory": r"^/directory\s+(add|remove|list)(?:\s+(.+))?$",
             "task_inject": r"^/task inject\s+(\S+)(?:\s+(.+))?$",
             "task_run": r"^/task run\s+(\S+)(?:\s+(.+))?$"
         }

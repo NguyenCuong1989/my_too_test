@@ -1,0 +1,11 @@
+version: '3.8'
+services:
+  apo-kernel:
+    build:
+      context: ..
+      dockerfile: Dockerfile.kernel
+    volumes:
+      - ..:/app
+    environment:
+      - ENV=production
+    restart: always

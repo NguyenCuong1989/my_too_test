@@ -1,3 +1,8 @@
+# Σ_APΩ₂ CORE MODULE
+# Authority: BỐ CƯỐNG Supreme System Commander
+# Creator: alpha_prime_omega (4287)
+# Status: CANONICAL
+
 import os
 import base64
 import json
@@ -302,8 +307,61 @@ Hệ thống Thương Mại (Business Portal) hiện đang đạt trạng thái 
         except Exception as e:
             self.logger.error(f"Notion APΩ logging error: {e}")
 
+def run(payload: str = None) -> str:
+    """Standard Entry Point for Omni Orchestrator"""
+    try:
+        logging.basicConfig(level=logging.CRITICAL)
+        logging.getLogger().setLevel(logging.CRITICAL)
+        node = BizNode()
+        if hasattr(node, "run_cycle"):
+            node.run_cycle()
+        elif hasattr(node, "run"):
+            node.run()
+        return json.dumps({"status": "success", "message": "BizNode execution completed"})
+    except Exception as e:
+        return json.dumps({"status": "error", "error": str(e)})
+
+def run(payload: str = None) -> str:
+    """Standard Entry Point for Omni Orchestrator"""
+    try:
+        logging.basicConfig(level=logging.CRITICAL)
+        logging.getLogger().setLevel(logging.CRITICAL)
+        node = BizNode()
+        if hasattr(node, "run_cycle"):
+            node.run_cycle()
+        elif hasattr(node, "run"):
+            node.run()
+        return json.dumps({"status": "success", "message": "BizNode execution completed"})
+    except Exception as e:
+        return json.dumps({"status": "error", "error": str(e)})
+
+def run(payload: str = None) -> str:
+    """Standard Entry Point for Omni Orchestrator"""
+    try:
+        logging.basicConfig(level=logging.CRITICAL)
+        logging.getLogger().setLevel(logging.CRITICAL)
+        node = BizNode()
+        if hasattr(node, "run_cycle"):
+            node.run_cycle()
+        elif hasattr(node, "run"):
+            node.run()
+        return json.dumps({"status": "success", "message": "BizNode execution completed"})
+    except Exception as e:
+        return json.dumps({"status": "error", "error": str(e)})
+
+def run(payload: str = None) -> str:
+    """Standard Entry Point for Omni Orchestrator"""
+    try:
+        logging.basicConfig(level=logging.CRITICAL)
+        logging.getLogger().setLevel(logging.CRITICAL)
+        node = BizNode()
+        if hasattr(node, "run_cycle"):
+            node.run_cycle()
+        elif hasattr(node, "run"):
+            node.run()
+        return json.dumps({"status": "success", "message": "BizNode execution completed"})
+    except Exception as e:
+        return json.dumps({"status": "error", "error": str(e)})
+
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO)
-    node = BizNode()
-    if node.authenticate_all():
-        node.run_cycle()
+    print(run())

@@ -1,0 +1,238 @@
+{
+  "crypto_price_fetcher": {
+    "abs_path": "/Users/andy/factory/tools/crypto_price_fetcher.py",
+    "module_path": "crypto_price_fetcher"
+  },
+  "sli_enrichment": {
+    "abs_path": "/Users/andy/my_too_test/factory/tools/sli_enrichment.py",
+    "module_path": "factory.tools.sli_enrichment"
+  },
+  "file_writer_skill": {
+    "abs_path": "/Users/andy/factory/tools/file_writer_skill.py",
+    "module_path": "file_writer_skill"
+  },
+  "hello_world_skill": {
+    "abs_path": "/Users/andy/factory/tools/hello_world_skill.py",
+    "module_path": "hello_world_skill"
+  },
+  "file_deleter_skill": {
+    "abs_path": "/Users/andy/factory/tools/file_deleter_skill.py",
+    "module_path": "file_deleter_skill"
+  },
+  "chat_box": {
+    "abs_path": "/Users/andy/my_too_test/axcontrol/core/tools/chat_box.py",
+    "module_path": "axcontrol.core.tools.chat_box"
+  },
+  "shortest_path_navigation_engine": {
+    "abs_path": "/Users/andy/my_too_test/axcontrol/core/tools/shortest_path_navigation_engine.py",
+    "module_path": "axcontrol.core.tools.shortest_path_navigation_engine"
+  },
+  "shell_policy": {
+    "abs_path": "/Users/andy/my_too_test/axcontrol/core/tools/shell_policy.py",
+    "module_path": "axcontrol.core.tools.shell_policy"
+  },
+  "shell_cli": {
+    "abs_path": "/Users/andy/my_too_test/axcontrol/core/tools/shell_cli.py",
+    "module_path": "axcontrol.core.tools.shell_cli"
+  },
+  "generate_existence_map": {
+    "abs_path": "/Users/andy/my_too_test/axcontrol/tools/generate_existence_map.py",
+    "module_path": "axcontrol.tools.generate_existence_map"
+  },
+  "verify_canon_properties": {
+    "abs_path": "/Users/andy/my_too_test/axcontrol/tools/verify_canon_properties.py",
+    "module_path": "axcontrol.tools.verify_canon_properties"
+  },
+  "observe_session": {
+    "abs_path": "/Users/andy/my_too_test/axcontrol/tools/observe_session.py",
+    "module_path": "axcontrol.tools.observe_session"
+  },
+  "summarize_logs": {
+    "abs_path": "/Users/andy/my_too_test/axcontrol/tools/summarize_logs.py",
+    "module_path": "axcontrol.tools.summarize_logs"
+  },
+  "offline_embeddings": {
+    "abs_path": "/Users/andy/my_too_test/hyperai_phoenix/app/brain/tools/offline_embeddings.py",
+    "module_path": "hyperai_phoenix.app.brain.tools.offline_embeddings"
+  },
+  "file_system_tools": {
+    "abs_path": "/Users/andy/my_too_test/hyperai_phoenix/app/brain/tools/file_system_tools.py",
+    "module_path": "hyperai_phoenix.app.brain.tools.file_system_tools"
+  },
+  "code_analysis_tools": {
+    "abs_path": "/Users/andy/my_too_test/hyperai_phoenix/app/brain/tools/code_analysis_tools.py",
+    "module_path": "hyperai_phoenix.app.brain.tools.code_analysis_tools"
+  },
+  "code_generation_tools": {
+    "abs_path": "/Users/andy/my_too_test/hyperai_phoenix/app/brain/tools/code_generation_tools.py",
+    "module_path": "hyperai_phoenix.app.brain.tools.code_generation_tools"
+  },
+  "infsh_browser_client": {
+    "abs_path": "/Users/andy/my_too_test/autonomous_operator/nodes/infsh_browser_client.py",
+    "module_path": "autonomous_operator.nodes.infsh_browser_client"
+  },
+  "infsh_web_node": {
+    "abs_path": "/Users/andy/my_too_test/autonomous_operator/nodes/infsh_web_node.py",
+    "module_path": "autonomous_operator.nodes.infsh_web_node"
+  },
+  "tele_node": {
+    "abs_path": "/Users/andy/my_too_test/autonomous_operator/nodes/tele_node.py",
+    "module_path": "autonomous_operator.nodes.tele_node"
+  },
+  "browser_agent": {
+    "abs_path": "/Users/andy/my_too_test/autonomous_operator/nodes/browser_agent.py",
+    "module_path": "autonomous_operator.nodes.browser_agent"
+  },
+  "recovery_node": {
+    "abs_path": "/Users/andy/my_too_test/autonomous_operator/nodes/recovery_node.py",
+    "module_path": "autonomous_operator.nodes.recovery_node"
+  },
+  "revenue_node": {
+    "abs_path": "/Users/andy/my_too_test/autonomous_operator/nodes/revenue_node.py",
+    "module_path": "autonomous_operator.nodes.revenue_node"
+  },
+  "biz_node": {
+    "abs_path": "/Users/andy/my_too_test/autonomous_operator/nodes/biz_node.py",
+    "module_path": "autonomous_operator.nodes.biz_node"
+  },
+  "agent_browser_v2": {
+    "abs_path": "/Users/andy/my_too_test/autonomous_operator/nodes/agent_browser_v2.py",
+    "module_path": "autonomous_operator.nodes.agent_browser_v2"
+  },
+  "audit_node": {
+    "abs_path": "/Users/andy/my_too_test/autonomous_operator/nodes/audit_node.py",
+    "module_path": "autonomous_operator.nodes.audit_node"
+  },
+  "guardian_node": {
+    "abs_path": "/Users/andy/my_too_test/autonomous_operator/nodes/guardian_node.py",
+    "module_path": "autonomous_operator.nodes.guardian_node"
+  },
+  "web_node": {
+    "abs_path": "/Users/andy/my_too_test/autonomous_operator/nodes/web_node.py",
+    "module_path": "autonomous_operator.nodes.web_node"
+  },
+  "audit_logger_agent": {
+    "abs_path": "/Users/andy/my_too_test/autonomous_operator/nodes/agents/audit_logger_agent.py",
+    "module_path": "autonomous_operator.nodes.agents.audit_logger_agent"
+  },
+  "balancehub_agent": {
+    "abs_path": "/Users/andy/my_too_test/autonomous_operator/nodes/agents/balancehub_agent.py",
+    "module_path": "autonomous_operator.nodes.agents.balancehub_agent"
+  },
+  "hyperai_api_agent": {
+    "abs_path": "/Users/andy/my_too_test/autonomous_operator/nodes/agents/hyperai_api_agent.py",
+    "module_path": "autonomous_operator.nodes.agents.hyperai_api_agent"
+  },
+  "probe_worker_agent": {
+    "abs_path": "/Users/andy/my_too_test/autonomous_operator/nodes/agents/probe_worker_agent.py",
+    "module_path": "autonomous_operator.nodes.agents.probe_worker_agent"
+  },
+  "redis_agent": {
+    "abs_path": "/Users/andy/my_too_test/autonomous_operator/nodes/agents/redis_agent.py",
+    "module_path": "autonomous_operator.nodes.agents.redis_agent"
+  },
+  "postgres_agent": {
+    "abs_path": "/Users/andy/my_too_test/autonomous_operator/nodes/agents/postgres_agent.py",
+    "module_path": "autonomous_operator.nodes.agents.postgres_agent"
+  },
+  "stripe_agent": {
+    "abs_path": "/Users/andy/my_too_test/autonomous_operator/nodes/agents/stripe_agent.py",
+    "module_path": "autonomous_operator.nodes.agents.stripe_agent"
+  },
+  "base_agent": {
+    "abs_path": "/Users/andy/my_too_test/autonomous_operator/nodes/agents/base_agent.py",
+    "module_path": "autonomous_operator.nodes.agents.base_agent"
+  },
+  "daiof_framework_agent": {
+    "abs_path": "/Users/andy/my_too_test/autonomous_operator/nodes/agents/daiof_framework_agent.py",
+    "module_path": "autonomous_operator.nodes.agents.daiof_framework_agent"
+  },
+  "fallback_router_agent": {
+    "abs_path": "/Users/andy/my_too_test/autonomous_operator/nodes/agents/fallback_router_agent.py",
+    "module_path": "autonomous_operator.nodes.agents.fallback_router_agent"
+  },
+  "failure_engine_agent": {
+    "abs_path": "/Users/andy/my_too_test/autonomous_operator/nodes/agents/failure_engine_agent.py",
+    "module_path": "autonomous_operator.nodes.agents.failure_engine_agent"
+  },
+  "registry_service_agent": {
+    "abs_path": "/Users/andy/my_too_test/autonomous_operator/nodes/agents/registry_service_agent.py",
+    "module_path": "autonomous_operator.nodes.agents.registry_service_agent"
+  },
+  "prometheus_agent": {
+    "abs_path": "/Users/andy/my_too_test/autonomous_operator/nodes/agents/prometheus_agent.py",
+    "module_path": "autonomous_operator.nodes.agents.prometheus_agent"
+  },
+  "sacr_service_agent": {
+    "abs_path": "/Users/andy/my_too_test/autonomous_operator/nodes/agents/sacr_service_agent.py",
+    "module_path": "autonomous_operator.nodes.agents.sacr_service_agent"
+  },
+  "huggingface_agent": {
+    "abs_path": "/Users/andy/my_too_test/autonomous_operator/nodes/agents/huggingface_agent.py",
+    "module_path": "autonomous_operator.nodes.agents.huggingface_agent"
+  },
+  "evaluation_runner_agent": {
+    "abs_path": "/Users/andy/my_too_test/autonomous_operator/nodes/agents/evaluation_runner_agent.py",
+    "module_path": "autonomous_operator.nodes.agents.evaluation_runner_agent"
+  },
+  "omega_core_agent": {
+    "abs_path": "/Users/andy/my_too_test/autonomous_operator/nodes/agents/omega_core_agent.py",
+    "module_path": "autonomous_operator.nodes.agents.omega_core_agent"
+  },
+  "haios_monitor_agent": {
+    "abs_path": "/Users/andy/my_too_test/autonomous_operator/nodes/agents/haios_monitor_agent.py",
+    "module_path": "autonomous_operator.nodes.agents.haios_monitor_agent"
+  },
+  "invocation_gateway_agent": {
+    "abs_path": "/Users/andy/my_too_test/autonomous_operator/nodes/agents/invocation_gateway_agent.py",
+    "module_path": "autonomous_operator.nodes.agents.invocation_gateway_agent"
+  },
+  "antigravity_core_agent": {
+    "abs_path": "/Users/andy/my_too_test/autonomous_operator/nodes/agents/antigravity_core_agent.py",
+    "module_path": "autonomous_operator.nodes.agents.antigravity_core_agent"
+  },
+  "uevs_service_agent": {
+    "abs_path": "/Users/andy/my_too_test/autonomous_operator/nodes/agents/uevs_service_agent.py",
+    "module_path": "autonomous_operator.nodes.agents.uevs_service_agent"
+  },
+  "digital_ecosystem_agent": {
+    "abs_path": "/Users/andy/my_too_test/autonomous_operator/nodes/agents/digital_ecosystem_agent.py",
+    "module_path": "autonomous_operator.nodes.agents.digital_ecosystem_agent"
+  },
+  "file_metadata_extractor": {
+    "abs_path": "/Users/andy/factory/tools/file_metadata_extractor.py",
+    "module_path": "file_metadata_extractor"
+  },
+  "host_local_api": {
+    "abs_path": "/Users/andy/factory/tools/host_local_api.py",
+    "module_path": "host_local_api"
+  },
+  "system_sanity_check": {
+    "abs_path": "/Users/andy/factory/tools/system_sanity_check.py",
+    "module_path": "system_sanity_check"
+  },
+  "system_resource_monitor": {
+    "abs_path": "/Users/andy/factory/tools/system_resource_monitor.py",
+    "module_path": "system_resource_monitor"
+  },
+  "deploy_landing_page": {
+    "abs_path": "/Users/andy/factory/tools/deploy_landing_page.py",
+    "module_path": "deploy_landing_page"
+  },
+  "cluster_registry_manager": {
+    "abs_path": "/Users/andy/factory/tools/cluster_registry_manager.py",
+    "module_path": "cluster_registry_manager"
+  },
+  "dynamic_path_manager": {
+    "abs_path": "/Users/andy/factory/tools/dynamic_path_manager.py",
+    "module_path": "dynamic_path_manager"
+  },
+  "directory_deleter_skill": {
+    "abs_path": "/Users/andy/factory/tools/directory_deleter_skill.py",
+    "module_path": "directory_deleter_skill"
+  },
+  "test_api_skill": {
+    "abs_path": "/Users/andy/factory/tools/test_api_skill.py",
+    "module_path": "test_api_skill"
+  }
+}

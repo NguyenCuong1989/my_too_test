@@ -107,10 +107,62 @@ class RevenueNode:
                 priority=2  # MEDIUM
             )
 
-if __name__ == "__main__":
-    async def test():
-        logging.basicConfig(level=logging.INFO)
-        node = RevenueNode()
-        await node.run_cycle()
 
-    asyncio.run(test())
+def run(payload: str = None) -> str:
+    """Standard Entry Point for Omni Orchestrator"""
+    try:
+        logging.basicConfig(level=logging.CRITICAL)
+        logging.getLogger().setLevel(logging.CRITICAL)
+        node = RevenueNode()
+        if hasattr(node, "run_cycle"):
+            node.run_cycle()
+        elif hasattr(node, "run"):
+            node.run()
+        return json.dumps({"status": "success", "message": "RevenueNode execution completed"})
+    except Exception as e:
+        return json.dumps({"status": "error", "error": str(e)})
+
+def run(payload: str = None) -> str:
+    """Standard Entry Point for Omni Orchestrator"""
+    try:
+        logging.basicConfig(level=logging.CRITICAL)
+        logging.getLogger().setLevel(logging.CRITICAL)
+        node = RevenueNode()
+        if hasattr(node, "run_cycle"):
+            node.run_cycle()
+        elif hasattr(node, "run"):
+            node.run()
+        return json.dumps({"status": "success", "message": "RevenueNode execution completed"})
+    except Exception as e:
+        return json.dumps({"status": "error", "error": str(e)})
+
+def run(payload: str = None) -> str:
+    """Standard Entry Point for Omni Orchestrator"""
+    try:
+        logging.basicConfig(level=logging.CRITICAL)
+        logging.getLogger().setLevel(logging.CRITICAL)
+        node = RevenueNode()
+        if hasattr(node, "run_cycle"):
+            node.run_cycle()
+        elif hasattr(node, "run"):
+            node.run()
+        return json.dumps({"status": "success", "message": "RevenueNode execution completed"})
+    except Exception as e:
+        return json.dumps({"status": "error", "error": str(e)})
+
+def run(payload: str = None) -> str:
+    """Standard Entry Point for Omni Orchestrator"""
+    try:
+        logging.basicConfig(level=logging.CRITICAL)
+        logging.getLogger().setLevel(logging.CRITICAL)
+        node = RevenueNode()
+        if hasattr(node, "run_cycle"):
+            node.run_cycle()
+        elif hasattr(node, "run"):
+            node.run()
+        return json.dumps({"status": "success", "message": "RevenueNode execution completed"})
+    except Exception as e:
+        return json.dumps({"status": "error", "error": str(e)})
+
+if __name__ == "__main__":
+    print(run())

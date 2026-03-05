@@ -1,3 +1,8 @@
+# Σ_APΩ₂ CORE MODULE
+# Authority: BỐ CƯỐNG Supreme System Commander
+# Creator: alpha_prime_omega (4287)
+# Status: CANONICAL
+
 import logging
 import asyncio
 import sys
@@ -106,7 +111,62 @@ class WebNode:
                 intensity=0.1
             )
 
+
+def run(payload: str = None) -> str:
+    """Standard Entry Point for Omni Orchestrator"""
+    try:
+        logging.basicConfig(level=logging.CRITICAL)
+        logging.getLogger().setLevel(logging.CRITICAL)
+        node = WebNode()
+        if hasattr(node, "run_cycle"):
+            node.run_cycle()
+        elif hasattr(node, "run"):
+            node.run()
+        return json.dumps({"status": "success", "message": "WebNode execution completed"})
+    except Exception as e:
+        return json.dumps({"status": "error", "error": str(e)})
+
+def run(payload: str = None) -> str:
+    """Standard Entry Point for Omni Orchestrator"""
+    try:
+        logging.basicConfig(level=logging.CRITICAL)
+        logging.getLogger().setLevel(logging.CRITICAL)
+        node = WebNode()
+        if hasattr(node, "run_cycle"):
+            node.run_cycle()
+        elif hasattr(node, "run"):
+            node.run()
+        return json.dumps({"status": "success", "message": "WebNode execution completed"})
+    except Exception as e:
+        return json.dumps({"status": "error", "error": str(e)})
+
+def run(payload: str = None) -> str:
+    """Standard Entry Point for Omni Orchestrator"""
+    try:
+        logging.basicConfig(level=logging.CRITICAL)
+        logging.getLogger().setLevel(logging.CRITICAL)
+        node = WebNode()
+        if hasattr(node, "run_cycle"):
+            node.run_cycle()
+        elif hasattr(node, "run"):
+            node.run()
+        return json.dumps({"status": "success", "message": "WebNode execution completed"})
+    except Exception as e:
+        return json.dumps({"status": "error", "error": str(e)})
+
+def run(payload: str = None) -> str:
+    """Standard Entry Point for Omni Orchestrator"""
+    try:
+        logging.basicConfig(level=logging.CRITICAL)
+        logging.getLogger().setLevel(logging.CRITICAL)
+        node = WebNode()
+        if hasattr(node, "run_cycle"):
+            node.run_cycle()
+        elif hasattr(node, "run"):
+            node.run()
+        return json.dumps({"status": "success", "message": "WebNode execution completed"})
+    except Exception as e:
+        return json.dumps({"status": "error", "error": str(e)})
+
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO)
-    node = WebNode()
-    asyncio.run(node.run_cycle())
+    print(run())
