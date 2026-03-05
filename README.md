@@ -137,4 +137,4 @@ python3 -m pytest tests/
 
 ## 📄 License
 
-See repository root for license information.
+Licensing for this project is currently under review and will be documented in a future update. Until a formal license is added, all rights are reserved.
