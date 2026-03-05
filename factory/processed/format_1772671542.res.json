@@ -1,0 +1,6 @@
+{
+    "task_id": "format_1772671542",
+    "status": "FAILED",
+    "output": "/bin/sh: black: command not found\n",
+    "checkpoint": "\u03a3_AP\u03a9\u2013STAMPED"
+}

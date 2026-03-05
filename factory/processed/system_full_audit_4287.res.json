@@ -1,0 +1,11 @@
+{
+    "task_id": "system_full_audit_4287",
+    "status": "SUCCESS",
+    "components": {
+        "genome": "\ud83e\uddec [AP\u03a9] ANALYZING MACHINE GENOME: /Users/andy/.gemini/antigravity/brain/d5cc148e-bc23-4310-b4a8-bc292edee330/anti_gravity.apo\n\ud83d\udcca Format: APOV v1 | Total Facts: 946\n\n\ud83d\udce1 [AXIS RESONANCE] (Top Activities)\n- SIM: 313 logic blocks (33.09%)\n- MEMORY: 156 logic blocks (16.49%)\n- APP: 156 logic blocks (16.49%)\n- OPS: 84 logic blocks (8.88%)\n- AUDIT: 80 logic blocks (8.46%)\n\n\ud83e\udde0 [LOGICAL DNA CLUSTERS] (Most Frequent States)\n- FactID[310]: Axis CORE | State 54 (Freq: 77)\n- FactID[184]: Axis APP | State 56 (Freq: 77)\n- FactID[133]: Axis APP | State 05 (Freq: 77)\n- FactID[413]: Axis AUDIT | State 29 (Freq: 77)\n- FactID[338]: Axis OPS | State 18 (Freq: 77)\n\n\u26d3\ufe0f [SENSORY LOOPS] (Top Predicted Transitions)\n- CORE(54) --> APP(56) | Freq: 77\n- APP(56) --> APP(5) | Freq: 77\n- APP(5) --> AUDIT(29) | Freq: 77\n- AUDIT(29) --> OPS(18) | Freq: 77\n- OPS(18) --> MEMORY(60) | Freq: 77\n\n\u2728 CONCLUSION: The Genome at /Users/andy/.gemini/antigravity/brain/d5cc148e-bc23-4310-b4a8-bc292edee330/anti_gravity.apo shows high deterministic density.\n",
+        "ontology_lint": "FAILED: Could not import apo_symbol_map - No module named 'app.core.apo_symbol_map'\n",
+        "drift_analysis": "--- INITIALIZING MESH AUDIT v3.1 [2026-03-05T08:00:08.303580] ---\n{\n  \"version\": \"3.0-MESH\",\n  \"timestamp\": \"2026-03-05T08:00:08.303580\",\n  \"mesh_status\": \"DRIFTING\",\n  \"layers\": {\n    \"L1_CONTROL\": {\n      \"health\": 0.8,\n      \"violations\": [\n        \"PULSE WEAK: Last heartbeat was 49.2h ago (Threshold: 24h).\"\n      ]\n    },\n    \"L2_PRODUCTION\": {\n      \"health\": 0.9,\n      \"violations\": [\n        \"SIZE DRIFT: 343.3MB > 100MB\"\n      ]\n    },\n    \"L3_ARCHIVE\": {\n      \"health\": 1.0,\n      \"violations\": []\n    }\n  },\n  \"overall_score\": 90\n}\n"
+    },
+    "timestamp": "\"2026-03-05T01:00:09Z\"",
+    "signature": "\u27e6AP\u03a9:\u03a3\u27e7"
+}
