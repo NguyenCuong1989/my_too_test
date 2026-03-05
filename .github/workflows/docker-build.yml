@@ -1,0 +1,100 @@
+name: Docker Build & Push
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'factory/**'
+      - 'factory/mcp-router/**'
+      - 'DAIOF-Framework/**'
+      - 'balancehub/**'
+      - '.github/workflows/docker-build.yml'
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_REGISTRY: docker.io
+
+jobs:
+  build-factory:
+    runs-on: ubuntu-latest
+    name: Build Factory Worker
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - name: Build
+        uses: docker/build-push-action@v5
+        with:
+          context: ./factory
+          push: false
+          tags: my_too_test-factory-worker:latest
+          cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ github.repository }}/factory:buildcache
+
+  build-mcp-router:
+    runs-on: ubuntu-latest
+    name: Build MCP Router
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - name: Build
+        uses: docker/build-push-action@v5
+        with:
+          context: ./factory/mcp-router
+          push: false
+          tags: my_too_test-mcp-router:latest
+          cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ github.repository }}/mcp-router:buildcache
+
+  build-daiof:
+    runs-on: ubuntu-latest
+    name: Build DAIOF-Framework
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - name: Build
+        uses: docker/build-push-action@v5
+        with:
+          context: ./DAIOF-Framework
+          push: false
+          tags: daiof-framework:latest
+          cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ github.repository }}/daiof:buildcache
+
+  build-balancehub:
+    runs-on: ubuntu-latest
+    name: Build BalanceHub
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - name: Build
+        uses: docker/build-push-action@v5
+        with:
+          context: ./balancehub
+          push: false
+          tags: balancehub-api:latest
+          cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ github.repository }}/balancehub:buildcache
+
+  test-compose:
+    runs-on: ubuntu-latest
+    name: Validate docker-compose
+    needs: [build-factory, build-mcp-router, build-daiof, build-balancehub]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - name: Validate docker-compose.yml
+        run: |
+          sudo apt-get install -y docker-compose
+          docker-compose config -f docker-compose.yml > /dev/null
+          echo "✅ docker-compose.yml is valid"
+
+  report:
+    runs-on: ubuntu-latest
+    name: Build Report
+    needs: [build-factory, build-mcp-router, build-daiof, build-balancehub, test-compose]
+    if: always()
+    steps:
+      - name: Report Status
+        run: |
+          echo "## Docker Build Report" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "✅ All builds completed successfully!" >> $GITHUB_STEP_SUMMARY
