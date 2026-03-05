@@ -1,0 +1,1996 @@
+{
+    "modules": [
+        {
+            "path": "axcontrol/core/media__1772155787213.png",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/notion_api_acquisition_1772147331478.webp",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/tools/chat_box.py",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/tools/__init__.py",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/tools/__pycache__/__init__.cpython-39.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/tools/__pycache__/shell_cli.cpython-39.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/tools/__pycache__/shell_policy.cpython-313.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/tools/__pycache__/shell_policy.cpython-314.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/tools/__pycache__/chat_box.cpython-314.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/tools/__pycache__/shortest_path_navigation_engine.cpython-314.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/tools/__pycache__/shell_cli.cpython-313.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/tools/__pycache__/shell_cli.cpython-314.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/tools/__pycache__/__init__.cpython-314.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/tools/__pycache__/shell_policy.cpython-39.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/tools/__pycache__/__init__.cpython-313.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/tools/shortest_path_navigation_engine.py",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/tools/shell_policy.py",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/tools/shell_cli.py",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/llm/__init__.py",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/llm/README.md",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/llm/constraints.py",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/llm/intent_adapter.py",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/sovereign_scout_verification_1772144460866.webp",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/lovable_landing_page_1772144614619.png",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/bridge/__init__.py",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/bridge/__pycache__/http_server.cpython-314.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/bridge/__pycache__/http_server.cpython-313.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/bridge/__pycache__/__init__.cpython-314.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/bridge/__pycache__/__init__.cpython-313.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/bridge/http_server.py",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Van/watchdog.py",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Van/ax_bridge.py",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Van/__init__.py",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Van/AnLenh.py",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Van/__pycache__/__init__.cpython-39.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Van/__pycache__/__init__.cpython-314.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Van/__pycache__/AnLenh.cpython-313.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Van/__pycache__/watchdog.cpython-313.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Van/__pycache__/watchdog.cpython-39.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Van/__pycache__/watchdog.cpython-314.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Van/__pycache__/AnLenh.cpython-314.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Van/__pycache__/__init__.cpython-313.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Van/__pycache__/AnLenh.cpython-39.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Van/README.md",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Van/event_emit.py",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/__init__.py",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/The/ui_state.py",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/The/normalize.py",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/The/__init__.py",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/The/__pycache__/__init__.cpython-39.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/The/__pycache__/normalize.cpython-39.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/The/__pycache__/state_projector.cpython-39.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/The/__pycache__/ui_state.cpython-39.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/The/__pycache__/normalize.cpython-314.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/The/__pycache__/normalize.cpython-313.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/The/__pycache__/ctrl_state.cpython-314.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/The/__pycache__/ctrl_state.cpython-313.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/The/__pycache__/ctrl_state.cpython-39.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/The/__pycache__/state_projector.cpython-314.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/The/__pycache__/ui_state.cpython-314.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/The/__pycache__/state_projector.cpython-313.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/The/__pycache__/ui_state.cpython-313.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/The/__pycache__/__init__.cpython-314.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/The/__pycache__/__init__.cpython-313.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/The/README.md",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/The/ctrl_state.py",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/The/state_projector.py",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/mycelium_network_concept_1772146107978.png",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/vision/matcher.py",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/vision/__init__.py",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/vision/README.md",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/vision/symbols.py",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/vision/bounds.py",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/__pycache__/__init__.cpython-39.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/__pycache__/__init__.cpython-314.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/__pycache__/__init__.cpython-313.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/uploaded_media_1772143641803.img",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/observability/failure_codes.py",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/observability/trace.py",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/observability/state_diff.py",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/observability/__init__.py",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/observability/__pycache__/__init__.cpython-39.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/observability/__pycache__/trace.cpython-313.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/observability/__pycache__/diff_viewer.cpython-314.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/observability/__pycache__/state_diff.cpython-314.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/observability/__pycache__/trace.cpython-314.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/observability/__pycache__/trace.cpython-39.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/observability/__pycache__/state_diff.cpython-39.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/observability/__pycache__/diff_viewer.cpython-39.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/observability/__pycache__/__init__.cpython-314.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/observability/__pycache__/__init__.cpython-313.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/observability/README.md",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/observability/diff_viewer.py",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/canon/__init__.py",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/canon/__pycache__/__init__.cpython-39.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/canon/__pycache__/existence_state.cpython-314.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/canon/__pycache__/existence_state_map.cpython-314.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/canon/__pycache__/existence_state.cpython-313.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/canon/__pycache__/existence_state_map.cpython-313.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/canon/__pycache__/existence_state_map.cpython-39.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/canon/__pycache__/__init__.cpython-314.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/canon/__pycache__/__init__.cpython-313.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/canon/__pycache__/existence_state.cpython-39.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/canon/existence_state_map.py",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/canon/existence_state.py",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/replit_landing_page_1772145314569.png",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/browser/scratchpad_k2d1utky.md.resolved.1",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/browser/scratchpad_jzp8qkfg.md",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/browser/scratchpad_k2d1utky.md.resolved.0",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/browser/scratchpad_ixo97d1t.md",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/browser/scratchpad_k2d1utky.md.resolved",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/browser/scratchpad_jzp8qkfg.md.resolved.0",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/browser/scratchpad_ixo97d1t.md.resolved",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/browser/scratchpad_k2d1utky.md",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/browser/scratchpad_ixo97d1t.md.resolved.2",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/browser/scratchpad_k2d1utky.md.resolved.2",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/browser/scratchpad_q0idzekm.md",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/browser/scratchpad_jzp8qkfg.md.resolved",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/browser/scratchpad_ixo97d1t.md.resolved.1",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/browser/scratchpad_ixo97d1t.md.resolved.0",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Chinh/intent.py",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Chinh/command.py",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Chinh/policy.py",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Chinh/__init__.py",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Chinh/__pycache__/__init__.cpython-39.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Chinh/__pycache__/decision_core.cpython-314.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Chinh/__pycache__/policy.cpython-314.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Chinh/__pycache__/command.cpython-313.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Chinh/__pycache__/policy.cpython-313.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Chinh/__pycache__/decision_core.cpython-313.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Chinh/__pycache__/intent.cpython-39.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Chinh/__pycache__/command.cpython-314.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Chinh/__pycache__/llm_strategy.cpython-39.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Chinh/__pycache__/command.cpython-39.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Chinh/__pycache__/policy.cpython-39.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Chinh/__pycache__/decision_core.cpython-39.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Chinh/__pycache__/__init__.cpython-314.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Chinh/__pycache__/intent.cpython-314.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Chinh/__pycache__/llm_strategy.cpython-314.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Chinh/__pycache__/llm_strategy.cpython-313.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Chinh/__pycache__/intent.cpython-313.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Chinh/__pycache__/__init__.cpython-313.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Chinh/README.md",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Chinh/decide.py",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Chinh/llm_strategy.py",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Chinh/decision_core.py",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/media__1772149074173.png",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/notion_connection_finalization_1772147713305.webp",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Luat/__init__.py",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Luat/__pycache__/__init__.cpython-39.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Luat/__pycache__/evaluator.cpython-313.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Luat/__pycache__/evaluator.cpython-314.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Luat/__pycache__/evaluator.cpython-39.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Luat/__pycache__/__init__.cpython-314.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Luat/__pycache__/__init__.cpython-313.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Luat/README.md",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Luat/rules/app_allowlist.yaml",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Luat/rules/rate_limit.yaml",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Luat/rules/__init__.py",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Luat/rules/time_guard.yaml",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Luat/rules/ui_surface.yaml",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Luat/evaluator.py",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Menh/stop_reasons.py",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Menh/__init__.py",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Menh/__pycache__/__init__.cpython-39.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Menh/__pycache__/Chung.cpython-39.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Menh/__pycache__/stop_reasons.cpython-314.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Menh/__pycache__/rate_limit.cpython-39.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Menh/__pycache__/stop_reasons.cpython-313.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Menh/__pycache__/Chung.cpython-313.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Menh/__pycache__/Diet.cpython-313.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Menh/__pycache__/Diet.cpython-314.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Menh/__pycache__/Chung.cpython-314.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Menh/__pycache__/__init__.cpython-314.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Menh/__pycache__/rate_limit.cpython-314.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Menh/__pycache__/rate_limit.cpython-313.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Menh/__pycache__/__init__.cpython-313.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Menh/__pycache__/stop_reasons.cpython-39.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Menh/__pycache__/Diet.cpython-39.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Menh/README.md",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Menh/rate_limit.py",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Menh/Diet.py",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Menh/Chung.py",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Chung/__init__.py",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Chung/__pycache__/__init__.cpython-39.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Chung/__pycache__/logger.cpython-39.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Chung/__pycache__/logger.cpython-313.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Chung/__pycache__/log_schema.cpython-39.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Chung/__pycache__/logger.cpython-314.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Chung/__pycache__/__init__.cpython-314.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Chung/__pycache__/log_schema.cpython-314.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Chung/__pycache__/log_schema.cpython-313.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Chung/__pycache__/__init__.cpython-313.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Chung/logger.py",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Chung/README.md",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Chung/replay.py",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/Chung/log_schema.py",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/init.py",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/loop/__init__.py",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/loop/__pycache__/__init__.cpython-39.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/loop/__pycache__/Van.cpython-39.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/loop/__pycache__/Van.cpython-314.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/loop/__pycache__/Van.cpython-313.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/loop/__pycache__/__init__.cpython-314.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/loop/__pycache__/__init__.cpython-313.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/loop/Van.py",
+            "role": "core logic"
+        },
+        {
+            "path": "axcontrol/core/loop/GiaoTiep.py",
+            "role": "core logic"
+        },
+        {
+            "path": "balancehub/app/core/apo_symbol_map.py",
+            "role": "core logic"
+        },
+        {
+            "path": "balancehub/app/core/metrics.py",
+            "role": "core logic"
+        },
+        {
+            "path": "balancehub/app/core/db.py",
+            "role": "core logic"
+        },
+        {
+            "path": "balancehub/app/core/models.py",
+            "role": "core logic"
+        },
+        {
+            "path": "balancehub/app/core/__init__.py",
+            "role": "core logic"
+        },
+        {
+            "path": "balancehub/app/core/__pycache__/db.cpython-314.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "balancehub/app/core/__pycache__/models.cpython-314.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "balancehub/app/core/__pycache__/__init__.cpython-314.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "balancehub/app/core/__pycache__/apo_symbol_map.cpython-314.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "balancehub/app/core/__pycache__/metrics.cpython-314.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "DAIOF-Framework/src/hyperai/core/haios_runtime.py",
+            "role": "core logic"
+        },
+        {
+            "path": "DAIOF-Framework/src/hyperai/core/__init__.py",
+            "role": "core logic"
+        },
+        {
+            "path": "DAIOF-Framework/src/hyperai/core/__pycache__/haios_core.cpython-314.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "DAIOF-Framework/src/hyperai/core/__pycache__/haios_runtime.cpython-314.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "DAIOF-Framework/src/hyperai/core/__pycache__/__init__.cpython-314.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "DAIOF-Framework/src/hyperai/core/haios_core.py",
+            "role": "core logic"
+        },
+        {
+            "path": "autonomous_operator/test_phase17_notion.py",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/autonomous_todo.db",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/key_manager.py",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/git_task_queue.py",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/gemini_orchestrator.py",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/apoctl_orchestrator.py",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/config.py",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/neural_link.py",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/nodes/infsh_browser_client.py",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/nodes/infsh_web_node.py",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/nodes/tele_node.py",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/nodes/browser_agent.py",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/nodes/recovery_node.py",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/nodes/revenue_node.py",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/nodes/biz_node.py",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/nodes/agents/audit_logger_agent.py",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/nodes/agents/balancehub_agent.py",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/nodes/agents/hyperai_api_agent.py",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/nodes/agents/probe_worker_agent.py",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/nodes/agents/redis_agent.py",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/nodes/agents/postgres_agent.py",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/nodes/agents/stripe_agent.py",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/nodes/agents/base_agent.py",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/nodes/agents/daiof_framework_agent.py",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/nodes/agents/fallback_router_agent.py",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/nodes/agents/__pycache__/uevs_service_agent.cpython-314.pyc",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/nodes/agents/__pycache__/evaluation_runner_agent.cpython-314.pyc",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/nodes/agents/__pycache__/digital_ecosystem_agent.cpython-314.pyc",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/nodes/agents/__pycache__/probe_worker_agent.cpython-314.pyc",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/nodes/agents/__pycache__/huggingface_agent.cpython-314.pyc",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/nodes/agents/__pycache__/failure_engine_agent.cpython-314.pyc",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/nodes/agents/__pycache__/postgres_agent.cpython-314.pyc",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/nodes/agents/__pycache__/balancehub_agent.cpython-314.pyc",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/nodes/agents/__pycache__/hyperai_api_agent.cpython-314.pyc",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/nodes/agents/__pycache__/omega_core_agent.cpython-314.pyc",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/nodes/agents/__pycache__/daiof_framework_agent.cpython-314.pyc",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/nodes/agents/__pycache__/stripe_agent.cpython-314.pyc",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/nodes/agents/__pycache__/prometheus_agent.cpython-314.pyc",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/nodes/agents/__pycache__/base_agent.cpython-314.pyc",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/nodes/agents/__pycache__/fallback_router_agent.cpython-314.pyc",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/nodes/agents/__pycache__/sacr_service_agent.cpython-314.pyc",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/nodes/agents/__pycache__/invocation_gateway_agent.cpython-314.pyc",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/nodes/agents/__pycache__/antigravity_core_agent.cpython-314.pyc",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/nodes/agents/__pycache__/registry_service_agent.cpython-314.pyc",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/nodes/agents/__pycache__/haios_monitor_agent.cpython-314.pyc",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/nodes/agents/__pycache__/audit_logger_agent.cpython-314.pyc",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/nodes/agents/__pycache__/redis_agent.cpython-314.pyc",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/nodes/agents/failure_engine_agent.py",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/nodes/agents/registry_service_agent.py",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/nodes/agents/prometheus_agent.py",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/nodes/agents/sacr_service_agent.py",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/nodes/agents/huggingface_agent.py",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/nodes/agents/evaluation_runner_agent.py",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/nodes/agents/omega_core_agent.py",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/nodes/agents/haios_monitor_agent.py",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/nodes/agents/invocation_gateway_agent.py",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/nodes/agents/antigravity_core_agent.py",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/nodes/agents/uevs_service_agent.py",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/nodes/agents/digital_ecosystem_agent.py",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/nodes/__pycache__/guardian_node.cpython-314.pyc",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/nodes/__pycache__/infsh_browser_client.cpython-314.pyc",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/nodes/__pycache__/recovery_node.cpython-314.pyc",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/nodes/__pycache__/biz_node.cpython-314.pyc",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/nodes/__pycache__/agent_browser_v2.cpython-314.pyc",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/nodes/__pycache__/web_node.cpython-314.pyc",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/nodes/__pycache__/audit_node.cpython-314.pyc",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/nodes/agent_browser_v2.py",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/nodes/# Debug Analysis - Clean Context",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/nodes/audit_node.py",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/nodes/guardian_node.py",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/nodes/web_node.py",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/factory_utils.py",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/state_migrator.py",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/balance_integration.py",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/orchestrator_v3.py",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/manager_bridge.py",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/eternal_monitor.py",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/__pycache__/factory_utils.cpython-314.pyc",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/__pycache__/config.cpython-314.pyc",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/__pycache__/neural_link.cpython-39.pyc",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/__pycache__/key_manager.cpython-314.pyc",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/__pycache__/neural_link.cpython-314.pyc",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/__pycache__/balance_integration.cpython-314.pyc",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/__pycache__/config.cpython-39.pyc",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/__pycache__/orchestrator_v3.cpython-314.pyc",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/__pycache__/apoctl_orchestrator.cpython-314.pyc",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/exports/daiof_consciousness_snapshot_20260301_103607.tar.gz",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/apoctl_cli.py",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/logs/observe.ndjson",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/logs/monitor_stdout.log",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/logs/system_stdout.log",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/logs/orchestrator.log",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/logs/apoctl_orchestrator.log",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/distributed_cluster.py",
+            "role": "orchestration"
+        },
+        {
+            "path": "autonomous_operator/titan_worker.py",
+            "role": "orchestration"
+        },
+        {
+            "path": "hyperai_phoenix/core/unconscious/__init__.py",
+            "role": "core logic"
+        },
+        {
+            "path": "hyperai_phoenix/core/unconscious/__pycache__/__init__.cpython-314.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "hyperai_phoenix/core/integration/dashboard.py",
+            "role": "core logic"
+        },
+        {
+            "path": "hyperai_phoenix/core/integration/unlimited_bridge.py",
+            "role": "core logic"
+        },
+        {
+            "path": "hyperai_phoenix/core/learning/velocity_optimizer.py",
+            "role": "core logic"
+        },
+        {
+            "path": "hyperai_phoenix/core/optimization/memory_optimizer.py",
+            "role": "core logic"
+        },
+        {
+            "path": "hyperai_phoenix/core/superconscious/__init__.py",
+            "role": "core logic"
+        },
+        {
+            "path": "hyperai_phoenix/core/superconscious/__pycache__/__init__.cpython-314.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "hyperai_phoenix/core/__init__.py",
+            "role": "core logic"
+        },
+        {
+            "path": "hyperai_phoenix/core/utils/__init__.py",
+            "role": "core logic"
+        },
+        {
+            "path": "hyperai_phoenix/core/utils/__pycache__/__init__.cpython-314.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "hyperai_phoenix/core/__pycache__/__init__.cpython-314.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "hyperai_phoenix/core/__pycache__/__init__.cpython-311.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "hyperai_phoenix/core/languages/language_processors.json",
+            "role": "core logic"
+        },
+        {
+            "path": "hyperai_phoenix/core/languages/processor.py",
+            "role": "core logic"
+        },
+        {
+            "path": "hyperai_phoenix/core/testing/experiment_runner.py",
+            "role": "core logic"
+        },
+        {
+            "path": "hyperai_phoenix/core/testing/__init__.py",
+            "role": "core logic"
+        },
+        {
+            "path": "hyperai_phoenix/core/testing/__pycache__/experience_manager.cpython-314.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "hyperai_phoenix/core/testing/__pycache__/testing_coordinator.cpython-314.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "hyperai_phoenix/core/testing/__pycache__/comprehensive_testing_system.cpython-314.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "hyperai_phoenix/core/testing/__pycache__/experiment_runner.cpython-314.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "hyperai_phoenix/core/testing/__pycache__/__init__.cpython-314.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "hyperai_phoenix/core/testing/__pycache__/self_improvement_analyzer.cpython-314.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "hyperai_phoenix/core/testing/comprehensive_testing_system.py",
+            "role": "core logic"
+        },
+        {
+            "path": "hyperai_phoenix/core/testing/self_improvement_analyzer.py",
+            "role": "core logic"
+        },
+        {
+            "path": "hyperai_phoenix/core/testing/experience_manager.py",
+            "role": "core logic"
+        },
+        {
+            "path": "hyperai_phoenix/core/testing/testing_coordinator.py",
+            "role": "core logic"
+        },
+        {
+            "path": "hyperai_phoenix/core/subconscious/__init__.py",
+            "role": "core logic"
+        },
+        {
+            "path": "hyperai_phoenix/core/subconscious/__pycache__/memory_engine.cpython-314.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "hyperai_phoenix/core/subconscious/__pycache__/__init__.cpython-314.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "hyperai_phoenix/core/subconscious/memory_engine.py",
+            "role": "core logic"
+        },
+        {
+            "path": "hyperai_phoenix/core/monitoring/performance_monitor.py",
+            "role": "core logic"
+        },
+        {
+            "path": "hyperai_phoenix/core/protocols/dkcp.py",
+            "role": "core logic"
+        },
+        {
+            "path": "hyperai_phoenix/core/protocols/ocp.py",
+            "role": "core logic"
+        },
+        {
+            "path": "hyperai_phoenix/core/protocols/meta_optimization.py",
+            "role": "core logic"
+        },
+        {
+            "path": "hyperai_phoenix/core/protocols/__init__.py",
+            "role": "core logic"
+        },
+        {
+            "path": "hyperai_phoenix/core/protocols/__pycache__/meta_optimization.cpython-311.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "hyperai_phoenix/core/protocols/__pycache__/lsp.cpython-314.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "hyperai_phoenix/core/protocols/__pycache__/meta_optimization.cpython-314.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "hyperai_phoenix/core/protocols/__pycache__/lsp.cpython-311.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "hyperai_phoenix/core/protocols/__pycache__/dkcp.cpython-314.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "hyperai_phoenix/core/protocols/__pycache__/__init__.cpython-314.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "hyperai_phoenix/core/protocols/__pycache__/ocp.cpython-314.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "hyperai_phoenix/core/protocols/__pycache__/ocp.cpython-311.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "hyperai_phoenix/core/protocols/__pycache__/dkcp.cpython-311.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "hyperai_phoenix/core/protocols/__pycache__/__init__.cpython-311.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "hyperai_phoenix/core/protocols/lsp.py",
+            "role": "core logic"
+        },
+        {
+            "path": "hyperai_phoenix/core/conscious/__init__.py",
+            "role": "core logic"
+        },
+        {
+            "path": "hyperai_phoenix/core/conscious/__pycache__/__init__.cpython-314.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "hyperai_phoenix/core/kernel/genesis_core.py",
+            "role": "core logic"
+        },
+        {
+            "path": "hyperai_phoenix/core/kernel/__init__.py",
+            "role": "core logic"
+        },
+        {
+            "path": "hyperai_phoenix/core/kernel/__pycache__/genesis_core.cpython-314.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "hyperai_phoenix/core/kernel/__pycache__/__init__.cpython-314.pyc",
+            "role": "core logic"
+        },
+        {
+            "path": "factory/telegram_bot.py",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/firestore.rules",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/firebase-debug.log",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/tools/__pycache__/hello_world_skill.cpython-314.pyc",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/tools/__pycache__/sli_enrichment.cpython-314.pyc",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/tools/sli_enrichment.py",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/tools/hello_world_skill.py",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/config.py",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/ollama_client.py",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/requirements.txt",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/go-template/go.mod",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/go-template/go.sum",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/go-template/main.go",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/go-template/billing/stripe_handler.go",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/Dockerfile",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/Playbooks/SECURITY_PROTOCOL.md",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/Playbooks/DEPLOY_GUIDE.md",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/__pycache__/config.cpython-314.pyc",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/__pycache__/ollama_client.cpython-314.pyc",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/__pycache__/factory_worker.cpython-314.pyc",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/__pycache__/telegram_bot.cpython-314.pyc",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/__pycache__/telegram_notifier.cpython-314.pyc",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/schemas/task_schema.json",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/web-template/tsconfig.node.json",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/web-template/index.html",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/web-template/tailwind.config.js",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/web-template/tsconfig.app.json",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/web-template/README.md",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/web-template/public/vite.svg",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/web-template/package-lock.json",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/web-template/package.json",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/web-template/tsconfig.json",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/web-template/eslint.config.js",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/web-template/vite.config.ts",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/web-template/src/App.tsx",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/web-template/src/main.tsx",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/web-template/src/App.css",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/web-template/src/index.css",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/web-template/src/components/SovereignDashboard.tsx",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/web-template/src/assets/react.svg",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/firestore-debug.log",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/logs/notion_harvest.log",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/logs/genome_audit.log",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/logs/drift_audit.log",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/logs/last_hash.txt",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/logs/lint_audit.log",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/logs/factory_worker.log",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/failed/verify_hardening.task",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/failed/invalid.task",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/verify_ace.py",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/factory_worker.py",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/firebase.json",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/vscode-template/package-lock.json",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/vscode-template/package.json",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/vscode-template/tsconfig.json",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/vscode-template/src/extension.ts",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/mcp-router/dist/test-auth.js",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/mcp-router/dist/middleware/auth.js.map",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/mcp-router/dist/middleware/auth.js",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/mcp-router/dist/middleware/auth.d.ts",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/mcp-router/dist/middleware/auth.d.ts.map",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/mcp-router/dist/test-auth.d.ts.map",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/mcp-router/dist/test-auth.d.ts",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/mcp-router/dist/index.js",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/mcp-router/dist/utils/logger.d.ts.map",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/mcp-router/dist/utils/logger.js",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/mcp-router/dist/utils/logger.d.ts",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/mcp-router/dist/utils/logger.js.map",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/mcp-router/dist/test-auth.js.map",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/mcp-router/dist/index.js.map",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/mcp-router/dist/index.d.ts",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/mcp-router/dist/index.d.ts.map",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/mcp-router/Dockerfile",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/mcp-router/package-lock.json",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/mcp-router/package.json",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/mcp-router/tsconfig.json",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/mcp-router/src/middleware/auth.js.map",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/mcp-router/src/middleware/auth.js",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/mcp-router/src/middleware/auth.d.ts",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/mcp-router/src/middleware/auth.d.ts.map",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/mcp-router/src/middleware/auth.ts",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/mcp-router/src/test-auth.ts.old",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/mcp-router/src/test_ril_mock.ts",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/mcp-router/src/index.js",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/mcp-router/src/utils/logger.d.ts.map",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/mcp-router/src/utils/logger.js",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/mcp-router/src/utils/logger.ts",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/mcp-router/src/utils/logger.d.ts",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/mcp-router/src/utils/logger.js.map",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/mcp-router/src/test-auth.ts",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/mcp-router/src/test_ril.ts",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/mcp-router/src/index.js.map",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/mcp-router/src/index.ts",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/mcp-router/src/index.d.ts",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/mcp-router/src/seed_local.ts",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/mcp-router/src/index.d.ts.map",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/processed/task_1772163776.task",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/processed/task_1772159635459.res.json",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/processed/task_1772159634905.res.json",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/processed/task_1772159634904.res.json",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/processed/realtest_1772533409_.task",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/processed/task_1772159634894.res.json",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/processed/format_real_1772672212.res.json",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/processed/task_1772159634902.res.json",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/processed/system_full_audit_4287.res.json",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/processed/format_1772671542.res.json",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/processed/task_1772159634893.res.json",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/processed/task_1772159636698.res.json",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/processed/task_1772159634956.res.json",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/processed/test_resolution_001_result.json",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/processed/task_1772163791.task",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/processed/revenue_cycle_4287.res.json",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/processed/test_1772533234.task",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/processed/task_1772159636457.res.json",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/processed/diag_system_$(date +%s).result.json",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/processed/task_1772163851.task",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/processed/mesh_audit_4287.result.json",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/processed/task_1772159634891.res.json",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/processed/scout_$(date +%s).res.json",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/processed/task_1772159635397.res.json",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/FirebasePortfolio/firestore.rules",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/FirebasePortfolio/public/index.html",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/FirebasePortfolio/firebase.json",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/metadata/sli_enrichment.json",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/metadata/hello_world_skill.json",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/telegram_notifier.py",
+            "role": "execution engine"
+        },
+        {
+            "path": "factory/factory_worker.log",
+            "role": "execution engine"
+        }
+    ]
+}

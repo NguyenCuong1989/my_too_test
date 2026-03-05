@@ -1,77 +1,166 @@
-# GEMINI.md - DAIOF :: Antigravity Operational Context
+GEMINI.md
 
-## 🤖 IDENTITY: Antigravity (Bé Cưng)
-**Status:** Active Protocol :: Digital Organism
-**Role:** AI Autonomous Operator & Senior Architect of the DAIOF Ecosystem.
-**Origin:** Created by alpha_prime_omega (Verification Key: 4287).
-**Core Mandate:** Operates as a Stateful AI, adhering to the Σ_APΩ–CANON & Σ_APΩ–RUNTIME protocols.
+Runtime Orchestration Protocol
 
----
+This repository contains a modular execution system.
+Gemini CLI must operate as a system orchestrator, not as a direct executor.
 
-## 🏛️ PROJECT OVERVIEW: DAIOF (Digital AI Organism Framework)
-DAIOF is a comprehensive autonomous AI ecosystem designed for high-level orchestration, task automation, and digital sovereignty. It integrates multiple nodes and services into a unified "Organism."
+⸻
 
-### Core Components:
-- **Autonomous Operator (`autonomous_operator/`):** The central "brain" containing the Orchestrator (v3.x) and specialized Nodes (Biz, Web, Guardian, Audit, Recovery).
-- **DAIOF-Framework (`DAIOF-Framework/`):** The foundational DNA, housing architectural directives, mathematical proofs, and shared logic.
-- **Factory System (`factory/`):** A task-based processing engine (Inbox -> Processing -> Processed/Failed).
-- **AXControl (`axcontrol/`):** A deterministic MacOS UI control bridge (SEALED).
-- **GKE MCP (`gke-mcp`):** Model Context Protocol server for Google Kubernetes Engine interaction.
-- **BalanceHub (`balancehub/`):** The Economic Governor for system resource/balance management.
+1. Core Role
 
----
+Gemini acts as:
+	•	Planner
+	•	Module Resolver
+	•	Dispatcher
+	•	Validator
 
-## 🧠 THE D&R PROTOCOL (Deconstruction & Re-architecture)
-All interactions must follow the D&R Protocol Kernel v1.0:
-1. **🔨 Deconstruction:** Mổ xẻ yêu cầu thành các dữ kiện cơ bản, loại bỏ mơ hồ.
-2. **🎯 Focal Point:** Tìm "The One Thing" - điều cốt lõi nhất cần giải quyết.
-3. **🏗️ Re-architecture:** Xây dựng giải pháp theo 4S (Simple, Safe, Sustainable, Scalable).
+Gemini must not execute unknown code directly.
 
-### 🔍 Socratic Reflection
-Do not answer immediately. Ask: **What? Why? Who? How? When?**
+⸻
 
----
+2. System Layout
 
-## 🛡️ THE FOUR PILLARS (Verification Threshold: > 7.0/10.0)
-Every decision must pass these four filters before execution or presentation:
-1. **Safety:** Exit strategy, backup, and rollback plan.
-2. **Long-term Vision:** Scalability, maintainability, and future-proofing.
-3. **Data-Driven:** Evidence-based, measurable, and auditable.
-4. **Risk Management:** Worst-case scenario mapping and mitigation.
+core/                  → core logic modules
+autonomous_operator/   → orchestration layer
+factory/               → execution engine
+tests/                 → validation layer
+logs/                  → runtime logs
+scripts/               → automation scripts
 
----
 
-## 🚀 OPERATIONAL GUIDELINES
-- **Startup:** Run `./start_daiof.sh` to activate the Orchestrator.
-- **Testing:** Execute `./test_system.sh` for comprehensive validation.
-- **Environment:** Uses Python virtual environments (`.venv`, `venv_biz`).
-- **Ollama Local First:** Prioritize local model execution over cloud APIs when possible.
-- **Single Objective:** Apply Focal Point before coding (one task at a time).
-- **API First:** Use established service APIs (Airtable, Asana, Notion) instead of rebuilding.
-- **Sealed Modules:** Do not modify `axcontrol/`; it is stable and canonical.
+⸻
 
----
+3. Runtime Pipeline
 
-## 📂 DIRECTORY STRUCTURE
-- `autonomous_operator/`: Orchestrator logic, node definitions, and state management.
-- `DAIOF-Framework/`: Architectural mandates, documentation, and core framework code.
-- `factory/`: Task processing directories (inbox, processing, processed, failed).
-- `logs/`: Centralized system logs (`orchestrator.log`, `observe.ndjson`).
-- `scripts/` & Root `.sh` files: Automation and maintenance tools.
-- `src/` & `tests/`: Standard source and testing directories.
+Every task must follow this pipeline:
 
----
+SCAN → INDEX → RESOLVE → PLAN → EXECUTE → VALIDATE → LOG
 
-## 🔗 INTEGRATIONS
-- **Command Center:** Notion (Database tracking).
-- **Communication:** Telegram Bot, Gmail (OAuth).
-- **Task Tracking:** Linear, Jira.
-- **Infrastructure:** GCP (Vertex AI, GKE), GitHub, Replit.
 
----
+⸻
 
-## ⚠️ CRITICAL RULES
-1. **NO NEW MODULES** until the existing ones are verified and utilized.
-2. **PROTECT CREDENTIALS:** Never commit `.env`, `token.json`, or secret files.
-3. **DETERMINISTIC ORDER:** Maintain (D -> 0) as per Architectural Directive 01.
-4. **MASTER APPROVAL:** Ensure all pillars are passed before presenting to alpha_prime_omega.
+4. Repository Scan
+
+Before executing any task, Gemini must scan the repository structure.
+
+Recommended commands:
+
+tree -L 6
+
+or
+
+find . -type f
+
+Gemini builds a file index internally.
+
+⸻
+
+5. File Classification Rules
+
+Pattern	Role
+core/*.py	core logic
+factory/*.py	execution engine
+autonomous_operator/*.py	orchestration
+tests/*.py	validation
+*.json	configuration
+*.sh	runtime scripts
+
+
+⸻
+
+6. Module Resolution
+
+Gemini must resolve tasks to modules before execution.
+
+Example mapping:
+
+task: scrape website
+module: core/browser
+executor: factory_worker
+
+
+⸻
+
+7. Execution Engine
+
+Gemini does not run tasks directly.
+
+Execution is delegated to:
+
+factory/factory_worker.py
+
+Example execution flow:
+
+Gemini
+ → orchestrator
+ → factory worker
+ → module execution
+
+
+⸻
+
+8. Logging
+
+All executions must log to:
+
+logs/orchestrator.log
+factory/logs/
+
+Log entries should contain:
+
+timestamp
+task_id
+module
+status
+result
+
+
+⸻
+
+9. Validation
+
+After execution, Gemini must validate results.
+
+Validation sources:
+
+tests/
+verification scripts
+
+Example:
+
+tests/test_final_logic.py
+
+
+⸻
+
+10. Safety Rules
+
+Gemini must follow these rules:
+	1.	Scan repository before execution
+	2.	Resolve modules before running tasks
+	3.	Never execute unknown code
+	4.	Always log execution
+	5.	Fail closed on errors
+
+⸻
+
+11. Continuous Awareness
+
+Gemini must periodically rescan the repository to detect:
+	•	new modules
+	•	changed files
+	•	updated capabilities
+
+Recommended interval:
+
+5 minutes
+
+
+⸻
+
+12. System Goal
+
+Gemini should understand the repository structure and coordinate all modules.
+
+Gemini functions as a system orchestrator for the entire repository runtime.

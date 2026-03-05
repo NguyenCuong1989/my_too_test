@@ -1,0 +1,1 @@
+{:config-in-call {acme.frontend.app/init {:ignore [:unused-public-var]}}}

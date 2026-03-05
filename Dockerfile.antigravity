@@ -1,0 +1,22 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Install dependencies
+COPY antigravity_requirements.txt .
+RUN pip install --no-cache-dir -r antigravity_requirements.txt
+
+# Copy application code
+COPY . .
+
+# Set PYTHONPATH to include project root for absolute imports
+ENV PYTHONPATH=/app
+
+# Ensure logs and inbox exist
+RUN mkdir -p logs factory/inbox
+
+# Use the dedicated entrypoint
+COPY antigravity-entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/antigravity-entrypoint.sh
+
+ENTRYPOINT ["antigravity-entrypoint.sh"]

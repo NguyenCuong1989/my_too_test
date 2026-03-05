@@ -1,0 +1,6 @@
+services:
+  factory:
+    image: factory
+    build:
+      context: .
+      dockerfile: ./Dockerfile
