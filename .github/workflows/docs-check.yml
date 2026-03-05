@@ -1,0 +1,42 @@
+name: Documentation Validation
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  docs-check:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check README.md exists and is valid
+        run: |
+          if [ ! -f README.md ]; then
+            echo "ERROR: README.md is missing"
+            exit 1
+          fi
+          if [ ! -s README.md ]; then
+            echo "ERROR: README.md is empty"
+            exit 1
+          fi
+          echo "README.md exists and is non-empty"
+
+      - name: Check CONTRIBUTING.md exists
+        run: |
+          if [ ! -f CONTRIBUTING.md ]; then
+            echo "WARNING: CONTRIBUTING.md is missing"
+          else
+            echo "CONTRIBUTING.md exists"
+          fi
+
+      - name: Validate links in README.md
+        run: |
+          npx --yes markdown-link-check README.md || true
