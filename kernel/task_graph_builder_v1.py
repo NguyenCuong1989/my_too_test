@@ -21,7 +21,9 @@ class TaskGraphBuilder:
 
         for i, node in enumerate(path):
 
-            capability, skill = node.split(".")
+            parts = node.split(".")
+            capability = ".".join(parts[:-1]) if len(parts) > 1 else parts[0]
+            skill = parts[-1] if len(parts) > 1 else "default"
 
             task_id = f"t{i+1}"
 

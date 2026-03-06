@@ -4,25 +4,34 @@ class GoalMapper:
     Resolves high-level string goals to specific capability graph nodes.
     """
 
-    GOAL_MAP = {
-        "STABILITY": ("phoenix", "analysis"),
-        "DEPLOYMENT": ("factory", "deploy"),
-        "CONTROL": ("axcontrol", "runtime"),
-        "RUNTIME": ("axcontrol", "runtime") # Alias for common usage
-    }
+    def __init__(self):
+        self.ontology_path = Path("/Users/andy/my_too_test/kernel/omni_capability_ontology.json")
+        self.mapping_path = Path("/Users/andy/my_too_test/kernel/node_to_agent_map.json")
 
-    def resolve(self, goal: str):
+    def resolve(self, goal: str) -> str:
         """
-        Input: goal (string), e.g., "CONTROL"
-        Output: node_id (string), e.g., "axcontrol.runtime"
+        Maps a high-level mission goal to a terminal ontology node.
         """
-        # Ensure goal is uppercase for matching
-        goal_key = str(goal).upper()
+        # Mission -> Terminal Node mapping
+        mission_map = {
+            "DEEP_AUDIT": "axis_7.economics.value_scoring",
+            "SYNC_LOGIC": "axis_5.execution.filesystem",
+            "SECURITY_SCAN": "axis_6.security.protection",
+            "WEB_AUTO": "axis_3.ui_vision.element_recognition"
+        }
 
-        if goal_key not in self.GOAL_MAP:
-            # Fallback or strict error. Let's be strict.
-            raise Exception(f"Undefined goal: {goal_key}")
+        node_id = mission_map.get(goal.upper(), goal)
+        return node_id
 
-        capability, skill = self.GOAL_MAP[goal_key]
-
-        return f"{capability}.{skill}"
+    def get_agent_for_node(self, node_id: str) -> str:
+        """
+        Bridges Ontology Node -> Omni Agent
+        """
+        try:
+            import json
+            from pathlib import Path
+            with open(self.mapping_path, "r") as f:
+                data = json.load(f)
+                return data.get("mappings", {}).get(node_id, "omega_core_agent")
+        except:
+            return "omega_core_agent"

@@ -1,7 +1,11 @@
 VALID_CAPABILITIES = {
     "factory": ["deploy", "filesystem", "networking", "automation"],
     "axcontrol": ["control", "infrastructure", "runtime"],
-    "phoenix": ["reasoning", "memory", "analysis"]
+    "phoenix": ["reasoning", "memory", "analysis"],
+    "github": ["list_repos", "audit_repo", "sync_logic"],
+    "memory": ["status", "sync"],
+    "system": ["health"],
+    "asana": ["create_task", "get_status", "update_audit_task"]
 }
 
 PHASE_ORDER = [
@@ -38,7 +42,7 @@ class CanonValidator:
             phase = t["phase"]
             if phase not in PHASE_ORDER:
                 raise Exception(f"Invalid phase: {phase}")
-                
+
             idx = PHASE_ORDER.index(phase)
 
             if idx < last_index:
