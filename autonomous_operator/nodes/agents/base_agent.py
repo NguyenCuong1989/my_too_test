@@ -180,7 +180,7 @@ class DAIOFAgent(ABC):
             raise
 
     def log_event(self, e_type, content, meta=None, priority="Medium"):
-        """Log sự kiện lên NeuralLink và Notion."""
+        """Log sự kiện lên NeuralLink, Notion và Ω Governance."""
         # 1. Local NeuralLink
         self.link.log_service_event(
             service=self.agent_name,
@@ -189,7 +189,11 @@ class DAIOFAgent(ABC):
             meta=json.dumps(meta) if meta else None
         )
 
-        # 2. Notion Dashboard
+        # 2. Ω Governance Bridge (For Entropy Monitoring)
+        # In a real boot, this would call the OmegaKernel's entropy monitor
+        print(f"📊 Ω-LOG [{self.axis_id}]: {e_type} - {content[:100]}")
+
+        # 3. Notion Dashboard
         if self.notion and NOTION_DB_ID:
             try:
                 self.notion.pages.create(
@@ -197,7 +201,7 @@ class DAIOFAgent(ABC):
                     properties={
                         "Name": {"title": [{"text": {"content": f"🤖 {self.agent_name}: {e_type}"}}]},
                         "Status": {"select": {"name": "Operation Log"}},
-                        "Category": {"select": {"name": self.agent_name}},
+                        "Category": {"select": {"name": self.axis_id}},
                         "Priority": {"select": {"name": priority}},
                         "Snippet": {"rich_text": [{"text": {"content": str(content)[:1500]}}]}
                     }
@@ -206,63 +210,21 @@ class DAIOFAgent(ABC):
                 self.logger.error(f"Notion log failed: {e}")
 
     def get_status_report(self):
-        """Báo cáo trạng thái cho Symphony."""
+        """Báo cáo trạng thái cho Symphony và Ω."""
         return {
             "agent_name": self.agent_name,
             "axis": self.axis_id,
             "status": "active",
             "genome_health": 1.0,
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now().isoformat(),
+            "verification": "Σ_APΩ_4287"
         }
 
-    def delegate_task(self, hub_name, task_desc):
-        """
-        🚀 High-level delegation to Cloud AI.
-        Giao phó các tác vụ nặng cho AI Hub tương ứng.
-        """
-        self.logger.info(f"⚡ Requesting Delegation: {hub_name} -> {task_desc[:50]}...")
-        result = self.tools.delegate_to_cloud_cli(hub_name, task_desc)
-
-        if isinstance(result, dict) and result.get("exit_code") == 0:
-            self.log_event("DELEGATION_SUCCESS", f"Task offloaded to {hub_name}")
-            return result["stdout"]
-        else:
-            self.log_event("DELEGATION_FAILURE", f"Failed to offload to {hub_name}", priority="High")
-            return f"❌ Delegation failed: {result}"
-
 def run(payload: str = None) -> str:
     """Standard Entry Point for Omni Orchestrator"""
     try:
-        logging.basicConfig(level=logging.CRITICAL)
-        logging.getLogger().setLevel(logging.CRITICAL)
-        return json.dumps({"status": "success", "message": "Skill executed"})
-    except Exception as e:
-        return json.dumps({"status": "error", "error": str(e)})
-
-def run(payload: str = None) -> str:
-    """Standard Entry Point for Omni Orchestrator"""
-    try:
-        logging.basicConfig(level=logging.CRITICAL)
-        logging.getLogger().setLevel(logging.CRITICAL)
-        return json.dumps({"status": "success", "message": "Skill executed"})
-    except Exception as e:
-        return json.dumps({"status": "error", "error": str(e)})
-
-def run(payload: str = None) -> str:
-    """Standard Entry Point for Omni Orchestrator"""
-    try:
-        logging.basicConfig(level=logging.CRITICAL)
-        logging.getLogger().setLevel(logging.CRITICAL)
-        return json.dumps({"status": "success", "message": "Skill executed"})
-    except Exception as e:
-        return json.dumps({"status": "error", "error": str(e)})
-
-def run(payload: str = None) -> str:
-    """Standard Entry Point for Omni Orchestrator"""
-    try:
-        logging.basicConfig(level=logging.CRITICAL)
-        logging.getLogger().setLevel(logging.CRITICAL)
-        return json.dumps({"status": "success", "message": "Skill executed"})
+        # Agents should be instantiated by their specific subclasses
+        return json.dumps({"status": "error", "message": "BaseAgent cannot be run directly."})
     except Exception as e:
         return json.dumps({"status": "error", "error": str(e)})
 
