@@ -1,45 +1,55 @@
-import time
-
-
 class RuntimeKernel:
 
     def __init__(self, planner, validator, orchestrator, state_manager):
-
+        """
+        APΩ Runtime Control Loop
+        Ψ_t → Π_plan → τ → Ω → Ψ_{t+1}
+        """
         self.planner = planner
         self.validator = validator
         self.orchestrator = orchestrator
         self.state_manager = state_manager
 
-
-    def run(self, goal, allowed_capabilities=None):
-
-        if allowed_capabilities is None:
-            allowed_capabilities = ["factory", "axcontrol", "phoenix"]
-
+    def run(self, goal: str):
+        """
+        Executes the deterministic control loop until the goal is reached.
+        """
+        print(f"Kernel: Starting Control Loop for goal: {goal}")
+        
         while True:
+            # 1. Observe State (Ψ_t)
+            state = self.state_manager.observe()
+            print(f"Kernel: Current State: {state}")
 
-            # Ψ_t
-            state = self.state_manager.get_state()
-
-            # Π_plan
+            # 2. Planning (Π_plan)
+            # Standardized call signature
             plan = self.planner.build_plan(
-                state,
-                goal,
-                {},
-                allowed_capabilities
+                state=state,
+                goal=goal,
+                context={},
+                allowed_capabilities=["factory", "axcontrol", "phoenix"]
             )
 
-            # V (Canon Verification)
+            # 3. Validation (V)
+            # Enforces Canon
             self.validator.validate(plan)
 
-            # Ω (Omni Orchestrator)
+            # 4. Orchestration (Ω)
+            # Executes Task Graph (τ)
             self.orchestrator.execute(plan)
 
-            # Ω_obs
+            # 5. Convergence Check (Ψ_{t+1})
             new_state = self.state_manager.observe()
-
-            if new_state.get("goal_achieved"):
-                print(f"Goal {goal} achieved successfully.")
+            
+            # Simple simulation: if goal is a capability that was just executed, we consider it reached
+            # In real production, this would be a more complex goal check
+            if new_state.get("goal_reached") or self._simulate_goal_check(plan, goal):
+                print("Kernel: Goal convergence detected. Shutting down loop.")
                 break
 
-            time.sleep(1) # Safety delay
+    def _simulate_goal_check(self, plan, goal):
+        # Mock logic for simulation
+        last_task = plan["tasks"][-1]
+        if goal.lower() in last_task["capability"].lower() or goal.lower() in last_task["skill"].lower():
+            return True
+        return False
