@@ -1,43 +1,58 @@
+VALID_CAPABILITIES = {
+    "factory": ["deploy", "filesystem", "networking", "automation"],
+    "axcontrol": ["control", "infrastructure", "runtime"],
+    "phoenix": ["reasoning", "memory", "analysis"]
+}
+
+PHASE_ORDER = [
+    "origin",
+    "event",
+    "propagation",
+    "observe",
+    "interface",
+    "failure",
+    "boundary"
+]
+
+
 class CanonValidator:
+    """
+    Canon Validator (V)
+    Enforces capability and phase constraints on the generated plan.
+    """
 
-    PHASES = [
-        "origin",
-        "event",
-        "propagation",
-        "observe",
-        "interface",
-        "failure",
-        "boundary"
-    ]
+    def validate_capability(self, task: dict):
+        capability = task["capability"]
+        skill = task["skill"]
 
-    def validate(self, plan):
+        if capability not in VALID_CAPABILITIES:
+            raise Exception(f"Invalid capability: {capability}")
 
-        task_ids = {t["id"] for t in plan["tasks"]}
+        if skill not in VALID_CAPABILITIES[capability]:
+            raise Exception(f"Invalid skill: {skill} for capability: {capability}")
 
-        # Check edge validity
-        for e in plan["edges"]:
-
-            if e["from"] not in task_ids:
-                raise Exception(f"Invalid edge source: {e['from']}")
-
-            if e["to"] not in task_ids:
-                raise Exception(f"Invalid edge target: {e['to']}")
-
-        # Validate phase ordering
-        phases = [t["phase"] for t in plan["tasks"]]
-
+    def validate_phase(self, tasks: list):
         last_index = -1
 
-        for p in phases:
-
-            try:
-                idx = self.PHASES.index(p)
-            except ValueError:
-                raise Exception(f"Invalid phase: {p}")
+        for t in tasks:
+            phase = t["phase"]
+            if phase not in PHASE_ORDER:
+                raise Exception(f"Invalid phase: {phase}")
+                
+            idx = PHASE_ORDER.index(phase)
 
             if idx < last_index:
-                raise Exception(f"Phase order violation: {p} cannot follow {self.PHASES[last_index]}")
+                raise Exception(f"Phase order violation: {phase} cannot follow phase at index {last_index}")
 
             last_index = idx
+
+    def validate(self, plan: dict):
+        """
+        Ensures the entire plan is canonical.
+        """
+        for task in plan["tasks"]:
+            self.validate_capability(task)
+
+        self.validate_phase(plan["tasks"])
 
         return True
