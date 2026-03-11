@@ -1,9 +1,11 @@
 {
     "include": [
-        "axcontrol"
+        "axcontrol",
+        "autonomous_operator"
     ],
     "extraPaths": [
-        "axcontrol"
+        "axcontrol",
+        "autonomous_operator"
     ],
     "executionEnvironments": [
         {

@@ -9,7 +9,7 @@ admin.initializeApp({
 const db = admin.firestore();
 
 async function seed() {
-  console.log("🌱 Seeding local emulator...");
+  console.log("🌱 Seeding local emulator with Master Authority...");
 
   const testUser = {
     uid: "test-user-id",
@@ -21,8 +21,20 @@ async function seed() {
     }
   };
 
+  const masterUser = {
+    uid: "master-alpha-prime-omega",
+    email: "nguyencuong.2509@gmail.com",
+    billing: {
+      plan: "unlimited",
+      quota_remaining: 999999,
+      status: "active",
+      role: "admin"
+    }
+  };
+
   await db.collection('users').doc(testUser.uid).set(testUser);
-  console.log("✅ Seed complete: test-user-id created with 1000 items quota.");
+  await db.collection('users').doc(masterUser.uid).set(masterUser);
+  console.log("✅ Seed complete: Master (nguyencuong.2509@gmail.com) activated with UNLIMITED quota.");
 }
 
 seed().catch(console.error);

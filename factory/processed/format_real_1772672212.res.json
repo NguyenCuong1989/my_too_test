@@ -1,0 +1,24 @@
+{
+    "task_id": "format_real_1772672212",
+    "status": "SUCCESS",
+    "execution_details": [
+        {
+            "tool": "black",
+            "code": 0,
+            "out": "reformatted DAIOF-Framework/create_social_preview.py\n\nAll done! \u2728 \ud83c\udf70 \u2728\n1 file reformatted.\n"
+        },
+        {
+            "tool": "isort",
+            "code": 1,
+            "out": "/opt/homebrew/opt/python@3.14/bin/python3.14: No module named isort\n"
+        },
+        {
+            "tool": "isort",
+            "code": 0,
+            "out": "Successfully installed and executed."
+        }
+    ],
+    "timestamp": "\"2026-03-05T00:56:52Z\"",
+    "governance": "\u03a3_AP\u03a9\u2013VALIDATED",
+    "final_verification": "STABLE"
+}

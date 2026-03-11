@@ -1,14 +1,38 @@
+# Version control
+.git
+.gitignore
+.gitmodules
+
+# Development
+.vscode
+.venv
+.pytest_cache
 __pycache__
 *.pyc
-*.pyo
-*.pyd
-.Python
-env
-venv
-.venv
-pip-log.txt
-pip-delete-this-directory.txt
-.task
-processed
-failed
-inbox
+.DS_Store
+
+# Testing
+tests/
+test_*.py
+
+# Documentation
+*.md
+docs/
+
+# Environment
+.env*
+*.key
+credentials.json
+
+# Logs
+logs/
+*.log
+
+# Cache
+.cache
+.pre-commit-hooks.yaml
+
+# System
+node_modules/
+npm-debug.log
+yarn-error.log

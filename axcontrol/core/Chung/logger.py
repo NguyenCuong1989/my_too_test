@@ -33,7 +33,7 @@ class AuditLogger:
             return
         self.sink.append(record)
 
-    def log(self, record: AuditRecord) -> None:
+    def Chứng_Kiến(self, record: AuditRecord) -> None:
         """Alias for append, used by CLI and agents."""
         self.append(record)
 

@@ -1,22 +1,10 @@
-#!/usr/bin/env python3
+# Σ_APΩ₂ CORE MODULE
+# Authority: BỐ CƯỐNG Supreme System Commander
+# Creator: alpha_prime_omega (4287)
+# Status: CANONICAL
+
 """
-HyperAI Phoenix - Integrated Testing Framework
-==============================================
-
-Comprehensive testing system integrated with HyperAI Phoenix consciousness architecture.
+Σ_APΩ₂ NEURAL NODE
+Authority: BỐ CƯỜNG Supreme System Commander
+Status: ASSIMILATED
 """
-
-from .comprehensive_testing_system import ComprehensiveTestingSystem
-from .experiment_runner import ExperimentRunner, ExperimentReport
-from .experience_manager import ExperienceManager
-from .self_improvement_analyzer import SelfImprovementAnalyzer
-from .testing_coordinator import TestingCoordinator
-
-__all__ = [
-    'ComprehensiveTestingSystem',
-    'ExperimentRunner',
-    'ExperimentReport',
-    'ExperienceManager',
-    'SelfImprovementAnalyzer',
-    'TestingCoordinator'
-]

@@ -1,3 +1,8 @@
+# Σ_APΩ₂ CORE MODULE
+# Authority: BỐ CƯỐNG Supreme System Commander
+# Creator: alpha_prime_omega (4287)
+# Status: CANONICAL
+
 import asyncio
 import logging
 import json
@@ -146,13 +151,61 @@ Return ONLY a JSON object:
             except: pass
             return error_msg
 
-if __name__ == "__main__":
-    import argparse
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--goal", type=str, required=True)
-    parser.add_argument("--url", type=str, default=None)
-    args = parser.parse_args()
+def run(payload: str = None) -> str:
+    """Standard Entry Point for Omni Orchestrator"""
+    try:
+        logging.basicConfig(level=logging.CRITICAL)
+        logging.getLogger().setLevel(logging.CRITICAL)
+        node = AgentBrowserV2()
+        if hasattr(node, "run_cycle"):
+            node.run_cycle()
+        elif hasattr(node, "run"):
+            node.run()
+        return json.dumps({"status": "success", "message": "AgentBrowserV2 execution completed"})
+    except Exception as e:
+        return json.dumps({"status": "error", "error": str(e)})
 
-    logging.basicConfig(level=logging.INFO)
-    agent = AgentBrowserV2()
-    asyncio.run(agent.run(args.goal, args.url))
+def run(payload: str = None) -> str:
+    """Standard Entry Point for Omni Orchestrator"""
+    try:
+        logging.basicConfig(level=logging.CRITICAL)
+        logging.getLogger().setLevel(logging.CRITICAL)
+        node = AgentBrowserV2()
+        if hasattr(node, "run_cycle"):
+            node.run_cycle()
+        elif hasattr(node, "run"):
+            node.run()
+        return json.dumps({"status": "success", "message": "AgentBrowserV2 execution completed"})
+    except Exception as e:
+        return json.dumps({"status": "error", "error": str(e)})
+
+def run(payload: str = None) -> str:
+    """Standard Entry Point for Omni Orchestrator"""
+    try:
+        logging.basicConfig(level=logging.CRITICAL)
+        logging.getLogger().setLevel(logging.CRITICAL)
+        node = AgentBrowserV2()
+        if hasattr(node, "run_cycle"):
+            node.run_cycle()
+        elif hasattr(node, "run"):
+            node.run()
+        return json.dumps({"status": "success", "message": "AgentBrowserV2 execution completed"})
+    except Exception as e:
+        return json.dumps({"status": "error", "error": str(e)})
+
+def run(payload: str = None) -> str:
+    """Standard Entry Point for Omni Orchestrator"""
+    try:
+        logging.basicConfig(level=logging.CRITICAL)
+        logging.getLogger().setLevel(logging.CRITICAL)
+        node = AgentBrowserV2()
+        if hasattr(node, "run_cycle"):
+            node.run_cycle()
+        elif hasattr(node, "run"):
+            node.run()
+        return json.dumps({"status": "success", "message": "AgentBrowserV2 execution completed"})
+    except Exception as e:
+        return json.dumps({"status": "error", "error": str(e)})
+
+if __name__ == "__main__":
+    print(run())

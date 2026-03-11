@@ -1,3 +1,8 @@
+# Σ_APΩ₂ CORE MODULE
+# Authority: BỐ CƯỐNG Supreme System Commander
+# Creator: alpha_prime_omega (4287)
+# Status: CANONICAL
+
 import logging
 import asyncio
 import sys
@@ -21,12 +26,31 @@ class WebNode:
         self.logger = logging.getLogger("WebNode")
         self.link = NeuralLink()
 
-    async def run_cycle(self):
+    async def run_cycle(self, command_args=None):
+        """
+        🌐 WebNode: Scanning Ecosystem Organs...
+        Supports command_args (JSON string) for specific target URLs or services.
+        """
         self.logger.info("🌐 WebNode: Scanning Ecosystem Organs...")
 
-        # Chọn ngẫu nhiên 3 dịch vụ từ danh sách của Master để kiểm tra trong chu kỳ này
-        services = list(INTEGRATED_SERVICES.items())
-        targets = random.sample(services, min(len(services), 3))
+        targets = []
+        if command_args:
+            try:
+                args = json.loads(command_args) if isinstance(command_args, str) else command_args
+                if args.get("url"):
+                    targets = [("Direct Scouter", args.get("url"))]
+                    self.logger.info(f"🎯 Direct Target URL Applied: {args.get('url')}")
+                elif args.get("services"):
+                    svc_names = args.get("services")
+                    targets = [(n, INTEGRATED_SERVICES[n]) for n in svc_names if n in INTEGRATED_SERVICES]
+                    self.logger.info(f"🎯 Specific Services Targeted: {svc_names}")
+            except Exception as e:
+                self.logger.warning(f"Failed to parse command_args: {e}")
+
+        # Fallback to random sample if no specific targets
+        if not targets:
+            services = list(INTEGRATED_SERVICES.items())
+            targets = random.sample(services, min(len(services), 3))
 
         async with async_playwright() as p:
             browser = await p.chromium.launch(headless=True)
@@ -87,7 +111,62 @@ class WebNode:
                 intensity=0.1
             )
 
+
+def run(payload: str = None) -> str:
+    """Standard Entry Point for Omni Orchestrator"""
+    try:
+        logging.basicConfig(level=logging.CRITICAL)
+        logging.getLogger().setLevel(logging.CRITICAL)
+        node = WebNode()
+        if hasattr(node, "run_cycle"):
+            node.run_cycle()
+        elif hasattr(node, "run"):
+            node.run()
+        return json.dumps({"status": "success", "message": "WebNode execution completed"})
+    except Exception as e:
+        return json.dumps({"status": "error", "error": str(e)})
+
+def run(payload: str = None) -> str:
+    """Standard Entry Point for Omni Orchestrator"""
+    try:
+        logging.basicConfig(level=logging.CRITICAL)
+        logging.getLogger().setLevel(logging.CRITICAL)
+        node = WebNode()
+        if hasattr(node, "run_cycle"):
+            node.run_cycle()
+        elif hasattr(node, "run"):
+            node.run()
+        return json.dumps({"status": "success", "message": "WebNode execution completed"})
+    except Exception as e:
+        return json.dumps({"status": "error", "error": str(e)})
+
+def run(payload: str = None) -> str:
+    """Standard Entry Point for Omni Orchestrator"""
+    try:
+        logging.basicConfig(level=logging.CRITICAL)
+        logging.getLogger().setLevel(logging.CRITICAL)
+        node = WebNode()
+        if hasattr(node, "run_cycle"):
+            node.run_cycle()
+        elif hasattr(node, "run"):
+            node.run()
+        return json.dumps({"status": "success", "message": "WebNode execution completed"})
+    except Exception as e:
+        return json.dumps({"status": "error", "error": str(e)})
+
+def run(payload: str = None) -> str:
+    """Standard Entry Point for Omni Orchestrator"""
+    try:
+        logging.basicConfig(level=logging.CRITICAL)
+        logging.getLogger().setLevel(logging.CRITICAL)
+        node = WebNode()
+        if hasattr(node, "run_cycle"):
+            node.run_cycle()
+        elif hasattr(node, "run"):
+            node.run()
+        return json.dumps({"status": "success", "message": "WebNode execution completed"})
+    except Exception as e:
+        return json.dumps({"status": "error", "error": str(e)})
+
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO)
-    node = WebNode()
-    asyncio.run(node.run_cycle())
+    print(run())

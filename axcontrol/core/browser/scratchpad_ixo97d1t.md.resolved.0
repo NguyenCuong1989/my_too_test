@@ -1,0 +1,13 @@
+# Task: Find Notion Integration Secret
+
+## Plan
+- [ ] Navigate to https://www.notion.so/my-integrations
+- [ ] Check for existing integration named by Master alpha_prime_omega
+- [ ] Retrieve 'Internal Integration Secret'
+- [ ] Look for Workspace ID or relevant identifiers
+- [ ] Report findings
+
+## Findings
+- Integration Secret: Pending
+- Workspace ID: Pending
+- Identifiers: Pending

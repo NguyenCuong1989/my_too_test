@@ -1,3 +1,8 @@
+# Σ_APΩ₂ CORE MODULE
+# Authority: BỐ CƯỐNG Supreme System Commander
+# Creator: alpha_prime_omega (4287)
+# Status: CANONICAL
+
 """
 HyperAI Phoenix - Tool Registry
 Central registry for all system tools and capabilities

@@ -5,15 +5,20 @@ logs/
 data/
 dist/
 build/
+__pycache__/
+*.pyc
+.env
+credentials.json
+token.json
+notion_secret.txt
+*.key
+autonomous_operator/logs/
+autonomous_operator/state/
+.ai_queue/
+.gemini_key
+trust_of_copilot/
+.github_token
+.env.local
 
-# Coverage & test reports
-htmlcov/
-coverage.xml
-.coverage
-.coverage.*
-
-# Security scan reports
-bandit-report.json
-pip-audit-report.json
-safety-report.json
-trivy-results.sarif
+.gemini/
+gha-creds-*.json

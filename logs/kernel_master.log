@@ -1,0 +1,3 @@
+2026-03-06 04:41:41,605 - [KERNEL] - INFO - 🏛️ Σ_APΩ₂ RUNTIME KERNEL INITIALIZED
+2026-03-06 04:41:41,605 - [KERNEL] - INFO - 🚀 Starting factory_worker: /Users/andy/my_too_test/factory/factory_worker.py
+2026-03-06 04:41:41,608 - [KERNEL] - INFO - 🚀 Starting telegram_bot: /Users/andy/my_too_test/factory/telegram_bot.py

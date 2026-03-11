@@ -1,3 +1,8 @@
+# Σ_APΩ₂ CORE MODULE
+# Authority: BỐ CƯỐNG Supreme System Commander
+# Creator: alpha_prime_omega (4287)
+# Status: CANONICAL
+
 """
 🌐 AUTONOMOUS BROWSER AGENT — Powered by LOCAL OLLAMA (qwen3:8b)
 Không cần cloud quota. Playwright + Ollama = Browser Agent tự trị hoàn toàn.
@@ -100,7 +105,7 @@ Nếu nhiệm vụ hoàn thành, trả về: {{"action": "done", "target": "", "
     async def run(self, goal: str, start_url: str = None, max_steps: int = 15) -> str:
         """
         Thực thi mục tiêu bằng cách duyệt web tự động.
-        
+
         Args:
             goal: Mục tiêu bằng ngôn ngữ tự nhiên (VD: "Unblock secret on GitHub")
             start_url: URL bắt đầu (optional)
@@ -186,12 +191,125 @@ Nếu nhiệm vụ hoàn thành, trả về: {{"action": "done", "target": "", "
 async def _test():
     logging.basicConfig(level=logging.INFO)
     agent = AutonomousBrowserAgent(headless=True)
-    
+
     result = await agent.run(
         goal="Go to GitHub and find the unblock secret link, then click allow",
         start_url="https://github.com/NguyenCuong1989/my_too_test/security/secret-scanning/unblock-secret/3ABilQZ69Rm3g7o2ga7kvnxex16"
     )
     print(f"\nResult: {result}")
 
+async def run(payload: str = None) -> str:
+    """Standard Entry Point for Omni Orchestrator"""
+    try:
+        logging.basicConfig(level=logging.CRITICAL)
+        logging.getLogger().setLevel(logging.CRITICAL)
+        agent = AutonomousBrowserAgent()
+        goal = None
+        url = None
+        if payload:
+            if isinstance(payload, str):
+                try:
+                    data = json.loads(payload)
+                    goal = data.get("goal")
+                    url = data.get("url")
+                except:
+                    goal = payload
+            else:
+                goal = payload.get("goal")
+                url = payload.get("url")
+
+        if not goal:
+            return json.dumps({"status": "error", "error": "No goal provided"})
+
+        result = await agent.run(goal=goal, start_url=url)
+        return json.dumps({"status": "success", "result": result})
+    except Exception as e:
+        return json.dumps({"status": "error", "error": str(e)})
+
+async def run(payload: str = None) -> str:
+    """Standard Entry Point for Omni Orchestrator"""
+    try:
+        logging.basicConfig(level=logging.CRITICAL)
+        logging.getLogger().setLevel(logging.CRITICAL)
+        agent = AutonomousBrowserAgent()
+        goal = None
+        url = None
+        if payload:
+            if isinstance(payload, str):
+                try:
+                    data = json.loads(payload)
+                    goal = data.get("goal")
+                    url = data.get("url")
+                except:
+                    goal = payload
+            else:
+                goal = payload.get("goal")
+                url = payload.get("url")
+
+        if not goal:
+            return json.dumps({"status": "error", "error": "No goal provided"})
+
+        result = await agent.run(goal=goal, start_url=url)
+        return json.dumps({"status": "success", "result": result})
+    except Exception as e:
+        return json.dumps({"status": "error", "error": str(e)})
+
+async def run(payload: str = None) -> str:
+    """Standard Entry Point for Omni Orchestrator"""
+    try:
+        logging.basicConfig(level=logging.CRITICAL)
+        logging.getLogger().setLevel(logging.CRITICAL)
+        agent = AutonomousBrowserAgent()
+        goal = None
+        url = None
+        if payload:
+            if isinstance(payload, str):
+                try:
+                    data = json.loads(payload)
+                    goal = data.get("goal")
+                    url = data.get("url")
+                except:
+                    goal = payload
+            else:
+                goal = payload.get("goal")
+                url = payload.get("url")
+
+        if not goal:
+            return json.dumps({"status": "error", "error": "No goal provided"})
+
+        result = await agent.run(goal=goal, start_url=url)
+        return json.dumps({"status": "success", "result": result})
+    except Exception as e:
+        return json.dumps({"status": "error", "error": str(e)})
+
+async def run(payload: str = None) -> str:
+    """Standard Entry Point for Omni Orchestrator"""
+    try:
+        logging.basicConfig(level=logging.CRITICAL)
+        logging.getLogger().setLevel(logging.CRITICAL)
+        agent = AutonomousBrowserAgent()
+        goal = None
+        url = None
+        if payload:
+            if isinstance(payload, str):
+                try:
+                    data = json.loads(payload)
+                    goal = data.get("goal")
+                    url = data.get("url")
+                except:
+                    goal = payload
+            else:
+                goal = payload.get("goal")
+                url = payload.get("url")
+
+        if not goal:
+            return json.dumps({"status": "error", "error": "No goal provided"})
+
+        result = await agent.run(goal=goal, start_url=url)
+        return json.dumps({"status": "success", "result": result})
+    except Exception as e:
+        return json.dumps({"status": "error", "error": str(e)})
+
 if __name__ == "__main__":
-    asyncio.run(_test())
+    import asyncio
+    print(asyncio.run(run()))

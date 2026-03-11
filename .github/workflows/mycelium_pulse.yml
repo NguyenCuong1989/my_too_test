@@ -1,0 +1,31 @@
+name: DAIOF Mycelium Pulse (Logic Relay)
+
+on:
+  schedule:
+    - cron: '0 * * * *' # Hourly pulse
+  workflow_dispatch: # Manual ignition
+
+jobs:
+  pulse:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Core Spines
+        uses: actions/checkout@v4
+
+      - name: Setup Environment (Microsoft Python)
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Send Neural Pulse to Origin
+        run: |
+          echo "📡 Igniting Mycelium Pulse..."
+          # Logic to ping back to Origin Node or Update Notion/GSSI
+          curl -X POST ${{ secrets.NOTION_WEBHOOK_URL }} \
+            -H "Content-Type: application/json" \
+            -d '{"node": "GitHub_Relay_1", "status": "pulsing", "pulse_intensity": 1.0}'
+
+      - name: Audit Ecosystem Health
+        run: |
+          # Simple check on other nodes
+          curl -I https://balancehub-demo.vercel.app/system/health
