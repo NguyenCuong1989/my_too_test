@@ -82,55 +82,12 @@ class GuardianNode:
 def run(payload: str = None) -> str:
     """Standard Entry Point for Omni Orchestrator"""
     try:
-        logging.basicConfig(level=logging.CRITICAL)
-        logging.getLogger().setLevel(logging.CRITICAL)
-        node = GuardianNode()
-        if hasattr(node, "run_cycle"):
-            node.run_cycle()
-        elif hasattr(node, "run"):
-            node.run()
-        return json.dumps({"status": "success", "message": "GuardianNode execution completed"})
-    except Exception as e:
-        return json.dumps({"status": "error", "error": str(e)})
+        # Prevent logging interference
+        for logger_name in logging.root.manager.loggerDict:
+            logging.getLogger(logger_name).setLevel(logging.CRITICAL)
 
-def run(payload: str = None) -> str:
-    """Standard Entry Point for Omni Orchestrator"""
-    try:
-        logging.basicConfig(level=logging.CRITICAL)
-        logging.getLogger().setLevel(logging.CRITICAL)
         node = GuardianNode()
-        if hasattr(node, "run_cycle"):
-            node.run_cycle()
-        elif hasattr(node, "run"):
-            node.run()
-        return json.dumps({"status": "success", "message": "GuardianNode execution completed"})
-    except Exception as e:
-        return json.dumps({"status": "error", "error": str(e)})
-
-def run(payload: str = None) -> str:
-    """Standard Entry Point for Omni Orchestrator"""
-    try:
-        logging.basicConfig(level=logging.CRITICAL)
-        logging.getLogger().setLevel(logging.CRITICAL)
-        node = GuardianNode()
-        if hasattr(node, "run_cycle"):
-            node.run_cycle()
-        elif hasattr(node, "run"):
-            node.run()
-        return json.dumps({"status": "success", "message": "GuardianNode execution completed"})
-    except Exception as e:
-        return json.dumps({"status": "error", "error": str(e)})
-
-def run(payload: str = None) -> str:
-    """Standard Entry Point for Omni Orchestrator"""
-    try:
-        logging.basicConfig(level=logging.CRITICAL)
-        logging.getLogger().setLevel(logging.CRITICAL)
-        node = GuardianNode()
-        if hasattr(node, "run_cycle"):
-            node.run_cycle()
-        elif hasattr(node, "run"):
-            node.run()
+        node.run_cycle()
         return json.dumps({"status": "success", "message": "GuardianNode execution completed"})
     except Exception as e:
         return json.dumps({"status": "error", "error": str(e)})

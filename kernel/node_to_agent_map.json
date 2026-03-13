@@ -1,0 +1,25 @@
+{
+  "mappings": {
+    "axis_1.messaging.telegram": "tele_node",
+    "axis_1.messaging.discord": "discord_node",
+    "axis_1.messaging.slack": "slack_node",
+    "axis_2.reasoning.planning": "omega_core_agent",
+    "axis_2.analysis.code_audit": "antigravity_core_agent",
+    "axis_2.logic.heuristic": "heuristic_agent",
+    "axis_3.ui_vision.element_recognition": "agent_browser_v2",
+    "axis_3.ocr.text_recognition": "ocr_node",
+    "axis_3.image_gen.stable_diffusion": "stable_diffusion_agent",
+    "axis_4.data.persistence": "postgres_agent",
+    "axis_4.data.cache": "redis_agent",
+    "axis_5.execution.system_control": "balancehub_agent",
+    "axis_5.execution.bridge": "bridge_agent",
+    "axis_5.deployment.vercel": "vercel_agent",
+    "axis_5.deployment.netlify": "netlify_agent",
+    "axis_6.security.protection": "malwarebytes_agent",
+    "axis_6.security.audit": "guardian_node",
+    "axis_7.economics.value_scoring": "revenue_node",
+    "axis_7.economics.finance": "stripe_agent",
+    "axis_8.identity.supreme_commander_auth": "identity_agent",
+    "axis_8.lifecycle.panic_shutdown": "shutdown_agent"
+  }
+}

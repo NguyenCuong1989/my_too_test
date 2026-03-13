@@ -18,7 +18,8 @@ import logging
 from pathlib import Path
 
 ROOT_DIR = Path("/Users/andy/my_too_test").resolve()
-REGISTRY_FILE = ROOT_DIR / "omni_registry.json"
+# Use /tmp for state if workspace is readonly
+REGISTRY_FILE = Path("/tmp/omni_registry.json")
 PATHS_FILE = ROOT_DIR / "omni_paths.json"
 
 # Thiết lập sys.path

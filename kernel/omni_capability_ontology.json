@@ -1,0 +1,71 @@
+{
+  "ontology_version": "1.0",
+  "layers": {
+    "AXIS_1_LANGUAGE": {
+      "capabilities": {
+        "text_interaction": ["chat", "summarization", "translation"],
+        "messaging": ["telegram", "discord", "slack"],
+        "semantic_routing": ["intent_classification", "entity_extraction"]
+      }
+    },
+    "AXIS_2_LOGIC": {
+      "capabilities": {
+        "reasoning": ["chain_of_thought", "minimax", "heuristic_search"],
+        "planning": ["graph_search", "dag_scheduling"],
+        "analysis": ["code_audit", "drift_detection"]
+      }
+    },
+    "AXIS_3_VISION": {
+      "capabilities": {
+        "ui_vision": ["element_recognition", "layout_analysis"],
+        "ocr": ["text_recognition"],
+        "image_gen": ["stable_diffusion", "dalle"]
+      }
+    },
+    "AXIS_4_DATA": {
+      "capabilities": {
+        "persistence": ["postgres", "redis", "sqlite"],
+        "knowledge_graph": ["ace_indexing", "neo4j_query"],
+        "metadata": ["exif_extraction", "git_blame"]
+      }
+    },
+    "AXIS_5_EXECUTION": {
+      "capabilities": {
+        "deployment": ["vercel_deploy", "netlify_push", "docker_build"],
+        "filesystem": ["file_write", "file_delete", "dir_sync"],
+        "system_control": ["shell_exec", "process_monitor"]
+      }
+    },
+    "AXIS_6_SECURITY": {
+      "capabilities": {
+        "protection": ["malware_scan", "quarantine", "firewall"],
+        "audit": ["sacr_registry", "binary_verification"],
+        "policy": ["deterministic_guards", "capability_boundary"]
+      }
+    },
+    "AXIS_7_ECONOMICS": {
+      "capabilities": {
+        "finance": ["stripe_charge", "invoice_gen"],
+        "crypto": ["price_fetch", "on_chain_tx"],
+        "value_scoring": ["merit_calculation", "redistribution"]
+      }
+    },
+    "AXIS_8_GOVERNANCE": {
+      "capabilities": {
+        "identity": ["supreme_commander_auth", "axis_id_verification"],
+        "lifecycle": ["heartbeat_monitor", "panic_shutdown"],
+        "orchestration": ["omega_routing", "watchdog_intercept"]
+      }
+    }
+  },
+  "graph": {
+    "command.telegram.receive": ["axis_1.messaging.telegram"],
+    "axis_1.messaging.telegram": ["axis_2.reasoning.planning"],
+    "axis_2.reasoning.planning": ["axis_8.orchestration.omega_routing"],
+    "axis_8.orchestration.omega_routing": ["axis_6.security.protection"],
+    "axis_6.security.protection": ["axis_5.execution.system_control"],
+    "axis_5.execution.system_control": ["axis_4.data.persistence"],
+    "axis_4.data.persistence": ["axis_7.economics.value_scoring"],
+    "axis_7.economics.value_scoring": ["axis_8.lifecycle.heartbeat_monitor"]
+  }
+}

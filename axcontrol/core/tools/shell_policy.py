@@ -1,3 +1,4 @@
+from __future__ import annotations
 import sys
 # =============================================================================
 # PROJECT: CANON-TO-SYSTEM DETERMINISTIC PROJECTION
@@ -105,24 +106,6 @@ def run(payload: str = None) -> str:
         logging.basicConfig(level=logging.CRITICAL)
         # Placeholder for dynamic logic extraction
         return json.dumps({"status": "success", "message": "Auto-sharpened capability ready", "module": __name__})
-    except Exception as e:
-        return json.dumps({"status": "error", "error": str(e)})
-
-def run(payload: str = None) -> str:
-    """Standard Entry Point for Omni Orchestrator"""
-    try:
-        logging.basicConfig(level=logging.CRITICAL)
-        logging.getLogger().setLevel(logging.CRITICAL)
-        return json.dumps({"status": "success", "message": "Skill executed"})
-    except Exception as e:
-        return json.dumps({"status": "error", "error": str(e)})
-
-def run(payload: str = None) -> str:
-    """Standard Entry Point for Omni Orchestrator"""
-    try:
-        logging.basicConfig(level=logging.CRITICAL)
-        logging.getLogger().setLevel(logging.CRITICAL)
-        return json.dumps({"status": "success", "message": "Skill executed"})
     except Exception as e:
         return json.dumps({"status": "error", "error": str(e)})
 

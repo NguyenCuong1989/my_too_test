@@ -28,10 +28,18 @@ from dataclasses import dataclass
 import os
 from dotenv import load_dotenv
 
-# LangChain imports
-from langchain.agents import initialize_agent, AgentType, Tool
-from langchain.memory import ConversationBufferMemory
-from langchain_google_genai import ChatGoogleGenerativeAI
+try:
+    # LangChain imports
+    from langchain.agents import initialize_agent, AgentType, Tool
+    from langchain.memory import ConversationBufferMemory
+    from langchain_google_genai import ChatGoogleGenerativeAI
+except Exception as e:
+    initialize_agent = None
+    AgentType = None
+    Tool = None
+    ConversationBufferMemory = None
+    ChatGoogleGenerativeAI = None
+
 import google.generativeai as genai
 
 load_dotenv()
@@ -67,14 +75,22 @@ class ImprovementProposal:
     priority: str
 
 class StrategicThinker:
-    def __init__(self, config_path: str = "configs"):
+    def __init__(self, config_path: str = "configs", multi_agent_coordinator=None):
         self.config_path = config_path
+        self.multi_agent_coordinator = multi_agent_coordinator
         self.logger = logging.getLogger(__name__)
 
         # Load configurations
         self.will_data = self._load_config("di_chuc.json")
         self.council_config = self._load_config("council_weights.json")
         self.templates = self._load_config("templates.json")
+
+        # Initialize API Key
+        try:
+            self.key_manager = GeminiKeyManager()
+            self.api_key = self.key_manager.get_active_key()
+        except:
+            self.api_key = os.getenv("GOOGLE_API_KEY")
 
         # Initialize LLM
         if not self.api_key:
@@ -83,28 +99,39 @@ class StrategicThinker:
         else:
             try:
                 genai.configure(api_key=self.api_key)
-                self.llm = ChatGoogleGenerativeAI(
-                    model="gemini-1.5-flash",
-                    temperature=0.0,
-                    google_api_key=self.api_key
-                )
-                self.logger.info("LLM initialized successfully")
+                if ChatGoogleGenerativeAI:
+                    self.llm = ChatGoogleGenerativeAI(
+                        model="gemini-1.5-flash",
+                        temperature=0.0,
+                        google_api_key=self.api_key
+                    )
+                    self.logger.info("LLM initialized successfully")
+                else:
+                    self.llm = None
+                    self.logger.warning("ChatGoogleGenerativeAI not available (import error)")
             except Exception as e:
                 self.logger.error(f"Failed to initialize LLM: {e}")
                 self.llm = None
 
         # Initialize agent tools and memory
         self.agent_tools = self._create_agent_tools()
-        self.agent_memory = ConversationBufferMemory(memory_key="chat_history")
+        if ConversationBufferMemory:
+            self.agent_memory = ConversationBufferMemory(memory_key="chat_history")
+        else:
+            self.agent_memory = None
 
-        if self.llm:
-            self.psp_agent = initialize_agent(
-                tools=self.agent_tools,
-                llm=self.llm,
-                agent=AgentType.CONVERSATIONAL_REACT_DESCRIPTION,
-                memory=self.agent_memory,
-                verbose=False
-            )
+        if self.llm and initialize_agent and AgentType:
+            try:
+                self.psp_agent = initialize_agent(
+                    tools=self.agent_tools,
+                    llm=self.llm,
+                    agent=AgentType.CONVERSATIONAL_REACT_DESCRIPTION,
+                    memory=self.agent_memory,
+                    verbose=False
+                )
+            except Exception as e:
+                self.logger.error(f"Failed to initialize psp_agent: {e}")
+                self.psp_agent = None
         else:
             self.psp_agent = None
 
@@ -121,8 +148,12 @@ class StrategicThinker:
             self.logger.error(f"Invalid JSON in {filepath}: {e}")
             return {}
 
-    def _create_agent_tools(self) -> List[Tool]:
+    def _create_agent_tools(self) -> List[Any]:
         """Create tools for the PSP agent"""
+        if not Tool:
+            self.logger.warning("LangChain Tool class not available. Returning empty tool list.")
+            return []
+
         tools = [
             Tool(
                 name="analyze_alignment",
@@ -167,6 +198,17 @@ class StrategicThinker:
             if keyword.lower() in action.lower():
                 alignment_score += 0.3
                 break
+
+        # Check for development priorities
+        priority_indicators = {
+            "reuse": 0.15,
+            "simple": 0.1,
+            "stable": 0.1,
+            "performance": 0.05
+        }
+        for indicator, bonus in priority_indicators.items():
+            if indicator in action.lower():
+                alignment_score += bonus
 
         alignment_score = max(0.0, min(1.0, alignment_score))
 
@@ -251,7 +293,31 @@ class StrategicThinker:
         """ICP - Internal Consensus Protocol (Council Voting)"""
         council_members = self.council_config.get("council_members", {})
         thresholds = self.council_config.get("thresholds", {"approve": 0.7, "reject": -0.5})
+        multi_agent_enabled = self.council_config.get("multi_agent_enabled", False)
 
+        # Phase 2: Multi-Agent Council Delegation
+        if multi_agent_enabled and self.multi_agent_coordinator:
+            self.logger.info("🎼 Delegating to Multi-Agent Council...")
+            # Convert SWO to dict for the coordinator
+            swo_dict = {
+                'directive': swo.raw_text,
+                'raw_text': swo.raw_text,
+                'source': swo.source,
+                'logic_requirements': getattr(swo, 'entities', {})
+            }
+
+            result = self.multi_agent_coordinator.run_council_consensus(swo_dict)
+            if result.get('status') == 'success':
+                return CouncilDecision(
+                    decision=result['decision'],
+                    score=result['normalized_score'],
+                    votes=result['votes'],
+                    reasoning=result['reasoning_summary']
+                )
+            else:
+                self.logger.warning(f"Multi-Agent Council failed: {result.get('message')}. Falling back to Phase 1 simulation.")
+
+        # Phase 1: Keyword-based Council Simulation (Fallback or Default)
         votes = {}
         total_score = 0.0
         total_weight = 0.0
@@ -369,10 +435,19 @@ class StrategicThinker:
         if context:
             prompt_parts.append(f"Bối cảnh thêm: {json.dumps(context, ensure_ascii=False)}")
 
+        # Add System Principles and Operational Cycle
         prompt_parts.extend([
             "",
+            "--- NGUYÊN TẮC VẬN HÀNH (Kernel v1.1) ---",
+            "Kế hoạch PHẢI tuân thủ chu trình: QUAN SÁT → HIỂU → LẬP KẾ HOẠCH → HÀNH ĐỘNG → ĐÁNH GIÁ → CẢI THIỆN",
+            "Ưu tiên phát triển:",
+            "1. Tái sử dụng năng lực đã có",
+            "2. Chỉ tạo module mới khi thực sự cần thiết",
+            "3. Giữ cấu trúc đơn giản và ổn định",
+            "4. Cải thiện hiệu suất theo thời gian",
+            "",
             "Hãy tạo kế hoạch thực hiện chi tiết với:",
-            "1. Các bước thực hiện cụ thể",
+            "1. Các bước thực hiện cụ thể (theo chu trình 6 bước)",
             "2. Công cụ cần sử dụng",
             "3. Đánh giá rủi ro",
             "4. Thời gian ước tính",

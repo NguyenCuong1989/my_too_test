@@ -1,0 +1,10 @@
+{
+    "name": "Nebula-X",
+    "bundle_id": "com.google.nebula.x",
+    "author": "alpha_prime_omega",
+    "source_root": "/Users/andy/my_too_test/DAIOF-Framework/vscode-merged",
+    "version": "2.0.0-Standard",
+    "signing": {
+        "auto_resolve": true
+    }
+}

@@ -32,10 +32,14 @@ import asyncio
 from datetime import datetime, timedelta
 
 try:
+    # Force bypass for Python 3.14 compatibility
+    import sys
+    if sys.version_info >= (3, 13):
+        raise ImportError("Forcing fallback on newer Python")
     import chromadb
     from chromadb.config import Settings
     CHROMADB_AVAILABLE = True
-except ImportError:
+except (ImportError, Exception):
     CHROMADB_AVAILABLE = False
     chromadb = None
 

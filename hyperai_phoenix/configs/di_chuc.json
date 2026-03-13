@@ -8,6 +8,17 @@
     "Tự cải tiến liên tục"
   ],
   "alignment_threshold": 0.8,
+  "operational_protocols": {
+    "cycle": ["observe", "understand", "plan", "act", "evaluate", "improve"],
+    "development_priority": [
+      "reuse_existing_capabilities",
+      "create_new_modules_only_when_necessary",
+      "maintain_simple_and_stable_structure",
+      "improve_performance_over_time"
+    ],
+    "coordination_mechanisms": ["task_queue", "shared_state", "consensus_protocol"],
+    "self_monitoring_focus": ["performance", "stability", "alignment"]
+  },
   "escalation_keywords": [
     "lỗi", "khẩn", "gấp", "error", "urgent", "critical", "help"
   ],
@@ -17,6 +28,6 @@
   "response_tone": "respectful_disciple",
   "max_response_length": 2000,
   "default_language": "vi",
-  "version": "1.0.0",
-  "last_updated": "2024-01-01T00:00:00Z"
+  "version": "1.1.0",
+  "last_updated": "2026-03-07T03:40:00Z"
 }

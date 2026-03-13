@@ -3,13 +3,16 @@ FROM node:20-slim AS builder
 
 WORKDIR /app
 
-# Install dependencies
+# Install dependencies with retry logic
 COPY package*.json ./
-RUN npm install && npm cache clean --force
+RUN npm install --verbose && npm cache clean --force
+
+# Verify npm and node
+RUN node --version && npm --version
 
 # Build TypeScript
 COPY . .
-RUN npm run build
+RUN npm run build --verbose
 
 # Runtime stage
 FROM node:20-slim

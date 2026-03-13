@@ -10,33 +10,15 @@ import json
 from pathlib import Path
 
 def run(payload: str = None) -> str:
-    """Standard Entry Point for Omni Orchestrator - Non-blocking version"""
+    """Standard Entry Point for Omni Orchestrator"""
     try:
-        logging.basicConfig(level=logging.CRITICAL)
-        # Logic gửi thông báo Telegram (giả lập hoặc thực tế nhẹ)
+        logging.basicConfig(level=logging.INFO)
+        # Logic gửi thông báo Telegram (giả lập)
         return json.dumps({
             "status": "success",
             "node": "TeleNode",
             "message": "Telegram notification service ready (Passive Mode)"
         })
-    except Exception as e:
-        return json.dumps({"status": "error", "error": str(e)})
-
-def run(payload: str = None) -> str:
-    """Standard Entry Point for Omni Orchestrator"""
-    try:
-        logging.basicConfig(level=logging.CRITICAL)
-        logging.getLogger().setLevel(logging.CRITICAL)
-        return json.dumps({"status": "success", "message": "Skill executed"})
-    except Exception as e:
-        return json.dumps({"status": "error", "error": str(e)})
-
-def run(payload: str = None) -> str:
-    """Standard Entry Point for Omni Orchestrator"""
-    try:
-        logging.basicConfig(level=logging.CRITICAL)
-        logging.getLogger().setLevel(logging.CRITICAL)
-        return json.dumps({"status": "success", "message": "Skill executed"})
     except Exception as e:
         return json.dumps({"status": "error", "error": str(e)})
 

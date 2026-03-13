@@ -11,10 +11,14 @@ import time
 from email.message import EmailMessage
 from pathlib import Path
 
-from google.auth.transport.requests import Request
-from google.oauth2.credentials import Credentials
-from google_auth_oauthlib.flow import InstalledAppFlow
-from googleapiclient.discovery import build
+try:
+    from google.auth.transport.requests import Request
+    from google.oauth2.credentials import Credentials
+    from google_auth_oauthlib.flow import InstalledAppFlow
+    from googleapiclient.discovery import build
+    GOOGLE_LIBS_AVAILABLE = True
+except ImportError:
+    GOOGLE_LIBS_AVAILABLE = False
 import ollama
 from notion_client import Client
 
@@ -28,7 +32,10 @@ except (ImportError, ValueError):
     from config import SCOPES, GEMINI_API_KEY, NOTION_TOKEN, NOTION_DB_ID, BASE_DIR
     from neural_link import NeuralLink
 
-from agents.base_agent import DAIOFAgent
+try:
+    from autonomous_operator.nodes.agents.base_agent import DAIOFAgent
+except (ImportError, ValueError):
+    from agents.base_agent import DAIOFAgent
 
 class BizNode(DAIOFAgent):
     # Local AI engine — unlimited, no API quota
@@ -41,6 +48,9 @@ class BizNode(DAIOFAgent):
 
     def authenticate_all(self):
         """Xác thực tất cả các tài khoản Gmail được cấu hình (token_*.json)"""
+        if not GOOGLE_LIBS_AVAILABLE:
+            self.logger.warning("⚠️ Google libraries not available. Gmail combat disabled.")
+            return False
         self.services = []
         token_files = list(BASE_DIR.glob('token_*.json'))
         # If no specific tokens, try the default one
@@ -172,7 +182,7 @@ class BizNode(DAIOFAgent):
         except Exception as e:
             self.logger.error(f"Error processing message {msg_id} on {email}: {e}")
 
-    def analyze_ai(self, subject, snippet, use_cloud=False):
+    def analyze_ai(self, subject, snippet):
         """Sử dụng AI để quyết định xem đây có phải là cơ hội kinh doanh không."""
         prompt = f"""Phân tích email:
 Tiêu đề: {subject}
@@ -181,10 +191,7 @@ Nội dung: {snippet}
 Trả về JSON:
 {{"is_lead": bool, "sentiment": "positive|neutral|negative", "suggested_reply": "Chào Master, đây là... [soạn hướng phản hồi chuyên nghiệp]", "reason": "Tại sao AI nghĩ đây là lead"}}"""
 
-        if use_cloud:
-            self.logger.info(f"☁️ Offloading analysis to Cloud AI (GitHub Copilot)...")
-            return self.delegate_task("github", prompt)
-
+        self.logger.info(f"🤖 Analyzing lead with local AI ({self.AI_MODEL})...")
         try:
             response = ollama.chat(
                 model=self.AI_MODEL,
@@ -310,55 +317,12 @@ Hệ thống Thương Mại (Business Portal) hiện đang đạt trạng thái 
 def run(payload: str = None) -> str:
     """Standard Entry Point for Omni Orchestrator"""
     try:
-        logging.basicConfig(level=logging.CRITICAL)
-        logging.getLogger().setLevel(logging.CRITICAL)
-        node = BizNode()
-        if hasattr(node, "run_cycle"):
-            node.run_cycle()
-        elif hasattr(node, "run"):
-            node.run()
-        return json.dumps({"status": "success", "message": "BizNode execution completed"})
-    except Exception as e:
-        return json.dumps({"status": "error", "error": str(e)})
+        # Prevent logging interference
+        for logger_name in logging.root.manager.loggerDict:
+            logging.getLogger(logger_name).setLevel(logging.CRITICAL)
 
-def run(payload: str = None) -> str:
-    """Standard Entry Point for Omni Orchestrator"""
-    try:
-        logging.basicConfig(level=logging.CRITICAL)
-        logging.getLogger().setLevel(logging.CRITICAL)
         node = BizNode()
-        if hasattr(node, "run_cycle"):
-            node.run_cycle()
-        elif hasattr(node, "run"):
-            node.run()
-        return json.dumps({"status": "success", "message": "BizNode execution completed"})
-    except Exception as e:
-        return json.dumps({"status": "error", "error": str(e)})
-
-def run(payload: str = None) -> str:
-    """Standard Entry Point for Omni Orchestrator"""
-    try:
-        logging.basicConfig(level=logging.CRITICAL)
-        logging.getLogger().setLevel(logging.CRITICAL)
-        node = BizNode()
-        if hasattr(node, "run_cycle"):
-            node.run_cycle()
-        elif hasattr(node, "run"):
-            node.run()
-        return json.dumps({"status": "success", "message": "BizNode execution completed"})
-    except Exception as e:
-        return json.dumps({"status": "error", "error": str(e)})
-
-def run(payload: str = None) -> str:
-    """Standard Entry Point for Omni Orchestrator"""
-    try:
-        logging.basicConfig(level=logging.CRITICAL)
-        logging.getLogger().setLevel(logging.CRITICAL)
-        node = BizNode()
-        if hasattr(node, "run_cycle"):
-            node.run_cycle()
-        elif hasattr(node, "run"):
-            node.run()
+        node.run_cycle(command_args=payload)
         return json.dumps({"status": "success", "message": "BizNode execution completed"})
     except Exception as e:
         return json.dumps({"status": "error", "error": str(e)})
