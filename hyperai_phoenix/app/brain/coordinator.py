@@ -23,6 +23,7 @@ import os
 
 from .memory import MemoryEngine
 from .thinker import StrategicThinker, StructuredWillObject, CouncilDecision
+from .multi_agent_coordinator import MultiAgentCoordinator
 
 # Import enhanced MOP and OCP integration
 from ...core.protocols.meta_optimization import MetaOptimizationProtocol
@@ -119,12 +120,17 @@ class MetaOptimizationCoordinator:
 
         # Initialize components
         self.memory_engine = MemoryEngine(
-            db_path=os.path.join(data_path, "databases", "hyperai.db"),
-            chroma_path=os.path.join(data_path, "databases", "knowledge_base"),
+            db_path=os.path.join(data_path, "databases_v2", "hyperai.db"),
+            chroma_path=os.path.join(data_path, "databases_v2", "knowledge_base"),
             archive_path=os.path.join(data_path, "logs", "archive")
         )
 
-        self.thinker = StrategicThinker(config_path)
+        self.multi_agent_coordinator = MultiAgentCoordinator(self.memory_engine, config_path=config_path)
+        self.thinker = StrategicThinker(config_path, multi_agent_coordinator=self.multi_agent_coordinator)
+
+        # Initialize DPE (Deep Purification Engine)
+        from autonomous_operator.deep_purifier import DeepPurifier
+        self.purifier = DeepPurifier(root_dir="/Users/andy/my_too_test")
 
         # Initialize enhanced MOP as the OVERARCHING MECHANISM
         self.mop = MetaOptimizationProtocol(
@@ -133,12 +139,11 @@ class MetaOptimizationCoordinator:
             memory_engine=self.memory_engine
         )
 
-        # Register this coordinator with MOP for OCP integration
+        # Register this coordinator and its components with MOP for OCP integration
         self.mop.register_component_for_ocp(self, "MetaOptimizationCoordinator")
-
-        # Also integrate all major components with OCP through MOP
         self.memory_engine = self.mop.register_component_for_ocp(self.memory_engine, "MemoryEngine")
         self.thinker = self.mop.register_component_for_ocp(self.thinker, "StrategicThinker")
+        self.purifier = self.mop.register_component_for_ocp(self.purifier, "DeepPurifier")
 
         # Load configurations
         self.fasr_state = self._load_fasr_state()
@@ -232,6 +237,10 @@ class MetaOptimizationCoordinator:
         # Implant will and state into memory
         self.memory_engine.implant_will_and_fasr(self.will_data, self.fasr_state)
 
+        # Start multi-agent coordinator
+        if self.multi_agent_coordinator:
+            self.multi_agent_coordinator.start()
+
         self.logger.info("Coordinator started successfully")
 
     def stop(self):
@@ -240,6 +249,10 @@ class MetaOptimizationCoordinator:
 
         self.current_state = SystemState.SHUTDOWN
         self.running = False
+
+        # Stop multi-agent coordinator
+        if self.multi_agent_coordinator:
+            self.multi_agent_coordinator.stop()
 
         try:
             # Wait for current operations to complete

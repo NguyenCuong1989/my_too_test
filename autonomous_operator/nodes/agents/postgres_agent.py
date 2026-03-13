@@ -6,7 +6,10 @@
 import json
 import logging
 import sys
-from agents.base_agent import DAIOFAgent
+try:
+    from autonomous_operator.nodes.agents.base_agent import DAIOFAgent
+except ImportError:
+    from app.core.base_agent import DAIOFAgent
 
 class PostgresAgent(DAIOFAgent):
     def __init__(self):

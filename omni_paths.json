@@ -5,5 +5,13 @@
   "hyperai_phoenix/app/brain/tools",
   "autonomous_operator/nodes",
   "/Users/andy/factory/tools",
-  "/Users/andy/my_too_test/tests"
+  "/Users/andy/my_too_test/tests",
+  "apo-runtime/axes/data",
+  "apo-runtime/axes/execution",
+  "apo-runtime/axes/governance",
+  "apo-runtime/axes/economics",
+  "apo-runtime/axes/vision",
+  "apo-runtime/axes/logic",
+  "apo-runtime/axes/security",
+  "apo-runtime/axes/language"
 ]

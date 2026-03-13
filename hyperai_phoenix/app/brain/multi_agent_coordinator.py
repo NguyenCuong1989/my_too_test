@@ -12,6 +12,7 @@ import queue
 import threading
 import time
 from datetime import datetime, timedelta
+from pathlib import Path
 from typing import Dict, List, Any, Optional, Callable
 from dataclasses import dataclass, asdict
 from abc import ABC, abstractmethod
@@ -75,6 +76,63 @@ class BaseAgent(ABC):
                                    self.metrics.total_tasks)
         self.metrics.average_execution_time = (self.metrics.total_execution_time /
                                              self.metrics.total_tasks)
+
+class CouncilAgent(BaseAgent):
+    """Specialized agent for participating in the Multi-Agent Council"""
+
+    def __init__(self, name: str, axis_id: str, system_prompt: str, memory_engine=None):
+        super().__init__(name, memory_engine)
+        self.axis_id = axis_id
+        self.system_prompt = system_prompt
+
+    def execute(self, task: AgentTask) -> Dict[str, Any]:
+        """Participate in council voting based on specialized role"""
+        try:
+            params = task.parameters
+            swo = params.get('swo')
+            if not swo:
+                return {'success': False, 'error': 'Missing SWO parameters'}
+
+            # In Phase 2, this would involve a real LLM call with self.system_prompt
+            # For the initial bridge, we use a hybrid approach:
+            # Enhanced logic based on the agent's specific Axis
+
+            # Simulated voting logic for the council member
+            # (In a full implementation, this calls an LLM with the specialized prompt)
+            vote_value = 0.0
+            reasoning = ""
+
+            content = swo.get('directive', '').lower()
+
+            # Example Axis-specific logic
+            if self.axis_id == "AXIS_1_STRATEGY":
+                if any(k in content for k in ['goal', 'plan', 'long-term']):
+                    vote_value = 0.8
+                    reasoning = "Kế hoạch chiến lược phù hợp với mục tiêu dài hạn."
+            elif self.axis_id == "AXIS_6_SECURITY":
+                if any(k in content for k in ['delete', 'destroy', 'unsafe', 'remove']):
+                    vote_value = -0.9
+                    reasoning = "Hành động có rủi ro bảo mật cao."
+                else:
+                    vote_value = 0.5
+                    reasoning = "Không phát hiện rủi ro bảo mật trực tiếp."
+            # ... other axis logic ...
+            else:
+                vote_value = 0.0
+                reasoning = f"Agent {self.name} đang xem xét..."
+
+            return {
+                'success': True,
+                'vote': vote_value,
+                'reasoning': reasoning,
+                'agent': self.name,
+                'axis': self.axis_id
+            }
+        except Exception as e:
+            return {'success': False, 'error': str(e)}
+
+    def get_capabilities(self) -> List[str]:
+        return ['council_voting', 'policy_audit', 'logic_convergence']
 
 class MetricsAnalyzer(BaseAgent):
     """Agent for analyzing system performance metrics"""
@@ -447,8 +505,9 @@ class WeightedFairQueue:
 class MultiAgentCoordinator:
     """Main coordinator for multi-agent system with WFQ and CAP"""
 
-    def __init__(self, memory_engine=None):
+    def __init__(self, memory_engine=None, config_path: str = "configs"):
         self.memory_engine = memory_engine
+        self.config_path = config_path
         self.logger = logging.getLogger(__name__)
 
         # Agent registry
@@ -480,6 +539,24 @@ class MultiAgentCoordinator:
         # Initialize default agents
         self._initialize_default_agents()
 
+    def _load_council_config(self) -> Dict[str, Any]:
+        """Load the council weights configuration"""
+        try:
+            # Try multiple paths to find the config
+            paths = [
+                Path("hyperai_phoenix/configs/council_weights.json"),
+                Path("../configs/council_weights.json"),
+                Path("configs/council_weights.json")
+            ]
+            for path in paths:
+                if path.exists():
+                    with open(path, 'r', encoding='utf-8') as f:
+                        return json.load(f)
+            return {}
+        except Exception as e:
+            self.logger.error(f"Failed to load council config: {e}")
+            return {}
+
     def _initialize_default_agents(self):
         """Initialize the default agent set"""
         # Metrics analyzer agent
@@ -490,6 +567,29 @@ class MultiAgentCoordinator:
 
         # Dialogue handler agent
         self.register_agent("dialogue_handler", DialogueHandler(self.memory_engine), weight=0.4)
+
+        # Council Agents (Phase 2)
+        council_config = self._load_council_config()
+        self.multi_agent_enabled = council_config.get('multi_agent_enabled', False)
+
+        if self.multi_agent_enabled:
+            council_members = council_config.get('council_members', {})
+            for name, config in council_members.items():
+                axis_id = config.get('axis_id', f"AXIS_{name.upper()}")
+                weight = config.get('weight', 1.0)
+
+                # Each council member gets a specialized system prompt
+                system_prompt = f"Bạn là {name.upper()}, một thành viên của Hội đồng tối cao HyperAI Phoenix. " \
+                                f"Vai trò của bạn là {axis_id}. Hãy phân tích chỉ thị dựa trên góc nhìn chuyên môn của bạn."
+
+                agent = CouncilAgent(
+                    name=name,
+                    axis_id=axis_id,
+                    system_prompt=system_prompt,
+                    memory_engine=self.memory_engine
+                )
+                self.register_agent(name, agent, weight=weight)
+            self.logger.info(f"Initialized {len(council_members)} council agents")
 
         self.logger.info("Default agents initialized")
 
@@ -598,28 +698,27 @@ class MultiAgentCoordinator:
 
             # Execute task
             result = agent.execute(task)
+
             execution_time = time.time() - start_time
 
             # Update agent metrics
-            success = result.get('success', False)
-            agent.update_metrics(execution_time, success)
+            agent.update_metrics(execution_time, result.get('success', False))
 
             # Update coordination metrics
-            if success:
+            if result.get('success', False):
                 self.coordination_metrics['successful_tasks'] += 1
-
             self.coordination_metrics['total_coordination_time'] += execution_time
 
-            # Store result
+            # Store result in task
             task.result = result
-            task.success = success
+            task.success = result.get('success', False)
             task.completed_at = datetime.now()
 
             # Put result in queue
             result_data = {
                 'task_id': task.id,
                 'agent_name': agent_name,
-                'success': success,
+                'success': task.success,
                 'result': result,
                 'execution_time': execution_time,
                 'completed_at': task.completed_at.isoformat()
@@ -632,25 +731,84 @@ class MultiAgentCoordinator:
                 self.memory_engine.log_event(
                     event_type="agent_task_completed",
                     source=f"multi_agent.{agent_name}",
-                    details=f"Task: {task.task_type}, Success: {success}",
+                    details=f"Task: {task.task_type}, Success: {task.success}",
                     duration=execution_time,
-                    success=success,
-                    alignment_score=1.0 if success else 0.5
+                    success=task.success,
+                    alignment_score=1.0 if task.success else 0.5
                 )
 
         except Exception as e:
-            self.logger.error(f"Agent task execution failed: {e}")
-
-            # Create error result
-            error_result = {
+            self.logger.error(f"Error executing task for agent {agent_name}: {e}")
+            self.result_queue.put({
                 'task_id': task.id,
                 'agent_name': agent_name,
                 'success': False,
                 'error': str(e),
                 'execution_time': time.time() - start_time
-            }
+            })
 
-            self.result_queue.put(error_result)
+    def run_council_consensus(self, swo: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Orchestrate a Multi-Agent Council consensus vote.
+        This is the Phase 2 implementation of the Internal Consensus Protocol.
+        """
+        self.logger.info("🎼 Initiating Multi-Agent Council Consensus...")
+
+        # 1. Identify council agents in the registry
+        council_agents = [name for name, agent in self.agents.items()
+                         if isinstance(agent, CouncilAgent)]
+
+        if not council_agents:
+            self.logger.error("No CouncilAgents registered!")
+            return {'status': 'error', 'message': 'No council agents found'}
+
+        # 2. Assign tasks to each council member
+        task_ids = []
+        for agent_name in council_agents:
+            t_id = self.coordinate_task(
+                task_type="council_vote",
+                parameters={'swo': swo},
+                priority=0 # High priority
+            )
+            if t_id:
+                task_ids.append(t_id)
+
+        # 3. Collect results
+        votes = {}
+        reasonings = []
+
+        for t_id in task_ids:
+            result = self.get_task_result(t_id, timeout=10.0)
+            if result and result.get('success'):
+                # Handle nested result structure
+                agent_name = result.get('agent_name', 'unknown')
+                res_payload = result.get('result', {})
+                vote = res_payload.get('vote', 0.0)
+                reasoning = res_payload.get('reasoning', '')
+
+                votes[agent_name] = vote
+                reasonings.append(f"{agent_name}: {reasoning}")
+
+        # 4. Calculate final decision
+        if not votes:
+            return {'status': 'error', 'message': 'No votes collected'}
+
+        total_score = sum(votes.values())
+        normalized_score = total_score / len(votes)
+
+        decision = "APPROVE" if normalized_score >= 0.5 else "REJECT"
+        if normalized_score < 0.5 and normalized_score > -0.2:
+            decision = "ABSTAIN"
+
+        self.logger.info(f"Council Decision: {decision} (Score: {normalized_score:.2f})")
+
+        return {
+            'status': 'success',
+            'decision': decision,
+            'normalized_score': normalized_score,
+            'votes': votes,
+            'reasoning_summary': " | ".join(reasonings)
+        }
 
     def _determine_best_agent(self, task_type: str, parameters: Dict[str, Any]) -> str:
         """Determine the best agent for a given task"""

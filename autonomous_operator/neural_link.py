@@ -20,14 +20,16 @@ try:
 except ImportError:
     CONFIG_BASE_DIR = BASE_DIR
 
-# Path to existing DAIOF DB
-DAIOF_DB = CONFIG_BASE_DIR / "DAIOF-Framework" / "autonomous_todo.db"
+# Path to existing DAIOF DB (Migrated to /tmp due to disk pressure)
+DAIOF_DB = Path("/tmp/daiof_data/databases_v2/autonomous_todo.db")
 
 class NeuralLink:
     """Cầu nối thần kinh giữa Autonomous Operator và DAIOF-Framework + Notion Sync"""
     def __init__(self):
         self.logger = logging.getLogger("NeuralLink")
         self.db_path = DAIOF_DB
+        # Ensure directory exists
+        self.db_path.parent.mkdir(parents=True, exist_ok=True)
         self.notion = None
         self.notion_db_id = None
         self._init_neural_tables()

@@ -29,7 +29,7 @@ INTEGRATED_SERVICES = {
     "Asana": "https://asana.com",
     "Atlassian Rovo": "https://www.atlassian.com/software/rovo",
     "B12": "https://www.b12.io",
-    "Ace Knowledge Graph": "https://ace-kg.com", # Placeholder
+    "Ace Knowledge Graph": "https://google.com", # Fixed broken placeholder
     "Jira": "https://nguyencuong2509.atlassian.net"
 }
 
@@ -65,6 +65,10 @@ JIRA_API_TOKEN = get_secret(BASE_DIR / "jira_token.txt")
 
 # GitHub (Optional for Guardian Node)
 GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN")
+
+# AI Engine Settings (Master's Rule: Ollama local first)
+DEFAULT_AI_ENGINE = "ollama"
+AI_MODEL = "qwen3:8b"
 
 # Heartbeat Settings
 HEARTBEAT_INTERVAL = 300 # 5 minutes

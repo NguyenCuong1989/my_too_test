@@ -1,19 +1,20 @@
 #!/bin/bash
 
 # Navigate to project root
-cd /Users/andy/my_too_test
+cd /Users/andy/my_too_test || exit || exit
 
 # Activate virtual environment
-source venv_biz/bin/activate
+source venv_new/bin/activate
 
 # Set python path
-export PYTHONPATH=$PYTHONPATH:$(pwd)/autonomous_operator
+export PYTHONPATH
+PYTHONPATH=$PYTHONPATH:$(pwd):$(pwd)/autonomous_operator
 
 # Run Orchestrator in background using nohup
-echo "🚀 Kích hoạt Hệ thống Tự trị DAIOF..."
-nohup python3 -u autonomous_operator/orchestrator_v3.py > autonomous_operator/logs/system_stdout.log 2>&1 &
+echo "🚀 Kích hoạt Hệ thống Tự trị DAIOF PHOENIX (Kernel v1.1)..."
+nohup python3 -u start_phoenix_daiof.py > autonomous_operator/logs/system_stdout.log 2>&1 &
 
-PID=$!
+PID=$"!"
 echo $PID > autonomous_operator/state/orchestrator.pid
 
 echo "✅ Hệ thống đang chạy ngầm với PID: $PID"

@@ -43,6 +43,9 @@ class ToolRegistry:
         # Register core tools
         self._register_core_tools()
 
+        # Register Omni Orchestrator skills
+        self._register_omni_skills()
+
     def set_memory_engine(self, memory_engine):
         """Set memory engine for Phase 2 integration"""
         self.memory_engine = memory_engine
@@ -1256,7 +1259,6 @@ except Exception as e:
             else:
                 status["error"] = "Configuration file not found"
                 status["config_path"] = config_path
-
             return status
 
         except Exception as e:
@@ -1265,6 +1267,69 @@ except Exception as e:
                 "error": f"Status check error: {e}",
                 "project_id": project_id
             }
+
+    def _register_omni_skills(self):
+        """Register skills from Omni Orchestrator Registry"""
+        try:
+            registry_path = "/tmp/omni_registry.json"
+            if not os.path.exists(registry_path):
+                # Fallback to current directory registry
+                registry_path = "/Users/andy/my_too_test/omni_registry.json"
+
+            if not os.path.exists(registry_path):
+                self.logger.warning("No Omni Registry found. Skipping Omni Skills registration.")
+                return
+
+            with open(registry_path, 'r', encoding='utf-8') as f:
+                registry = json.load(f)
+
+            for skill_name, info in registry.items():
+                if skill_name in self.tools:
+                    continue # Core tools take precedence
+
+                # Use a closure to capture the skill_name
+                def create_executor(s_name):
+                    return lambda payload=None, **kwargs: self._tool_omni_executor(s_name, payload or kwargs)
+
+                self.register_tool(
+                    name=skill_name,
+                    description=f"Omni Skill: {skill_name}. Auto-detected capability.",
+                    category="omni_skill",
+                    parameters={
+                        "payload": {"type": "object", "required": False, "description": "JSON payload for the skill"}
+                    },
+                    function=create_executor(skill_name)
+                )
+            self.logger.info(f"Registered {len(registry)} Omni Skills")
+        except Exception as e:
+            self.logger.error(f"Failed to register Omni Skills: {e}")
+
+    def _tool_omni_executor(self, skill_name: str, payload: Any) -> Dict[str, Any]:
+        """Generic executor for Omni Orchestrator skills via subprocess"""
+        try:
+            orchestrator_path = "/Users/andy/my_too_test/omni_orchestrator.py"
+            if not os.path.exists(orchestrator_path):
+                return {"success": False, "error": "Omni Orchestrator not found"}
+
+            cmd = [
+                sys.executable,
+                orchestrator_path,
+                json.dumps({"skill": skill_name, "payload": payload})
+            ]
+
+            result = subprocess.run(cmd, capture_output=True, text=True, timeout=60)
+
+            if result.returncode != 0:
+                return {"success": False, "error": result.stderr or "Subprocess failed"}
+
+            try:
+                response = json.loads(result.stdout)
+                return response
+            except:
+                return {"success": False, "error": f"Invalid JSON response: {result.stdout}"}
+
+        except Exception as e:
+            return {"success": False, "error": str(e)}
 
 # Global tool registry instance
 TOOL_REGISTRY = ToolRegistry()

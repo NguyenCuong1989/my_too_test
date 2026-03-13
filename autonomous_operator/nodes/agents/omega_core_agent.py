@@ -28,18 +28,13 @@ class OmegaCoreAgent(DAIOFAgent):
 def run(payload: str = None) -> str:
     """Standard Entry Point for Omni Orchestrator"""
     try:
-        logging.basicConfig(level=logging.CRITICAL)
-        logging.getLogger().setLevel(logging.CRITICAL)
-        return json.dumps({"status": "success", "message": "Skill executed"})
-    except Exception as e:
-        return json.dumps({"status": "error", "error": str(e)})
+        # Prevent logging interference
+        for logger_name in logging.root.manager.loggerDict:
+            logging.getLogger(logger_name).setLevel(logging.CRITICAL)
 
-def run(payload: str = None) -> str:
-    """Standard Entry Point for Omni Orchestrator"""
-    try:
-        logging.basicConfig(level=logging.CRITICAL)
-        logging.getLogger().setLevel(logging.CRITICAL)
-        return json.dumps({"status": "success", "message": "Skill executed"})
+        node = OmegaCoreAgent()
+        result = node.run_cycle(payload)
+        return json.dumps({"status": "success", "result": result})
     except Exception as e:
         return json.dumps({"status": "error", "error": str(e)})
 

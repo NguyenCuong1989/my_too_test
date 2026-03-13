@@ -16,22 +16,40 @@ import os
 from datetime import datetime, timedelta
 from typing import Dict, List, Any, Optional, Tuple
 import pandas as pd
-import chromadb
-from sentence_transformers import SentenceTransformer
+# Force chromadb to None for Python 3.14 compatibility until Pydantic v1 issues are resolved
+chromadb = None
+# try:
+#     import chromadb
+# except Exception as e:
+#     chromadb = None
+
+try:
+    from sentence_transformers import SentenceTransformer
+except Exception as e:
+    SentenceTransformer = None
+
 import logging
 
 class MemoryEngine:
     def __init__(self, db_path: str = "data/databases/hyperai.db",
                  chroma_path: str = "data/databases/knowledge_base",
                  archive_path: str = "data/logs/archive"):
+        self.logger = logging.getLogger(__name__)
         self.db_path = db_path
         self.chroma_path = chroma_path
         self.archive_path = archive_path
 
         # Ensure directories exist
-        os.makedirs(os.path.dirname(db_path), exist_ok=True)
-        os.makedirs(chroma_path, exist_ok=True)
-        os.makedirs(archive_path, exist_ok=True)
+        for path in [os.path.dirname(db_path), chroma_path, archive_path]:
+            if not os.path.exists(path):
+                try:
+                    os.makedirs(path, exist_ok=True)
+                except FileExistsError:
+                    if not os.path.isdir(path):
+                        raise
+            elif not os.path.isdir(path):
+                self.logger.error(f"Path exists but is not a directory: {path}")
+                raise FileExistsError(f"Path exists but is not a directory: {path}")
 
         # Initialize SQLite
         self.conn = sqlite3.connect(db_path, check_same_thread=False)
@@ -426,6 +444,10 @@ class MemoryEngine:
 
     def compact_memories(self, days_old: int = 7) -> Dict[str, int]:
         """Compact old memories to cold storage (MOP Protocol)"""
+        if not hasattr(self, 'conn') or callable(self.conn):
+            self.logger.error("MemoryEngine: Cannot compact, connection is invalid or been shadowed.")
+            return {'archived_events': 0, 'summaries_created': 0}
+
         cursor = self.conn.cursor()
         cutoff_date = (datetime.now() - timedelta(days=days_old)).date().isoformat()
 

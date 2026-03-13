@@ -24,6 +24,7 @@ is enhanced with creation-oriented capabilities and optimization awareness.
 import time
 import logging
 import threading
+import functools
 from abc import ABC, abstractmethod
 from typing import Dict, Any, List, Optional, Callable, TypeVar, Generic
 from dataclasses import dataclass, field
@@ -511,43 +512,72 @@ class OmniCreationProtocol:
 
         This allows automatic OCP enhancement of all component operations
         """
+        # Avoid double-wrapping
+        if hasattr(component_instance, '_ocp_enabled') and component_instance._ocp_enabled:
+            logger.debug(f"🎨 OCP: Component {component_name} already OCP-enabled, skipping")
+            return component_instance
         # Store original methods
         original_methods = {}
 
         # Wrap public methods with OCP enhancement
         for method_name in dir(component_instance):
-            if not method_name.startswith('_') and callable(getattr(component_instance, method_name)):
-                original_method = getattr(component_instance, method_name)
-                original_methods[method_name] = original_method
+            # Only wrap methods that:
+            # 1. Don't start with '_'
+            # 2. Are callable
+            # 3. Are actually methods, not just callable attributes
+            if method_name.startswith('_'):
+                continue
 
-                # Create OCP-enhanced wrapper
-                def create_wrapper(method_name, original_method):
-                    def ocp_wrapper(*args, **kwargs):
-                        # Determine operation type based on method name
-                        operation_type = self._infer_operation_type(method_name)
+            attr = getattr(component_instance, method_name)
+            if not callable(attr):
+                continue
 
-                        # Enhance the operation using positional arguments
-                        result = self.enhance_operation(
-                            original_method,  # operation
-                            operation_type,   # operation_type
-                            component_name,   # component_name
-                            f"{component_name}.{method_name}",  # operation_id
-                            None,  # metadata
-                            *args,
-                            **kwargs
-                        )
+            # Skip if it's already OCP enabled (should be caught by the top check too)
+            if hasattr(attr, '_ocp_enabled') and attr._ocp_enabled:
+                continue
 
-                        if result.success:
-                            return result.enhanced_output
-                        else:
-                            # Fallback to original method if enhancement fails
-                            logger.warning(f"OCP enhancement failed for {component_name}.{method_name}, using fallback")
-                            return original_method(*args, **kwargs)
+            # Ensure we are wrapping a method from the class, not every callable attribute
+            # This avoids wrapping things like 'self.encoder' or 'self.conn'
+            cls_attr = getattr(component_instance.__class__, method_name, None)
+            if not cls_attr or not callable(cls_attr):
+                # If it's not on the class, it's a callable attribute on the instance
+                continue
 
-                    return ocp_wrapper
+            original_method = attr
+            original_methods[method_name] = original_method
 
-                # Replace method with OCP-enhanced version
-                setattr(component_instance, method_name, create_wrapper(method_name, original_method))
+            # Create OCP-enhanced wrapper
+            def create_wrapper(method_name, original_method):
+                @functools.wraps(original_method)
+                def ocp_wrapper(*args, **kwargs):
+                    # Determine operation type based on method name
+                    operation_type = self._infer_operation_type(method_name)
+
+                    # Extract metadata from kwargs if present
+                    metadata_from_kwargs = kwargs.pop('metadata', None)
+
+                    # Enhance the operation using explicit positional arguments
+                    result = self.enhance_operation(
+                        original_method,  # operation
+                        operation_type,   # operation_type
+                        component_name,   # component_name
+                        f"{component_name}.{method_name}",  # operation_id
+                        metadata_from_kwargs,  # metadata
+                        *args,
+                        **kwargs
+                    )
+
+                    if result.success:
+                        return result.enhanced_output
+                    else:
+                        # Fallback to original method if enhancement fails
+                        logger.warning(f"OCP enhancement failed for {component_name}.{method_name}, using fallback")
+                        return original_method(*args, **kwargs)
+
+                return ocp_wrapper
+
+            # Replace method with OCP-enhanced version
+            setattr(component_instance, method_name, create_wrapper(method_name, original_method))
 
         # Add OCP metadata to component
         component_instance._ocp_enabled = True
@@ -593,16 +623,20 @@ def ocp_enhance(operation_type: OCPOperationType, component_name: str = "unknown
         return result
     """
     def decorator(func: Callable[..., T]) -> Callable[..., T]:
+        @functools.wraps(func)
         def wrapper(*func_args, **func_kwargs) -> T:
+            # Extract metadata from func_kwargs if present
+            metadata_param = func_kwargs.pop('metadata', None)
+
             # Call enhance_operation with positional arguments in correct order
             result = global_ocp.enhance_operation(
-                func,  # operation (first positional)
-                operation_type,  # operation_type (second positional)
-                component_name,  # component_name (third positional)
-                f"{component_name}.{func.__name__}",  # operation_id (fourth positional)
-                None,  # metadata (fifth positional)
-                *func_args,  # function arguments
-                **func_kwargs  # function keyword arguments
+                func,  # operation
+                operation_type,  # operation_type
+                component_name,  # component_name
+                f"{component_name}.{func.__name__}",  # operation_id
+                metadata_param,  # metadata
+                *func_args,
+                **func_kwargs
             )
 
             if result.success:

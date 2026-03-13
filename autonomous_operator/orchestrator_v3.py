@@ -17,7 +17,7 @@ sys.path.append(str(BASE_DIR))
 sys.path.append(str(BASE_DIR / "autonomous_operator"))
 sys.path.append(str(BASE_DIR / "autonomous_operator" / "nodes"))
 sys.path.append(str(BASE_DIR / "DAIOF-Framework"))
-sys.path.append("/Users/andy/balancehub")
+sys.path.append(str(BASE_DIR / "balancehub"))
 
 try:
     from app.core import apo_canon
@@ -33,6 +33,7 @@ from nodes.audit_node import AuditNode
 from neural_link import NeuralLink
 from balance_integration import BalanceGovernor
 from notion_client import Client
+from hyperai_phoenix.app.brain.coordinator import MetaOptimizationCoordinator
 
 # Import từ Framework gốc của Master
 try:
@@ -51,14 +52,14 @@ class NdjsonFormatter(logging.Formatter):
         }
         return json.dumps(log_obj)
 
-ndjson_handler = logging.FileHandler(LOG_DIR / "observe.ndjson")
+ndjson_handler = logging.FileHandler("/tmp/observe.ndjson")
 ndjson_handler.setFormatter(NdjsonFormatter())
 
 logging.basicConfig(
     level=logging.INFO,
     format='[%(asctime)s] [%(name)s] [%(levelname)s] %(message)s',
     handlers=[
-        logging.FileHandler(LOG_DIR / "orchestrator.log"),
+        logging.FileHandler("/tmp/orchestrator.log"),
         ndjson_handler,
         logging.StreamHandler(sys.stdout)
     ]
@@ -80,6 +81,12 @@ class AutonomousOperator:
         self.recovery = RecoveryNode()
         self.web = WebNode()
         self.audit = AuditNode()
+
+        # 🧠 PHOENIX COGNITIVE HEART (Kernel v1.1)
+        self.phoenix = MetaOptimizationCoordinator(
+            config_path="/Users/andy/my_too_test/hyperai_phoenix/configs",
+            data_path="/tmp/daiof_data"
+        )
 
         # Map nodes for iteration (Static Nodes)
         self.nodes = {
@@ -118,6 +125,10 @@ class AutonomousOperator:
             return
 
         self.logger.info("📡 Scanning for Specialized Agents in Mesh...")
+        # Thêm agents path vào sys.path một lần duy nhất
+        if str(agents_dir) not in sys.path:
+            sys.path.insert(0, str(agents_dir))
+
         for f in os.listdir(agents_dir):
             if f.endswith("_agent.py") and not f.startswith("base_"):
                 agent_name = f.replace("_agent.py", "").replace("_", " ").title().replace(" ", "")
@@ -126,8 +137,6 @@ class AutonomousOperator:
                 try:
                     spec = importlib.util.spec_from_file_location(agent_name, file_path)
                     module = importlib.util.module_from_spec(spec)
-                    # Thêm agents path vào sys.path
-                    sys.path.insert(0, str(agents_dir))
                     spec.loader.exec_module(module)
 
                     # Tìm agent class (vd: StripeAgent)
@@ -361,8 +370,11 @@ class AutonomousOperator:
 
 if __name__ == "__main__":
     operator = AutonomousOperator()
+    # Start Phoenix Bridge
+    operator.phoenix.start()
     try:
         asyncio.run(operator.main_loop())
     except KeyboardInterrupt:
         operator.logger.info("Stopping Operator...")
+        operator.phoenix.stop()
         operator.is_running = False
