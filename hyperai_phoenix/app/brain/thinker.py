@@ -565,7 +565,7 @@ class StrategicThinker:
     # Original specification function names (Phase 1 compliance)
     def analyze_and_restructure(self, user_input: str, source: str = None) -> StructuredWillObject:
         """Original Phase 1 function name - alias for design_restructure_protocol"""
-        return self.design_restructure_protocol(user_input, source)
+        return self.design_restructure_protocol(self, user_input, source)
 
     def _parse_intent_simple(self, text: str) -> Tuple[str, Dict[str, Any]]:
         """Simple regex/keyword-based intent parsing"""
@@ -693,7 +693,7 @@ if __name__ == "__main__":
 
     # Test D&R protocol
     test_input = "Sư phụ, hãy đọc file test.txt giúp tôi"
-    swo = thinker.design_restructure_protocol(test_input, "Sư phụ")
+    swo = thinker.design_restructure_protocol(self, test_input, "Sư phụ")
     print(f"SWO: {swo}")
 
     # Test APP

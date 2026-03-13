@@ -371,7 +371,7 @@ class MetaOptimizationCoordinator:
             )
 
             # D&R - Design & Restructure Protocol
-            swo = self.thinker.design_restructure_protocol(
+            swo = self.thinker.design_restructure_protocol(self,
                 directive.content, directive.source
             )
 
