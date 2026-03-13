@@ -25,7 +25,6 @@ Level1: local write, require confirm.
 Level2: dangerous, hard deny.
 """
 
-from __future__ import annotations
 import shlex
 from typing import Tuple
 
