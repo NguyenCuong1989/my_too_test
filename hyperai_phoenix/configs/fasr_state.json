@@ -1,16 +1,15 @@
 {
   "current_state": "shutdown",
-  "session_id": "session_20260313_081029",
-  "last_heartbeat": "2026-03-13T08:11:28.900914",
+  "session_id": "session_20260313_155309",
+  "last_heartbeat": "2026-03-13T15:55:12.011741",
   "memory_compaction_due": false,
   "improvement_proposals_pending": 0,
   "total_sessions": 0,
   "total_interactions": 0,
   "performance_metrics": {
     "avg_duration": 0.0,
-    "error_rate": 1.0,
-    "success_rate": 0.0,
-    "total_directives": 3
+    "error_rate": 0.0,
+    "success_rate": 0.0
   },
   "council_last_vote": null,
   "backup_created": null,
