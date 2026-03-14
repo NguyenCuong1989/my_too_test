@@ -1,0 +1,42 @@
+# bandit.yaml – Bandit static security analysis configuration
+# Docs: https://bandit.readthedocs.io/en/latest/config.html
+
+# Targets to scan (relative to repo root)
+targets:
+  - autonomous_operator
+  - axcontrol
+  - src
+  - factory
+
+# Paths to exclude from scanning
+exclude_dirs:
+  - .git
+  - .venv
+  - venv
+  - node_modules
+  - dist
+  - build
+  - __pycache__
+  - "*.egg-info"
+  - tests
+  - "*/tests/*"
+
+# Severity levels to report: LOW, MEDIUM, HIGH
+# Only report MEDIUM and HIGH findings by default
+severity: MEDIUM
+
+# Confidence levels to report: LOW, MEDIUM, HIGH
+confidence: MEDIUM
+
+# Plugin selection – omit to run all plugins.
+# Uncomment and list plugin IDs to skip non-applicable checks.
+# skips:
+#   - B101  # assert_used (common in tests)
+#   - B601  # paramiko_calls (not used)
+
+# Output format when invoked via CLI
+# Override at runtime with: bandit -f json -o bandit-report.json
+format: json
+
+# Recursive scan
+recursive: true

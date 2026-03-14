@@ -1,0 +1,23 @@
+[run]
+source = autonomous_operator,axcontrol,src
+omit =
+    */tests/*
+    */test_*
+    */__pycache__/*
+    */.venv/*
+    */venv/*
+    */node_modules/*
+    setup.py
+
+[report]
+# Minimum coverage threshold (70%)
+fail_under = 70
+show_missing = true
+skip_covered = false
+precision = 2
+
+[html]
+directory = htmlcov
+
+[xml]
+output = coverage.xml

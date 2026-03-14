@@ -1,0 +1,217 @@
+# docker-compose.prod.yml
+# Consolidated production compose file with environment profiles.
+# Usage:
+#   Production:  docker compose -f docker-compose.prod.yml --profile production up
+#   Debug:       docker compose -f docker-compose.prod.yml --profile debug up
+#   Development: docker compose -f docker-compose.prod.yml --profile development up
+
+version: "3.9"
+
+x-logging: &default-logging
+  driver: "json-file"
+  options:
+    max-size: "10m"
+    max-file: "3"
+
+services:
+
+  # ── Python / DAIOF Orchestrator ────────────────────────────────────────────
+  daiof-orchestrator:
+    image: daiofframework
+    build:
+      context: .
+      dockerfile: Dockerfile
+    profiles:
+      - production
+      - debug
+    environment:
+      - PYTHONDONTWRITEBYTECODE=1
+      - PYTHONUNBUFFERED=1
+      - NODE_ENV=${NODE_ENV:-production}
+    volumes:
+      - orchestrator-logs:/app/autonomous_operator/logs
+      - orchestrator-state:/app/autonomous_operator/state
+    restart: unless-stopped
+    logging: *default-logging
+    healthcheck:
+      test: ["CMD", "python3", "-c", "import sys; sys.exit(0)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+
+  daiof-orchestrator-debug:
+    image: daiofframework
+    build:
+      context: .
+      dockerfile: Dockerfile
+    profiles:
+      - debug
+    environment:
+      - PYTHONDONTWRITEBYTECODE=1
+      - PYTHONUNBUFFERED=1
+      - NODE_ENV=development
+      - DEBUG=1
+    volumes:
+      - orchestrator-logs:/app/autonomous_operator/logs
+      - orchestrator-state:/app/autonomous_operator/state
+    command: ["monitor"]
+    restart: "no"
+    logging: *default-logging
+    healthcheck:
+      test: ["CMD", "python3", "-c", "import sys; sys.exit(0)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+
+  # ── Node.js DAIOF Framework UI ─────────────────────────────────────────────
+  daiof-ui:
+    image: daiofframework-ui
+    build:
+      context: DAIOF-Framework
+      dockerfile: ./Dockerfile
+    profiles:
+      - production
+    environment:
+      - NODE_ENV=production
+    ports:
+      - "${UI_PORT:-3000}:3000"
+    restart: unless-stopped
+    logging: *default-logging
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+
+  daiof-ui-debug:
+    image: daiofframework-ui
+    build:
+      context: DAIOF-Framework
+      dockerfile: ./Dockerfile
+    profiles:
+      - debug
+    environment:
+      - NODE_ENV=development
+    ports:
+      - "${UI_PORT:-3000}:3000"
+      - "9229:9229"
+    command: ["node", "--inspect=0.0.0.0:9229", "index.js"]
+    restart: "no"
+    logging: *default-logging
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+
+  # ── MCP Router ─────────────────────────────────────────────────────────────
+  mcp-router:
+    build:
+      context: ./factory/mcp-router
+    profiles:
+      - production
+      - development
+    ports:
+      - "${MCP_PORT:-3001}:3000"
+    environment:
+      - NODE_ENV=${NODE_ENV:-production}
+      - JWT_SECRET=${JWT_SECRET:?JWT_SECRET is required}
+      - FIRESTORE_EMULATOR_HOST=firebase-emulator:8080
+      - GOOGLE_CLOUD_PROJECT=${GOOGLE_CLOUD_PROJECT:-gen-lang-client-0863690953}
+    depends_on:
+      firebase-emulator:
+        condition: service_healthy
+    restart: unless-stopped
+    logging: *default-logging
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+
+  mcp-router-dev:
+    build:
+      context: ./factory/mcp-router
+    profiles:
+      - development
+    ports:
+      - "${MCP_PORT:-3001}:3000"
+    environment:
+      - NODE_ENV=development
+      # Development uses a non-sensitive fallback; set JWT_SECRET in .env for production-like testing.
+      - JWT_SECRET=${JWT_SECRET:-super-secret-mcp-key-dev}
+      - FIRESTORE_EMULATOR_HOST=firebase-emulator:8080
+      - GOOGLE_CLOUD_PROJECT=${GOOGLE_CLOUD_PROJECT:-gen-lang-client-0863690953}
+    depends_on:
+      firebase-emulator:
+        condition: service_healthy
+    restart: "no"
+    logging: *default-logging
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+
+  # ── Factory Worker ──────────────────────────────────────────────────────────
+  factory-worker:
+    build:
+      context: ./factory
+    profiles:
+      - production
+      - development
+    ports:
+      - "${FACTORY_PORT:-8081}:8080"
+    environment:
+      - JWT_SECRET=${JWT_SECRET:?JWT_SECRET is required}
+      - PORT=8080
+    volumes:
+      - factory-inbox:/app/inbox
+      - factory-processed:/app/processed
+      - factory-failed:/app/failed
+    restart: unless-stopped
+    logging: *default-logging
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+
+  # ── Firebase Emulator ───────────────────────────────────────────────────────
+  firebase-emulator:
+    image: andreysenov/firebase-tools:latest
+    profiles:
+      - production
+      - development
+    ports:
+      - "4000:4000"   # Emulator UI
+      - "8080:8080"   # Firestore
+      - "9099:9099"   # Auth
+    working_dir: /app
+    volumes:
+      - ./factory:/app
+      - firebase-data:/root/.cache
+    command: firebase emulators:start --project ${GOOGLE_CLOUD_PROJECT:-gen-lang-client-0863690953}
+    restart: unless-stopped
+    logging: *default-logging
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:4000"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+
+volumes:
+  orchestrator-logs:
+  orchestrator-state:
+  factory-inbox:
+  factory-processed:
+  factory-failed:
+  firebase-data:

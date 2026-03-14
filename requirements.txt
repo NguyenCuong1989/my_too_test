@@ -1,0 +1,38 @@
+# Main project dependencies
+# Install with: pip install -r requirements.txt
+
+# HTTP / async
+requests==2.31.0
+httpx==0.27.0
+aiohttp==3.13.3
+
+# API framework
+fastapi==0.110.0
+uvicorn[standard]==0.27.1
+pydantic==2.6.3
+
+# Data validation
+jsonschema==4.21.1
+
+# Authentication
+python-jose[cryptography]==3.3.0
+python-multipart==0.0.9
+
+# AI / LLM integrations
+ollama==0.2.1
+google-generativeai==0.5.4
+
+# Google APIs
+google-auth==2.29.0
+google-auth-oauthlib==1.2.0
+google-auth-httplib2==0.2.0
+google-api-python-client==2.127.0
+
+# Notion
+notion-client==2.2.1
+
+# Browser automation
+playwright==1.44.0
+
+# Utilities
+python-dotenv==1.0.1

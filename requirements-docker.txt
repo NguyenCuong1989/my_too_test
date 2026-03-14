@@ -1,0 +1,8 @@
+# Docker / container-specific dependencies
+# Install with: pip install -r requirements-docker.txt
+# These are the minimal runtime dependencies needed inside the container.
+-r requirements.txt
+
+# Health check / monitoring helpers
+prometheus-client==0.20.0
+psutil==5.9.8

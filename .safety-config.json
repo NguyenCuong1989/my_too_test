@@ -1,0 +1,13 @@
+{
+  "// comment": "safety-config.json – pip-audit / Safety dependency vulnerability configuration",
+  "scan-options": {
+    "ignore-unpinned-requirements": false,
+    "continue-on-error": false
+  },
+  "ignore-vulnerabilities": [],
+  "audit-and-monitor": false,
+  "output": {
+    "format": "json",
+    "file": "safety-report.json"
+  }
+}
