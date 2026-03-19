@@ -6,7 +6,7 @@
 import logging
 import requests
 import json
-from pathlib import Path
+import uuid
 
 class BalanceGovernor:
     """Bridges the Orchestrator with BalanceHub for economic and runtime governance."""
@@ -44,7 +44,7 @@ class BalanceGovernor:
                 "connector": connector,
                 "action": action,
                 "payload": payload or {},
-                "request_id": f"gov-{int(Path('/dev/urandom').stat().st_atime)}" # Simple unique ID
+                "request_id": f"gov-{uuid.uuid4().hex[:12]}"
             }
             resp = requests.post(url, json=data, timeout=10)
             return resp.json()

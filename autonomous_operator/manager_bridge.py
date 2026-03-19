@@ -13,6 +13,12 @@ from datetime import datetime
 # Setup Paths
 BASE_DIR = Path("/Users/andy/my_too_test")
 DB_PATH = BASE_DIR / "DAIOF-Framework" / "autonomous_todo.db"
+if str(BASE_DIR) not in sys.path:
+    sys.path.append(str(BASE_DIR))
+
+from kernel.quota_guard_v1 import QuotaGuard
+
+quota_guard = QuotaGuard()
 
 def get_summary():
     """Returns a summary of recent activity from the ecosystem."""
@@ -89,7 +95,13 @@ def get_routing_advice(prompt_summary):
     prompt_lower = prompt_summary.lower()
 
     if any(k in prompt_lower for k in cloud_keywords):
-        return "CLOUD (Gemini)"
+        allow_cloud, reason, state = quota_guard.allow_cloud("cloud-preferred")
+        if allow_cloud:
+            return "CLOUD (Gemini)"
+        return (
+            f"LOCAL (Quota-guarded fallback; cloud denied: {reason}; "
+            f"gemini={state.get('gemini')}, overage={state.get('overage_strategy')})"
+        )
     if any(k in prompt_lower for k in local_keywords):
         return "LOCAL (Ollama/qwen3)"
 

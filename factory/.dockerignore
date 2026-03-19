@@ -1,38 +1,21 @@
-# Version control
+# .dockerignore cho factory subfolder
 .git
 .gitignore
-.gitmodules
-
-# Development
-.vscode
-.venv
-.pytest_cache
-__pycache__
-*.pyc
-.DS_Store
-
-# Testing
-tests/
-test_*.py
-
-# Documentation
-*.md
-docs/
-
-# Environment
-.env*
-*.key
-credentials.json
-
-# Logs
-logs/
-*.log
-
-# Cache
-.cache
-.pre-commit-hooks.yaml
-
-# System
-node_modules/
+node_modules
 npm-debug.log
 yarn-error.log
+__pycache__
+*.pyc
+*.pyo
+venv/
+.venv
+env/
+.pytest_cache
+coverage/
+.DS_Store
+*.log
+.env
+.env.local
+*.md
+.idea
+.vscode

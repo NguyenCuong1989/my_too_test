@@ -62,4 +62,6 @@ class CommandEnvelope:
     normalized_state_hash: str
     policy_context: Dict[str, str]
     signature: str  # device-bound signature
+    timeline_id: Optional[str] = None
+    identity_tuple: Optional[Dict[str, str]] = None
     atomic_steps: List[AtomicStep] = field(default_factory=list)

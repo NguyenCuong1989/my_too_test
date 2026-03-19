@@ -4,11 +4,16 @@
 # Status: CANONICAL
 
 import os
+import sys
 from pathlib import Path
 
 # Paths
 BASE_DIR = Path(__file__).parent.parent.absolute()
 STATE_DIR = BASE_DIR / "autonomous_operator" / "state"
+if str(BASE_DIR) not in sys.path:
+    sys.path.append(str(BASE_DIR))
+if str(BASE_DIR / "autonomous_operator") not in sys.path:
+    sys.path.append(str(BASE_DIR / "autonomous_operator"))
 
 # --- INTEGRATED SERVICE ECOSYSTEM (Master's Domain) ---
 INTEGRATED_SERVICES = {
@@ -54,7 +59,29 @@ def get_secret(path):
         return p.read_text().strip()
     return None
 
-from key_manager import GeminiKeyManager; km = GeminiKeyManager(); GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY") or km.get_active_key()
+try:
+    from .key_manager import GeminiKeyManager
+except ImportError:
+    from key_manager import GeminiKeyManager
+
+try:
+    from kernel.quota_guard_v1 import QuotaGuard
+except ImportError:
+    QuotaGuard = None
+
+km = GeminiKeyManager()
+quota_guard = QuotaGuard() if QuotaGuard else None
+
+
+def get_gemini_api_key(task_class="cloud-optional"):
+    if quota_guard:
+        allow_cloud, _, _ = quota_guard.allow_cloud(task_class)
+        if not allow_cloud:
+            return None
+    return os.environ.get("GEMINI_API_KEY") or km.get_active_key()
+
+
+GEMINI_API_KEY = get_gemini_api_key()
 NOTION_TOKEN = get_secret(BASE_DIR / "notion_secret.txt")
 NOTION_DB_ID = get_secret(BASE_DIR / "notion_db_id.txt")
 
