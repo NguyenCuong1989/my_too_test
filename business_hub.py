@@ -1,15 +1,44 @@
+import os
 import os.path
 import base64
 import json
+import logging
+import re
+import sys
 from email.message import EmailMessage
+from pathlib import Path
 
-from google.auth.transport.requests import Request
-from google.oauth2.credentials import Credentials
-from google_auth_oauthlib.flow import InstalledAppFlow
-from googleapiclient.discovery import build
-import googleapiclient.errors
-from google import genai
-from notion_client import Client
+try:
+    from google.auth.transport.requests import Request
+    from google.oauth2.credentials import Credentials
+    from google_auth_oauthlib.flow import InstalledAppFlow
+    from googleapiclient.discovery import build
+    import googleapiclient.errors  # noqa: F401
+except ImportError:
+    Request = None
+    Credentials = None
+    InstalledAppFlow = None
+    build = None
+
+try:
+    from notion_client import Client
+except ImportError:
+    Client = None
+
+try:
+    from google import genai
+except ImportError:
+    genai = None
+
+BASE_DIR = Path("/Users/andy/my_too_test")
+if str(BASE_DIR) not in sys.path:
+    sys.path.append(str(BASE_DIR))
+
+from autonomous_operator.factory_utils import call_ollama
+from autonomous_operator.key_manager import GeminiKeyManager
+from kernel.quota_guard_v1 import QuotaGuard
+
+logger = logging.getLogger("BusinessHub")
 
 # 1. CẤU HÌNH API
 SCOPES = [
@@ -18,19 +47,100 @@ SCOPES = [
     'https://www.googleapis.com/auth/drive.file'
 ]
 
-# AI SDK setup (New Free Tier Project)
-GEMINI_API_KEY = "AIzaSyA4phW8utb9qRXjbbO0vGv4o2GZsZ7stGo"
-client_ai = genai.Client(api_key=GEMINI_API_KEY)
-
 # Notion Config
-NOTION_TOKEN = open("/Users/andy/my_too_test/notion_secret.txt").read().strip()
+NOTION_SECRET_PATH = BASE_DIR / "notion_secret.txt"
+NOTION_TOKEN = NOTION_SECRET_PATH.read_text().strip() if NOTION_SECRET_PATH.exists() else None
 NOTION_DB_ID = None
-if os.path.exists("/Users/andy/my_too_test/notion_db_id.txt"):
-    NOTION_DB_ID = open("/Users/andy/my_too_test/notion_db_id.txt").read().strip()
+NOTION_DB_PATH = BASE_DIR / "notion_db_id.txt"
+if NOTION_DB_PATH.exists():
+    NOTION_DB_ID = NOTION_DB_PATH.read_text().strip()
 
-notion = Client(auth=NOTION_TOKEN)
+notion = Client(auth=NOTION_TOKEN) if Client and NOTION_TOKEN else None
+quota_guard = QuotaGuard()
+
+
+def _analysis_prompt(subject, snippet, body_content=""):
+    return f"""
+    Bạn là một trợ lý kinh doanh cao cấp cho Master alpha_prime_omega (Nguyễn Đức Cường).
+    Dự án trọng tâm: DAIOF-Framework (Hệ sinh thái công nghiệp AI), HyperAI Phoenix, Kinh doanh giải pháp AI Agents.
+
+    Nội dung Email nhận được:
+    Tiêu đề: {subject}
+    Nội dung tóm tắt: {snippet}
+    Nội dung chi tiết: {body_content}
+
+    Hãy trả về JSON duy nhất với cấu trúc:
+    {{
+        "is_lead": boolean,
+        "sentiment": "positive/neutral/negative",
+        "suggested_reply": "Nội dung phản hồi tinh tế, chuyên nghiệp",
+        "reason": "Giải thích ngắn gọn"
+    }}
+    """.strip()
+
+
+def _extract_json_block(text):
+    if not text:
+        return None
+
+    cleaned = text.strip().replace("```json", "").replace("```", "")
+    try:
+        return json.loads(cleaned)
+    except json.JSONDecodeError:
+        pass
+
+    match = re.search(r"\{.*\}", cleaned, re.S)
+    if not match:
+        return None
+
+    try:
+        return json.loads(match.group(0))
+    except json.JSONDecodeError:
+        return None
+
+
+def _generate_cloud_analysis(prompt):
+    allow_cloud, reason, state = quota_guard.allow_cloud("cloud-optional")
+    if not allow_cloud:
+        logger.info(
+            "Quota guard denied cloud analysis: gemini=%s overage=%s reason=%s",
+            state.get("gemini"),
+            state.get("overage_strategy"),
+            reason,
+        )
+        return None
+
+    if genai is None:
+        logger.warning("google.genai SDK unavailable; skipping cloud analysis")
+        return None
+
+    api_key = GeminiKeyManager(base_dir=BASE_DIR).get_active_key()
+    if not api_key:
+        logger.warning("No active Gemini key; skipping cloud analysis")
+        return None
+
+    try:
+        client_ai = genai.Client(api_key=api_key)
+        response = client_ai.models.generate_content(
+            model='models/gemini-2.5-flash',
+            contents=prompt
+        )
+        return _extract_json_block(response.text)
+    except Exception as e:
+        logger.warning("Cloud analysis failed, falling back to local: %s", e)
+        return None
+
+
+def _generate_local_analysis(prompt):
+    response = call_ollama(prompt, model="qwen3:8b")
+    if not response or response.startswith("AI_ERROR:"):
+        return None
+    return _extract_json_block(response)
 
 def get_google_services():
+    if not all([Request, Credentials, InstalledAppFlow, build]):
+        raise RuntimeError("Google service dependencies unavailable; cannot initialize Gmail/Calendar clients")
+
     creds = None
     if os.path.exists('token.json'):
         creds = Credentials.from_authorized_user_file('token.json', SCOPES)
@@ -49,33 +159,15 @@ def get_google_services():
     return gmail, calendar
 
 def analyze_and_draft_reply(gmail_service, msg_id, subject, snippet, body_content=""):
-    """Dùng Gemini AI để phân tích email và tạo bản nháp trả lời"""
-    prompt = f"""
-    Bạn là một trợ lý kinh doanh cao cấp cho Master alpha_prime_omega (Nguyễn Đức Cường).
-    Dự án trọng tâm: DAIOF-Framework (Hệ sinh thái công nghiệp AI), HyperAI Phoenix, Kinh doanh giải pháp AI Agents.
-
-    Nội dung Email nhận được:
-    Tiêu đề: {subject}
-    Nội dung tóm tắt: {snippet}
-    Nội dung chi tiết: {body_content}
-
-    Hãy trả về JSON duy nhất với cấu trúc:
-    {{
-        "is_lead": boolean,
-        "sentiment": "positive/neutral/negative",
-        "suggested_reply": "Nội dung phản hồi tinh tế, chuyên nghiệp",
-        "reason": "Giải thích ngắn gọn"
-    }}
-    """
+    """Phân tích email và tạo bản nháp trả lời theo local-first, quota-aware routing."""
+    prompt = _analysis_prompt(subject, snippet, body_content)
 
     try:
-        response = client_ai.models.generate_content(
-            model='models/gemini-2.5-flash',
-            contents=prompt
-        )
-
-        # Parse JSON
-        analysis = json.loads(response.text.strip().replace('```json', '').replace('```', ''))
+        analysis = _generate_local_analysis(prompt)
+        if not analysis:
+            analysis = _generate_cloud_analysis(prompt)
+        if not analysis:
+            raise ValueError("No valid AI analysis returned from local or cloud path")
 
         if analysis.get("is_lead"):
             print(f"✨ [AI] Phát hiện khách hàng tiềm năng: {subject}")
@@ -107,6 +199,10 @@ def create_draft(service, msg_id, subject, content):
 
 def log_to_notion(subject, snippet, analysis):
     """Ghi nhận lead vào Notion database"""
+    if not notion or not NOTION_DB_ID:
+        logger.info("Notion logging unavailable; skipping lead sync")
+        return
+
     try:
         notion.pages.create(
             parent={"database_id": NOTION_DB_ID},

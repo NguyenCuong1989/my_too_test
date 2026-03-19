@@ -26,11 +26,28 @@
         "*.py": "python"
     },
     "[python]": {
-        "yaml.validate": false
+        "yaml.validate": false,
+        "github.copilot.nextEditSuggestions.enabled": true
     },
     "yaml.validate": false,
     "yaml.schemas": {
         "http://json.schemastore.org/no-op": "**/*.py"
     },
-    "yaml.customTags": []
+    "yaml.customTags": [],
+    "[markdown]": {
+        "github.copilot.nextEditSuggestions.enabled": false
+    },
+    "[typescript]": {
+        "github.copilot.nextEditSuggestions.enabled": true
+    },
+    "[javascript]": {
+        "github.copilot.nextEditSuggestions.enabled": true
+    },
+    "geminicodeassist.inlineSuggestions.enableAuto": true,
+    "geminicodeassist.inlineSuggestions.nextEditPredictions": false,
+    "geminicodeassist.agentYoloMode": false,
+    "github.copilot.chat.searchSubagent.enabled": false,
+    "claudeCode.initialPermissionMode": "default",
+    "claudeCode.autosave": true,
+    "claudeCode.usePythonEnvironment": false
 }

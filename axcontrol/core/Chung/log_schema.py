@@ -19,7 +19,7 @@
 """Audit record schema."""
 
 from dataclasses import dataclass
-from typing import Any, Optional
+from typing import Any, Dict, Optional
 
 
 @dataclass
@@ -31,6 +31,11 @@ class AuditRecord:
     policy_decision: Any
     state_after: Any
     Chung: str
+    timeline_id: Optional[str] = None
+    identity_tuple: Optional[Dict[str, str]] = None
+    proof_result: Optional[str] = None
+    hash_prev: Optional[str] = None
+    hash_curr: Optional[str] = None
     step_index: int = 0
     chained_hash: Optional[str] = None
     stop_reason: Optional[str] = None

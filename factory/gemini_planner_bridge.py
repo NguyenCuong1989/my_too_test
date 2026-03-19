@@ -13,6 +13,7 @@ import sys
 import logging
 import json
 from pathlib import Path
+from typing import List
 
 # Add parent directory to path to reach autonomous_operator
 sys.path.append(str(Path(__file__).parent.parent))
@@ -26,6 +27,7 @@ except ImportError:
         def create_plan(self, goal): return {"steps": [{"skill": "debug_skill", "payload": f"Simulated plan for {goal}"}]}
 
 from enum import Enum, auto
+from kernel.quota_guard_v1 import QuotaGuard
 
 class GovernanceState(Enum):
     IDLE = auto()
@@ -36,18 +38,30 @@ class GovernanceState(Enum):
     HEALING = auto()
     COMPLETED = auto()
 
-import google.generativeai as genai
+try:
+    import google.generativeai as genai
+except ImportError:
+    genai = None
 from autonomous_operator.key_manager import GeminiKeyManager
 
 logger = logging.getLogger("GeminiPlannerBridge")
 
 class GeminiPlannerBridge:
     def __init__(self):
+        self.quota_guard = QuotaGuard()
+        self.quota_state = self.quota_guard.read_state()
+
         # Initialize Key Manager and Config (Phase 11)
         base_dir = Path("/Users/andy/my_too_test")
         self.km = GeminiKeyManager(base_dir=base_dir)
-        genai.configure(api_key=self.km.get_active_key())
-        self.model = genai.GenerativeModel('gemini-pro-latest')
+        self.model = None
+
+        allow_cloud, _, _ = self.quota_guard.allow_cloud("cloud-required")
+        if allow_cloud and genai is not None:
+            active_key = self.km.get_active_key()
+            if active_key:
+                genai.configure(api_key=active_key)
+                self.model = genai.GenerativeModel('gemini-pro-latest')
 
         self.orchestrator = GeminiOrchestrator()
         self.current_dag = None
@@ -65,6 +79,22 @@ class GeminiPlannerBridge:
     def chat(self, user_input: str) -> str:
         """Handles natural language chat using Gemini."""
         self.logger.info(f"💬 Natural Chat: {user_input}")
+        allow_cloud, reason, state = self.quota_guard.allow_cloud("cloud-preferred")
+        if not allow_cloud:
+            return (
+                "⚠️ Quota Guard denied cloud chat.\n"
+                f"- gemini: `{state.get('gemini', 'unknown')}`\n"
+                f"- overage_strategy: `{state.get('overage_strategy', 'unknown')}`\n"
+                f"- reason: `{reason}`\n"
+                "Use local-safe planning/review flow instead."
+            )
+
+        if genai is None:
+            return "⚠️ Gemini SDK is unavailable; cloud chat path is disabled."
+
+        if self.model is None:
+            return "⚠️ Gemini model is unavailable after quota guard check."
+
         try:
             # Simple stateless chat for now (can be expanded with history)
             prompt = f"{self.system_prompt}\n\nOperator: {user_input}\nAntigravity:"
@@ -99,8 +129,32 @@ class GeminiPlannerBridge:
         Decomposes a goal into a Directed Acyclic Graph of tasks.
         """
         self.logger.info(f"🌵 Synthesizing DAG for: {goal}")
-        # In a real scenario, this calls the LLM with the GEMINI_RUNTIME_PROTOCOL
-        plan = self.orchestrator.create_plan(goal)
+        # Prefer a local planning path that survives quota exhaustion.
+        if hasattr(self.orchestrator, "create_plan"):
+            plan = self.orchestrator.create_plan(goal)
+        elif hasattr(self.orchestrator, "resolve_module") and hasattr(self.orchestrator, "create_execution_plan"):
+            try:
+                task_type = "deploy" if "deploy" in goal.lower() else "execution"
+                module_path = self.orchestrator.resolve_module(task_type)
+                execution_plan = self.orchestrator.create_execution_plan(
+                    {"id": f"goal::{goal}", "parameters": {"goal": goal}},
+                    module_path,
+                )
+                plan = {
+                    "goal": goal,
+                    "steps": [
+                        {
+                            "skill": "local_execution_plan",
+                            "payload": json.dumps(execution_plan, ensure_ascii=False),
+                        }
+                    ],
+                }
+            except Exception as e:
+                self.logger.error(f"Local DAG synthesis fallback failed: {e}")
+                plan = None
+        else:
+            plan = None
+
         if not plan or "steps" not in plan:
             return "❌ AI could not synthesize a DAG for this goal."
 

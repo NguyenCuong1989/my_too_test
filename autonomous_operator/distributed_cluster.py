@@ -11,15 +11,24 @@ import sys
 from pathlib import Path
 
 try:
-    from ..config import BASE_DIR
+    from .config import BASE_DIR
     from .key_manager import GeminiKeyManager
 except (ImportError, ValueError):
-    sys.path.append(str(Path(__file__).parent.parent))
+    BASE_DIR = Path("/Users/andy/my_too_test")
+    if str(BASE_DIR) not in sys.path:
+        sys.path.append(str(BASE_DIR))
+    if str(BASE_DIR / "autonomous_operator") not in sys.path:
+        sys.path.append(str(BASE_DIR / "autonomous_operator"))
     from config import BASE_DIR
     try:
         from key_manager import GeminiKeyManager
     except ImportError:
         GeminiKeyManager = None
+
+try:
+    from kernel.quota_guard_v1 import QuotaGuard
+except ImportError:
+    QuotaGuard = None
 
 try:
     import google.generativeai as genai
@@ -65,6 +74,7 @@ class DistributedAICluster:
         self.logger = logging.getLogger("DistributedCluster")
         self.nodes = [LOCAL_NODE, SUPER_NODE]
         self.local_node = LOCAL_NODE
+        self.quota_guard = QuotaGuard() if QuotaGuard else None
 
     async def route_task(self, prompt: str, complexity: str = "auto") -> str:
         """
@@ -89,7 +99,7 @@ class DistributedAICluster:
 
         # Fallback 2: Cloud Fallback (Gemini)
         if not result and genai and GeminiKeyManager:
-            self.logger.warning("☁️ [CRITICAL] Ollama Nodes unresponsive. Attempting CLOUD FALLBACK (Gemini)...")
+            self.logger.warning("☁️ Ollama nodes unresponsive. Evaluating CLOUD FALLBACK (Gemini)...")
             result = await self._call_gemini_fallback(prompt)
 
         # Fallback 3: Autonomous Mock (Last Resort)
@@ -150,6 +160,17 @@ class DistributedAICluster:
         """Sử dụng Gemini làm cứu cánh cuối cùng"""
         if not genai or not GeminiKeyManager:
             return ""
+
+        if self.quota_guard:
+            allow_cloud, reason, state = self.quota_guard.allow_cloud("cloud-optional")
+            if not allow_cloud:
+                self.logger.warning(
+                    "Quota guard denied Gemini fallback: gemini=%s overage=%s reason=%s",
+                    state.get("gemini"),
+                    state.get("overage_strategy"),
+                    reason,
+                )
+                return ""
 
         try:
             key_mgr = GeminiKeyManager()
