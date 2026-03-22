@@ -859,7 +859,7 @@ return (new cognitect.transit.WithMetaHandler());
 /**
  * Return a transit writer. type maybe either :json or :json-verbose.
  *   opts is a map with the following optional keys:
- * 
+ *
  *  :handlers  - a map of type constructors to handler instances. Can optionally
  *               provide a :default write handler which will be used if no
  *               matching handler can be found.

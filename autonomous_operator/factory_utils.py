@@ -1,49 +1,35 @@
-# \u03a3_AP\u03a9\u2082 CORE MODULE
-# Authority: B\u1ed0 C\u01af\u1ed0NG Supreme System Commander
+# Σ_APΩ₂ CORE MODULE
+# Authority: BỐ CƯỐNG Supreme System Commander
 # Creator: alpha_prime_omega (4287)
 # Status: CANONICAL
 
-import sys
 import logging
 import subprocess
 from pathlib import Path
 
-# Add paths for config
 BASE_DIR = Path("/Users/andy/my_too_test")
-sys.path.append(str(BASE_DIR / "autonomous_operator"))
 
-try:
-    from config import NOTION_TOKEN, NOTION_DB_ID
-    from notion_client import Client
-except ImportError:
-    NOTION_TOKEN = None
-    NOTION_DB_ID = None
-    Client = None
 
 def log_to_notion(event_type, category, message, priority="Medium"):
-    """Gửi log vận hành lên Notion Dashboard."""
-    if not NOTION_TOKEN or not NOTION_DB_ID or not Client:
-        logging.warning("⚠️ Notion credentials missing for factory_utils.")
-        return False
-
+    """Gửi log vận hành lên Notion Dashboard qua canonical ecosystem sync."""
     try:
-        notion = Client(auth=NOTION_TOKEN)
-        notion.pages.create(
-            parent={"database_id": NOTION_DB_ID},
-            properties={
-                "Name": {"title": [{"text": {"content": f"⚙️ {event_type}: Factory"}}]},
-                "Status": {"select": {"name": "Operation Log"}},
-                "Category": {"select": {"name": category}},
-                "Sentiment": {"select": {"name": "Neutral"}},
-                "Priority": {"select": {"name": priority}},
-                "Reason": {"rich_text": [{"text": {"content": event_type}}]},
-                "Snippet": {"rich_text": [{"text": {"content": message[:1500]}}]}
-            }
+        from ecosystem_sync import emit_ecosystem_change
+        emit_ecosystem_change(
+            event_type=event_type,
+            category=category,
+            message=message,
+            priority=priority,
+            source="factory_utils",
+            status="Operation Log",
+            connector=category,
+            snippet=message,
+            metadata={"source_module": "factory_utils"},
         )
         return True
     except Exception as e:
         logging.error(f"❌ Failed to log to Notion: {e}")
         return False
+
 
 def call_ollama(prompt, model="qwen3:8b"):
     """Gọi Ollama local để xử lý trí tuệ AI."""
@@ -58,6 +44,7 @@ def call_ollama(prompt, model="qwen3:8b"):
     except Exception as e:
         logging.error(f"❌ Ollama call failed: {e}")
         return f"AI_ERROR: {e}"
+
 
 def self_heal_audit(log_content):
     """Phân tích log và đề xuất hướng sửa."""

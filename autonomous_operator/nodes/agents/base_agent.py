@@ -221,21 +221,6 @@ class DAIOFAgent(ABC):
         # In a real boot, this would call the OmegaKernel's entropy monitor
         print(f"📊 Ω-LOG [{self.axis_id}]: {e_type} - {content[:100]}")
 
-        # 3. Notion Dashboard
-        if self.notion and NOTION_DB_ID:
-            try:
-                self.notion.pages.create(
-                    parent={"database_id": NOTION_DB_ID},
-                    properties={
-                        "Name": {"title": [{"text": {"content": f"🤖 {self.agent_name}: {e_type}"}}]},
-                        "Status": {"select": {"name": "Operation Log"}},
-                        "Category": {"select": {"name": self.axis_id}},
-                        "Priority": {"select": {"name": priority}},
-                        "Snippet": {"rich_text": [{"text": {"content": str(content)[:1500]}}]}
-                    }
-                )
-            except Exception as e:
-                self.logger.error(f"Notion log failed: {e}")
 
     def get_status_report(self):
         """Báo cáo trạng thái cho Symphony và Ω."""

@@ -118,7 +118,7 @@ return cljs.core.async.impl.buffers.sliding_buffer(n);
 });
 /**
  * Returns true if a channel created with buff will never block. That is to say,
- * puts into this buffer will never cause the buffer to be full. 
+ * puts into this buffer will never cause the buffer to be full.
  */
 cljs.core.async.unblocking_buffer_QMARK_ = (function cljs$core$async$unblocking_buffer_QMARK_(buff){
 if((!((buff == null)))){
@@ -647,12 +647,12 @@ return null;
  *   become ready completes. Returns [val port] of the completed
  *   operation, where val is the value taken for takes, and a
  *   boolean (true unless already closed, as per put!) for puts.
- * 
+ *
  *   opts are passed as :key val ... Supported options:
- * 
+ *
  *   :default val - the value to use if none of the operations are immediately ready
  *   :priority true - (default nil) when true, the operations will be tried in order.
- * 
+ *
  *   Note: there is no guarantee that the port exps or val exprs will be
  *   used, nor in what order should they be, so they should not be
  *   depended upon for side effects.
@@ -2019,7 +2019,7 @@ return cljs.core.async.pipeline_STAR_(n,to,af,from,close_QMARK_,null,new cljs.co
  *   inputs. By default, the to channel will be closed when the from
  *   channel closes, but can be determined by the close?  parameter. Will
  *   stop consuming the from channel if the to channel closes.
- * 
+ *
  *   Note this is supplied for API compatibility with the Clojure version.
  *   Values of N > 1 will not result in actual concurrency in a
  *   single-threaded runtime.
@@ -2064,7 +2064,7 @@ return cljs.core.async.pipeline_STAR_(n,to,xf,from,close_QMARK_,ex_handler,new c
  *   channels, the first of which will contain the values for which the
  *   predicate returned true, the second those for which it returned
  *   false.
- * 
+ *
  *   The out channels will be unbuffered by default, or two buf-or-ns can
  *   be supplied. The channels will close after the source channel has
  *   closed.
@@ -2664,10 +2664,10 @@ return c__38440__auto__;
 });
 /**
  * Puts the contents of coll into the supplied channel.
- * 
+ *
  *   By default the channel will be closed after the items are copied,
  *   but can be determined by the close? parameter.
- * 
+ *
  *   Returns a channel which will close after the items are copied.
  */
 cljs.core.async.onto_chan_BANG_ = (function cljs$core$async$onto_chan_BANG_(var_args){
@@ -3168,13 +3168,13 @@ return (new cljs.core.async.t_cljs$core$async39681(ch,cs,meta39682));
  * Creates and returns a mult(iple) of the supplied channel. Channels
  *   containing copies of the channel can be created with 'tap', and
  *   detached with 'untap'.
- * 
+ *
  *   Each item is distributed to all taps in parallel and synchronously,
  *   i.e. each tap must accept before the next item is distributed. Use
  *   buffering/windowing to prevent slow taps from holding up the mult.
- * 
+ *
  *   Items received when there are no taps get dropped.
- * 
+ *
  *   If a tap puts to a closed channel, it will be removed from the mult.
  */
 cljs.core.async.mult = (function cljs$core$async$mult(ch){
@@ -4056,7 +4056,7 @@ return m;
 });
 /**
  * Copies the mult source onto the supplied channel.
- * 
+ *
  *   By default the channel will be closed when the source closes,
  *   but can be determined by the close? parameter.
  */
@@ -4394,15 +4394,15 @@ return (new cljs.core.async.t_cljs$core$async40047(change,solo_mode,pick,cs,calc
  *   soloing, muting and pausing multiple inputs atomically using
  *   'toggle', and can solo using either muting or pausing as determined
  *   by 'solo-mode'.
- * 
+ *
  *   Each channel can have zero or more boolean modes set via 'toggle':
- * 
+ *
  *   :solo - when true, only this (ond other soloed) channel(s) will appear
  *        in the mix output channel. :mute and :pause states of soloed
  *        channels are ignored. If solo-mode is :mute, non-soloed
  *        channels are muted, if :pause, non-soloed channels are
  *        paused.
- * 
+ *
  *   :mute - muted channels will have their contents consumed but not included in the mix
  *   :pause - paused channels will not have their contents consumed (and thus also not included in the mix)
  */
@@ -4931,7 +4931,7 @@ return cljs.core.async.unmix_all_STAR_(mix);
  *   channel-state-map is a map of attrs -> boolean, where attr is one or
  *   more of :mute, :pause or :solo. Any states supplied are merged with
  *   the current state.
- * 
+ *
  *   Note that channels can be added to a mix via toggle, which can be
  *   used to add channels in a particular (e.g. paused) state.
  */
@@ -5175,13 +5175,13 @@ return (new cljs.core.async.t_cljs$core$async40229(ch,topic_fn,buf_fn,mults,ensu
  *   dedicated channel. By default these internal channels are
  *   unbuffered, but a buf-fn can be supplied which, given a topic,
  *   creates a buffer with desired properties.
- * 
+ *
  *   Each item is distributed to all subs in parallel and synchronously,
  *   i.e. each sub must accept before the next item is distributed. Use
  *   buffering/windowing to prevent slow subs from holding up the pub.
- * 
+ *
  *   Items received when there are no matching subs get dropped.
- * 
+ *
  *   Note that if buf-fns are used then each topic is handled
  *   asynchronously, i.e. if a channel is subscribed to more than one
  *   topic it should not expect them to be interleaved identically with
@@ -5721,7 +5721,7 @@ return p;
 
 /**
  * Subscribes a channel to a topic of a pub.
- * 
+ *
  *   By default the channel will be closed when the source closes,
  *   but can be determined by the close? parameter.
  */
@@ -6467,7 +6467,7 @@ return cljs.core.async.reduce(cljs.core.conj,coll,ch);
 /**
  * Returns a channel that will return, at most, n items from ch. After n items
  * have been returned, or ch has been closed, the return chanel will close.
- * 
+ *
  *   The output channel is unbuffered by default, unless buf-or-n is given.
  */
 cljs.core.async.take = (function cljs$core$async$take(var_args){

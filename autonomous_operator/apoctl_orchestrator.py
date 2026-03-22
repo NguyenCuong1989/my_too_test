@@ -125,19 +125,21 @@ class ApoctlOrchestrator:
 
     async def log_to_notion(self, subject, sender, snippet):
         """Ghi nhận sự kiện vào Notion Command Center."""
-        if not self.notion or not self.notion_db_id:
-            self.logger.warning("⚠️ Notion integration not configured.")
-            return
-
         try:
-            self.notion.pages.create(
-                parent={"database_id": self.notion_db_id},
-                properties={
-                    "Name": {"title": [{"text": {"content": f"📬 Mail: {subject}"}}]},
-                    "Status": {"select": {"name": "Inbox"}},
-                    "Source": {"select": {"name": "Event Bus"}},
-                    "Details": {"rich_text": [{"text": {"content": f"From: {sender}\nSnippet: {snippet}"}}]}
-                }
+            from ecosystem_sync import emit_ecosystem_change
+            emit_ecosystem_change(
+                event_type="Mail",
+                category=sender,
+                message=f"From: {sender}\nSnippet: {snippet}",
+                priority="Medium",
+                source="ApoctlOrchestrator",
+                status="Inbox",
+                connector=sender,
+                target="Notion",
+                account=sender,
+                snippet=snippet,
+                reason=subject,
+                metadata={"subject": subject, "sender": sender},
             )
             self.logger.info(f"📊 Notion Task Created: {subject}")
         except Exception as e:

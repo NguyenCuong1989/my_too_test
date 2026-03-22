@@ -268,7 +268,7 @@ return (fexpr__38303.cljs$core$IFn$_invoke$arity$2 ? fexpr__38303.cljs$core$IFn$
  * Recursively compares a and b, returning a tuple of
  *   [things-only-in-a things-only-in-b things-in-both].
  *   Comparison rules:
- * 
+ *
  *   * For equal a and b, return [nil nil a].
  *   * Maps are subdiffed where keys match and values differ.
  *   * Sets are never subdiffed.
