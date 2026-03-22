@@ -49,17 +49,20 @@ class NeuralLink:
             self.logger.error(f"Failed to init Notion inside NeuralLink: {e}")
 
     def _sync_to_notion(self, event_type, service, content, priority="Medium"):
-        if not self.notion or not self.notion_db_id:
-            return
         try:
-            self.notion.pages.create(
-                parent={"database_id": self.notion_db_id},
-                properties={
-                    "Command Name": {"title": [{"text": {"content": f"[{service}] {event_type}"}}]},
-                    "Status": {"select": {"name": "Log"}},
-                    "Target": {"select": {"name": "NotionDB"}},
-                    "Arguments": {"rich_text": [{"text": {"content": content[:1500]}}]}
-                }
+            from ecosystem_sync import emit_ecosystem_change
+            emit_ecosystem_change(
+                event_type=event_type,
+                category=service,
+                message=content,
+                priority=priority,
+                source="NeuralLink",
+                status="Log",
+                connector=service,
+                target="NotionDB",
+                arguments=content,
+                snippet=content,
+                metadata={"service": service, "event_type": event_type},
             )
         except Exception as e:
             # Silently fail or log to local to prevent infinite loops

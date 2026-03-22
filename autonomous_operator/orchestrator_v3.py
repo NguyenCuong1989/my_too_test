@@ -343,20 +343,19 @@ class AutonomousOperator:
 
     def log_to_notion(self, event_type, category, message, priority="Medium"):
         """Gửi log vận hành trực tiếp lên Notion Dashboard."""
-        if not self.notion or not self.notion_db_id:
-            return
         try:
-            self.notion.pages.create(
-                parent={"database_id": self.notion_db_id},
-                properties={
-                    "Name": {"title": [{"text": {"content": f"⚙️ {event_type}: Pulse"}}]},
-                    "Status": {"select": {"name": "Operation Log"}},
-                    "Category": {"select": {"name": category}},
-                    "Sentiment": {"select": {"name": "Neutral"}},
-                    "Priority": {"select": {"name": priority}},
-                    "Reason": {"rich_text": [{"text": {"content": event_type}}]},
-                    "Snippet": {"rich_text": [{"text": {"content": message[:1500]}}]}
-                }
+            from ecosystem_sync import emit_ecosystem_change
+            emit_ecosystem_change(
+                event_type=event_type,
+                category=category,
+                message=message,
+                priority=priority,
+                source="AutonomousOperator",
+                status="Operation Log",
+                connector=category,
+                snippet=message,
+                reason=event_type,
+                metadata={"category": category, "event_type": event_type},
             )
         except Exception as e:
             self.logger.error(f"Failed to log to Notion: {e}")

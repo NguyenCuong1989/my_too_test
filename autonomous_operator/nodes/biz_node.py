@@ -226,19 +226,22 @@ Trả về JSON:
     def log_to_notion(self, subject, snippet, analysis, email):
         """Sử dụng Notion làm Command Center duy nhất."""
         try:
-            if self.notion:
-                self.notion.pages.create(
-                    parent={"database_id": NOTION_DB_ID},
-                    properties={
-                        "Name": {"title": [{"text": {"content": f"📧 Lead: {subject}"}}]},
-                        "Status": {"select": {"name": "New Lead"}},
-                        "Account": {"select": {"name": email}},
-                        "Sentiment": {"select": {"name": analysis["sentiment"].capitalize()}},
-                        "Reason": {"rich_text": [{"text": {"content": analysis["reason"]}}]},
-                        "Snippet": {"rich_text": [{"text": {"content": f"From: {email}\n\n{snippet[:1000]}"}}]}
-                    }
-                )
-                self.logger.info(f"📊 Notion Synced: {subject}")
+            from ecosystem_sync import emit_ecosystem_change
+            emit_ecosystem_change(
+                event_type="Lead",
+                category="BizService",
+                message=f"From: {email}\n\n{snippet[:1000]}",
+                priority="Medium",
+                source="BizNode",
+                status="New Lead",
+                connector="BizService",
+                account=email,
+                reason=analysis.get("reason", subject),
+                snippet=f"From: {email}\n\n{snippet[:1000]}",
+                sentiment=analysis.get("sentiment", "Neutral").capitalize(),
+                metadata={"subject": subject, "email": email},
+            )
+            self.logger.info(f"📊 Notion Synced: {subject}")
         except Exception as e:
             self.logger.error(f"Notion logging error: {e}")
 
@@ -301,16 +304,19 @@ Hệ thống Thương Mại (Business Portal) hiện đang đạt trạng thái 
 
     def log_growth_to_notion(self, stats):
         try:
-            if self.notion:
-                self.notion.pages.create(
-                    parent={"database_id": NOTION_DB_ID},
-                    properties={
-                        "Name": {"title": [{"text": {"content": f"📈 APΩ Gravity: {time.strftime('%Y-%m')}"}}]},
-                        "Status": {"select": {"name": "Gravity Report"}},
-                        "Value Saved": {"rich_text": [{"text": {"content": stats['projected_monthly_savings']}}]},
-                        "Efficiency": {"rich_text": [{"text": {"content": stats['efficiency']}}]}
-                    }
-                )
+            from ecosystem_sync import emit_ecosystem_change
+            emit_ecosystem_change(
+                event_type="Gravity Report",
+                category="BizService",
+                message=f"Value Saved: {stats['projected_monthly_savings']} | Efficiency: {stats['efficiency']}",
+                priority="Medium",
+                source="BizNode",
+                status="Gravity Report",
+                connector="BizService",
+                reason="Monthly gravity report",
+                snippet=f"Value Saved: {stats['projected_monthly_savings']} | Efficiency: {stats['efficiency']}",
+                metadata={"stats": stats},
+            )
         except Exception as e:
             self.logger.error(f"Notion APΩ logging error: {e}")
 

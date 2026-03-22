@@ -20,14 +20,16 @@ from pathlib import Path
 from command_router import CommandRouter
 from task_injector import TaskInjector
 from log_streamer import LogStreamer
-from gemini_planner_bridge import GeminiPlannerBridge
+from gemini_planner_bridge import GeminiPlannerBridge, GovernanceState
 import threading
 
 # Load Configuration (Token from autonomous_operator/config.py)
 import sys
 BASE_DIR = Path("/Users/andy/my_too_test")
 sys.path.append(str(BASE_DIR / "autonomous_operator"))
+sys.path.append(str(BASE_DIR))
 from config import TELEGRAM_BOT_TOKEN
+from kernel.connector_mesh import connector_context
 
 # Constants
 WHITELIST = [400752198] # Master's ID
@@ -117,6 +119,7 @@ class TeleControlBot:
         self.api_url = f"https://api.telegram.org/bot{self.token}/"
         self.offset = None
         self.master_chat_id = WHITELIST[0] # For autonomous alerts
+        self.connector_context = connector_context("tele_node")
         self.router = CommandRouter(whitelist=WHITELIST)
         self.injector = TaskInjector()
         self.streamer = LogStreamer()
@@ -197,7 +200,7 @@ class TeleControlBot:
             data = args[1] if len(args) > 1 else "{}"
             try:
                 payload = json.loads(data) if data else {}
-                self.injector.inject(skill, payload)
+                self.injector.inject(skill, payload, connector_context=self.connector_context)
                 self.send_message(chat_id, f"✅ Task `{skill}` injected.")
             except Exception as e:
                 self.send_message(chat_id, f"❌ Injection failed: {e}")

@@ -1,0 +1,132 @@
+version: '3.9'
+
+services:
+  # Firebase Emulator - External image
+  firebase-emulator:
+    image: andreysenov/firebase-tools:latest
+    container_name: my_too_test-firebase-emulator
+    ports:
+      - "4000:4000" # UI
+      - "8083:8080" # Firestore (shifted from 8080 to avoid conflict)
+      - "9099:9099" # Auth
+      - "4400:4400" # Emulator Hub
+    working_dir: /app
+    volumes:
+      - ./factory:/app
+    command: >
+      sh -c "firebase emulators:start --project gen-lang-client-0863690953"
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "require('http').get('http://localhost:4400/', (res) => process.exit(res.statusCode === 200 ? 0 : 1)).on('error', () => process.exit(1))",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 20s
+    networks:
+      - app-network
+    environment:
+      - FIRESTORE_EMULATOR_HOST=firebase-emulator:8080
+    # Prevent accidental restarts
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+        reservations:
+          memory: 1.5G
+
+  # MCP Router - Custom Node.js service
+  mcp-router:
+    build:
+      context: ./factory/mcp-router
+      dockerfile: Dockerfile.optimized
+      cache_from:
+        - my_too_test-mcp-router:latest
+      cache_to:
+        - type=inline
+    image: my_too_test-mcp-router:latest
+    container_name: my_too_test-mcp-router
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - JWT_SECRET=super-secret-mcp-key
+      - FIRESTORE_EMULATOR_HOST=firebase-emulator:8080
+      - GOOGLE_CLOUD_PROJECT=gen-lang-client-0863690953
+      - PORT=3000
+    depends_on:
+      firebase-emulator:
+        condition: service_healthy
+    networks:
+      - app-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+        reservations:
+          memory: 512M
+
+  # Factory Worker - Python service
+  factory-worker:
+    build:
+      context: ./factory
+      dockerfile: Dockerfile.optimized
+      cache_from:
+        - my_too_test-factory-worker:latest
+      cache_to:
+        - type=inline
+    image: my_too_test-factory-worker:latest
+    container_name: my_too_test-factory-worker
+    ports:
+      - "8081:8080"
+    environment:
+      - JWT_SECRET=super-secret-mcp-key
+      - PORT=8080
+      - PYTHONUNBUFFERED=1
+      - PYTHONDONTWRITEBYTECODE=1
+    volumes:
+      - ./factory/inbox:/app/inbox
+      - ./factory/processed:/app/processed
+      - ./factory/failed:/app/failed
+    depends_on:
+      firebase-emulator:
+        condition: service_healthy
+    networks:
+      - app-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+    deploy:
+      resources:
+        limits:
+          memory: 1.5G
+        reservations:
+          memory: 1G
+
+networks:
+  app-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.29.0.0/16
+
+volumes:
+  # Named volumes for persistence
+  firebase-data:
+    driver: local

@@ -1762,7 +1762,7 @@ return self__5734__auto__.cljs$core$IFn$_invoke$arity$variadic(G__42147,G__42148
 /**
  * [oref attr node-gen] produces a node via (node-gen new-value)
  * watches obj for changes and replaces the generated node on change (node-gen defaults to str)
- * 
+ *
  *   only use if the node has no attached behavior like clicks, use bind with an extra object for those
  */
 shadow.object.bind_simple = (function shadow$object$bind_simple(var_args){

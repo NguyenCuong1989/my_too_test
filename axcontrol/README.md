@@ -53,6 +53,9 @@
 - Canon hash: `CANON_HASH.md`
 - Operator map: `OPERATOR_MAP.md`
 - Checklist đọc hệ: `CHECKLIST_DOC.md`
+- Auth inventory: `docs/AUTH_INVENTORY.md`
+- Rotation/isolation plan: `docs/ROTATION_ISOLATION_PLAN.md`
+- Observation docs: `OBS-SCHEMA.md`, `OBS-CLI.md`, `OBS-GAP.md`, `OBS-LOG-GUIDE.md`
 
 ## R-17 Checklist Anchors
 - LLM: local-only (Ollama), intent suggestions with 200ms timeout, logged as `LLM_INTENT`, never executes actions.

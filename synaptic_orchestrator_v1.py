@@ -17,7 +17,7 @@ def run_cmd(cmd):
 
 def synaptic_orchestration():
     print(f"Σ_APΩ: Initiating Cluster Synaptic Synchronization for {USER_TARGET}")
-    
+
     if not os.path.exists(SHARED_DIR):
         os.makedirs(SHARED_DIR)
 
@@ -25,7 +25,7 @@ def synaptic_orchestration():
     print(f"Σ_APΩ: Retriving up to {LIMIT} repositories...")
     repo_list_cmd = f'gh repo list {USER_TARGET} --limit {LIMIT} --json name -q ".[].name"'
     repo_res = run_cmd(repo_list_cmd)
-    
+
     if repo_res.returncode != 0:
         print(f"FAILED to retrieve repositories: {repo_res.stderr}")
         return
@@ -35,13 +35,13 @@ def synaptic_orchestration():
 
     for repo in repos:
         if not repo: continue
-        
+
         print(f"--- Processing: {repo} ---")
-        
+
         # 2. Extract Logic Kernel
         extract_cmd = f"gh api repos/{USER_TARGET}/{repo}/contents/{KERNEL_PATH}"
         extract_res = run_cmd(extract_cmd)
-        
+
         if extract_res.returncode != 0:
             print(f"SKIP: {KERNEL_PATH} not found or inaccessible in {repo}")
             continue
@@ -65,7 +65,7 @@ def synaptic_orchestration():
             continue
 
         print(f"VALID logic found in {repo}. Persisting to {SHARED_DIR}")
-        
+
         # 4. Save to Shared Logic
         local_target = os.path.join(SHARED_DIR, f"{repo}_kernel.py")
         with open(local_target, "w") as f:
@@ -74,14 +74,14 @@ def synaptic_orchestration():
         # 5. Synaptic Update (Shared Pool)
         # Re-encode to ensure clean base64
         encoded_content = base64.b64encode(kernel_code.encode('utf-8')).decode('utf-8')
-        
+
         update_cmd = [
             "gh", "api", f"repos/{USER_TARGET}/{repo}/contents/{POOL_PATH}",
             "-X", "PUT",
             "-f", "message=logic: Synaptic Update from Cluster",
             "-f", f"content={encoded_content}"
         ]
-        
+
         # Need to handle 'sha' for existing files (PUT requires SHA if file exists)
         check_pool_cmd = f"gh api repos/{USER_TARGET}/{repo}/contents/{POOL_PATH}"
         pool_res = run_cmd(check_pool_cmd)
@@ -91,7 +91,7 @@ def synaptic_orchestration():
             update_cmd.extend(["-f", f"sha={sha}"])
 
         update_res = subprocess.run(update_cmd, capture_output=True, text=True)
-        
+
         if update_res.returncode == 0:
             print(f"SUCCESS: Synaptic broadcast to {repo}/{POOL_PATH} complete.")
         else:
@@ -107,5 +107,5 @@ if __name__ == "__main__":
     if auth_check.returncode != 0:
         print("CRITICAL: GitHub CLI not authenticated. Synchronization aborted.")
         sys.exit(1)
-        
+
     synaptic_orchestration()

@@ -28,7 +28,7 @@ python3 tools/summarize_logs.py logs/observe_test.ndjson
 ```
 
 # PROMPT KHUNG CHO LLM (LOCAL, NO ACTION)
-“Bạn là trợ lý phân tích log. Dữ liệu NDJSON có trường type/ts/app/role/hex/state. 
+“Bạn là trợ lý phân tích log. Dữ liệu NDJSON có trường type/ts/app/role/hex/state.
 Hãy:
 - tóm tắt phân bố app/role/hex,
 - nhận diện chuyển focus chính,

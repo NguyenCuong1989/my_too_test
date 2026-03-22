@@ -20,10 +20,10 @@
 LEXICON CANON + API NAMING LAW
 ==============================
 
-Closed Canonical Language for AXCONTROL  
+Closed Canonical Language for AXCONTROL
 Status: CLOSED — FAIL-CLOSED — NON-NEGOTIABLE
 
-Ánh xạ trực tiếp 64 điều trong THỆ ƯỚC ĐÓNG ẤN HỆ → ngôn ngữ code bắt buộc.  
+Ánh xạ trực tiếp 64 điều trong THỆ ƯỚC ĐÓNG ẤN HỆ → ngôn ngữ code bắt buộc.
 Không áp dụng cho 3rd-party, vendor, legacy ngoài scope AXCONTROL.
 
 ---------------------------------------------------------------------
@@ -49,38 +49,38 @@ I.1. THỰC THỂ GỐC (ONTOLOGY)
 - ẤnLệnh: luật kết đóng
 
 I.2. TRẠNG THÁI CHUẨN (STATUS LAW)
-enum Trạng: Khởi | Tồn | Diệt  
+enum Trạng: Khởi | Tồn | Diệt
 ❌ Không tồn tại: retry, partial, warn, soft-fail
 
 ---------------------------------------------------------------------
 II. API NAMING LAW — ÁNH XẠ 64 ĐIỀU
 
-I. QUẺ CÀN (乾) — KHỞI NGUYÊN (1–6)  
+I. QUẺ CÀN (乾) — KHỞI NGUYÊN (1–6)
 Luật: Origin chỉ một. API duy nhất: Nguyên. ❌ Cấm clone/alias.
 
-II. QUẺ KHÔN (坤) — THỤ NẠP (7–12)  
+II. QUẺ KHÔN (坤) — THỤ NẠP (7–12)
 Luật: nhận luật, không phản. Hàm luật tiền tố: Luật_*. ❌ Cấm dynamic_rule/override.
 
-III. QUẺ CHẤN (震) — ĐỘNG LỰC (13–18)  
+III. QUẺ CHẤN (震) — ĐỘNG LỰC (13–18)
 Luật: thay đổi Thế bắt đầu bằng Hoá_*. ❌ Cấm update_/mutate_/adjust_.
 
-IV. QUẺ TỐN (巽) — LUỒNG TRUYỀN (19–24)  
-Pipeline bắt buộc: Thế → Chính → Ấn → Hoá → Chứng → Lập(Thế)  
+IV. QUẺ TỐN (巽) — LUỒNG TRUYỀN (19–24)
+Pipeline bắt buộc: Thế → Chính → Ấn → Hoá → Chứng → Lập(Thế)
 ❌ Cấm Hoá trước Ấn, Chứng trước Hoá, skip bước.
 
-V. QUẺ KHẢM (坎) — HÀM NGUY (25–30)  
+V. QUẺ KHẢM (坎) — HÀM NGUY (25–30)
 Luật: mặc định rủi ro. Không hàm “safe_*”/“best_effort”. Chỉ Vận(...) → Tồn|Diệt.
 
-VI. QUẺ LY (離) — HIỂU SUỐT (31–36)  
+VI. QUẺ LY (離) — HIỂU SUỐT (31–36)
 Luật: không log ⇒ không tiến. Log bắt buộc tiền tố Chứng_*. ❌ Cấm log/debug/trace.
 
-VII. QUẺ CẤN (艮) — GIỚI HẠN (37–42)  
+VII. QUẺ CẤN (艮) — GIỚI HẠN (37–42)
 Luật: có ngưỡng, không vượt. Tên giới hạn: Ngưỡng_*. ❌ Cấm soft_limit/approx_threshold.
 
-VIII. QUẺ ĐOÀI (兌) — ẤN LỆNH (43–48)  
+VIII. QUẺ ĐOÀI (兌) — ẤN LỆNH (43–48)
 Luật: không thương lượng. ❌ Không warn_only/graceful_fail. ✔ Diệt.
 
-IX. HỢP QUẺ 64 — TỔNG LUẬT (49–64)  
+IX. HỢP QUẺ 64 — TỔNG LUẬT (49–64)
 ```
 def Vận(Thế):
     Chính(Thế)

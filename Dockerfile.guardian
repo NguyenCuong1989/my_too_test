@@ -1,0 +1,21 @@
+# Dockerfile for Eternal Cloud Guardian (Σ_APΩ)
+FROM python:3.10-slim
+
+WORKDIR /app
+
+# Cài đặt git để Guardian có thể sửa code và commit
+RUN apt-get update && apt-get install -y git && rm -rf /var/lib/apt/lists/*
+
+COPY factory/requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy source code của hệ thống
+COPY autonomous_operator/ /app/autonomous_operator/
+COPY factory/ /app/factory/
+
+# Thiết lập môi trường
+ENV PYTHONPATH=/app
+ENV BASE_DIR=/app
+
+# Chế độ chạy 24/24
+CMD ["python", "autonomous_operator/eternal_guardian.py"]

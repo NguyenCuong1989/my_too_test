@@ -323,7 +323,7 @@ class APOKernel:
 
     def _setup_routes(self):
         """Setup Flask API endpoints"""
-        
+
         @self.app.route('/kernel/status')
         def status():
             return jsonify({
@@ -354,7 +354,7 @@ class APOKernel:
     def start(self):
         """Start kernel"""
         logger.info("🔴 APΩ Runtime Kernel starting...")
-        
+
         # Start supervisor (manages processes)
         self.supervisor.start([
             ("telegram-bot", "python telegram_bot.py"),
@@ -381,11 +381,11 @@ class APOKernel:
 
 if __name__ == "__main__":
     kernel = APOKernel()
-    
+
     # Handle signals
     signal.signal(signal.SIGTERM, lambda s, f: kernel.shutdown())
     signal.signal(signal.SIGINT, lambda s, f: kernel.shutdown())
-    
+
     # Start kernel
     kernel.start()
 ```
