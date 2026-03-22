@@ -31,6 +31,12 @@ try:
 except Exception:
     NotionClient = None
 
+try:
+    from kernel.connector_mesh import mesh_summary, resolve_connector
+except Exception:
+    mesh_summary = None
+    resolve_connector = None
+
 
 COMPANY_ENTITY_TYPES = (
     "human",
@@ -171,6 +177,7 @@ def build_company_roster(
     *,
     agent_names: list[str] | None = None,
     service_names: list[str] | None = None,
+    mesh_service_names: list[str] | None = None,
     include_public_face: bool = True,
 ) -> list[CompanyRecord]:
     roster: list[CompanyRecord] = []
@@ -197,22 +204,30 @@ def build_company_roster(
             )
         )
 
-    for service_name in service_names or []:
+    merged_service_names = list(service_names or [])
+    merged_service_names.extend(mesh_service_names or [])
+
+    for service_name in merged_service_names:
         service_name = service_name.strip()
         if not service_name:
             continue
+        canonical_service_name = resolve_connector(service_name) if resolve_connector else service_name
         roster.append(
             CompanyRecord(
-                name=service_name,
+                name=canonical_service_name,
                 entity_type="service",
                 role="staff",
                 status="active",
                 source="external or internal service surface",
                 summary="Service connector mirrored into the shared company database.",
                 tags=["service", "connector"],
-                external_id=f"service:{service_name}",
+                external_id=f"service:{canonical_service_name}",
                 notes="Canonical service entry for ecosystem synchronization.",
-                metadata={"kind": "service", "name": service_name},
+                metadata={
+                    "kind": "service",
+                    "name": canonical_service_name,
+                    "requested_name": service_name,
+                },
             )
         )
 
@@ -224,6 +239,7 @@ def preview_company_roster(
     *,
     agent_names: list[str] | None = None,
     service_names: list[str] | None = None,
+    mesh_service_names: list[str] | None = None,
     include_public_face: bool = True,
 ) -> list[dict[str, Any]]:
     return [
@@ -231,9 +247,32 @@ def preview_company_roster(
         for record in build_company_roster(
             agent_names=agent_names,
             service_names=service_names,
+            mesh_service_names=mesh_service_names,
             include_public_face=include_public_face,
         )
     ]
+
+
+def build_mesh_service_names(*, include_live: bool = True, include_declared: bool = True) -> list[str]:
+    if mesh_summary is None:
+        return []
+    names: list[str] = []
+    for route in mesh_summary():
+        status = route.get("status")
+        if status == "live" and not include_live:
+            continue
+        if status != "live" and not include_declared:
+            continue
+        canonical = route.get("canonical")
+        if canonical and canonical not in names:
+            names.append(canonical)
+    return names
+
+
+def build_creator_day_roster() -> list[CompanyRecord]:
+    return build_company_roster(
+        mesh_service_names=build_mesh_service_names(include_live=True, include_declared=True),
+    )
 
 
 def resolve_company_db_id(explicit_db_id: str | None = None) -> str | None:
