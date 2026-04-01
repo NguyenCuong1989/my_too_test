@@ -28,6 +28,7 @@ except ImportError:
 
 from enum import Enum, auto
 from kernel.quota_guard_v1 import QuotaGuard
+from kernel.connector_mesh import connector_context
 
 class GovernanceState(Enum):
     IDLE = auto()
@@ -117,9 +118,9 @@ class GeminiPlannerBridge:
         # Logic: result -> needs_verification -> needs_file -> needs_generation -> S0
         # For simulation/demo:
         steps = [
-            {"skill": "fs_check", "payload": f"Verify {result} exists"},
-            {"skill": "gen_logic", "payload": f"Generate path to ensure {result}"},
-            {"skill": "verify_state", "payload": "Confirm valid start state S0"}
+            {"skill": "fs_check", "payload": {"message": f"Verify {result} exists", "_connector_context": connector_context("Omega-Core")}},
+            {"skill": "gen_logic", "payload": {"message": f"Generate path to ensure {result}", "_connector_context": connector_context("Omega-Core")}},
+            {"skill": "verify_state", "payload": {"message": "Confirm valid start state S0", "_connector_context": connector_context("Omega-Core")}}
         ]
         self.current_dag = {"steps": steps[::-1], "goal": f"Result: {result}"}
         return self._format_plan(self.current_dag)
@@ -158,6 +159,13 @@ class GeminiPlannerBridge:
         if not plan or "steps" not in plan:
             return "❌ AI could not synthesize a DAG for this goal."
 
+        for step in plan.get("steps", []):
+            payload = step.get("payload", {})
+            if isinstance(payload, str):
+                payload = {"message": payload}
+            payload.setdefault("_connector_context", connector_context("Omega-Core"))
+            step["payload"] = payload
+
         self.current_dag = plan
         return self._format_plan(plan)
 
@@ -190,9 +198,9 @@ class GeminiPlannerBridge:
         self.logger.info(f"🩹 Attempting self-healing for: {goal}")
         # Logic: error analysis -> Φ⁻¹_valid(target) -> new DAG
         healing_steps = [
-            {"skill": "sys_reverify", "payload": f"Analyze failure: {failure_log}"},
-            {"skill": "fix_env", "payload": "Restore missing dependencies/files"},
-            {"skill": "retry_task", "payload": f"Repath for: {goal}"}
+            {"skill": "sys_reverify", "payload": {"message": f"Analyze failure: {failure_log}", "_connector_context": connector_context("Omega-Core")}},
+            {"skill": "fix_env", "payload": {"message": "Restore missing dependencies/files", "_connector_context": connector_context("Omega-Core")}},
+            {"skill": "retry_task", "payload": {"message": f"Repath for: {goal}", "_connector_context": connector_context("Omega-Core")}}
         ]
         self.current_dag = {"steps": healing_steps, "goal": f"HEAL: {goal}"}
         return self._format_plan(self.current_dag)

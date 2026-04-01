@@ -4798,7 +4798,7 @@ var ___$3 = this;
 if(cljs.core.truth_(self__.gfn)){
 return (self__.gfn.cljs$core$IFn$_invoke$arity$0 ? self__.gfn.cljs$core$IFn$_invoke$arity$0() : self__.gfn.call(null));
 } else {
-return cljs.spec.gen.alpha.return$.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([(function() { 
+return cljs.spec.gen.alpha.return$.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([(function() {
 var G__44343__delegate = function (args){
 if(cljs.spec.alpha.pvalid_QMARK_.cljs$core$IFn$_invoke$arity$2(self__.argspec,args)){
 } else {
@@ -4830,7 +4830,7 @@ if (arguments.length > 0) {
 var G__44352__i = 0, G__44352__a = new Array(arguments.length -  0);
 while (G__44352__i < G__44352__a.length) {G__44352__a[G__44352__i] = arguments[G__44352__i + 0]; ++G__44352__i;}
   args = new cljs.core.IndexedSeq(G__44352__a,0,null);
-} 
+}
 return G__44343__delegate.call(this,args);};
 G__44343.cljs$lang$maxFixedArity = 0;
 G__44343.cljs$lang$applyTo = (function (arglist__44355){

@@ -59,6 +59,13 @@ def get_secret(path):
         return p.read_text().strip()
     return None
 
+
+def get_env_or_secret(env_name, path):
+    value = os.environ.get(env_name)
+    if value:
+        return value.strip()
+    return get_secret(path)
+
 try:
     from .key_manager import GeminiKeyManager
 except ImportError:
@@ -82,8 +89,9 @@ def get_gemini_api_key(task_class="cloud-optional"):
 
 
 GEMINI_API_KEY = get_gemini_api_key()
-NOTION_TOKEN = get_secret(BASE_DIR / "notion_secret.txt")
-NOTION_DB_ID = get_secret(BASE_DIR / "notion_db_id.txt")
+NOTION_TOKEN = get_env_or_secret("NOTION_TOKEN", BASE_DIR / "notion_secret.txt")
+NOTION_DB_ID = get_env_or_secret("NOTION_DB_ID", BASE_DIR / "notion_db_id.txt")
+APO_NET_NOTION_DB_ID = get_env_or_secret("APO_NET_NOTION_DB_ID", BASE_DIR / "apo_net_notion_db_id.txt")
 
 # Jira / Atlassian
 JIRA_URL = "https://nguyencuong2509.atlassian.net"

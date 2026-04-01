@@ -22,7 +22,7 @@ return G__35591__$2;
 return s.replace(r,replacement);
 });
 clojure.string.replace_with = (function clojure$string$replace_with(f){
-return (function() { 
+return (function() {
 var G__35668__delegate = function (args){
 var matches = cljs.core.drop_last.cljs$core$IFn$_invoke$arity$2((2),args);
 if(cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2(cljs.core.count(matches),(1))){
@@ -39,7 +39,7 @@ if (arguments.length > 0) {
 var G__35669__i = 0, G__35669__a = new Array(arguments.length -  0);
 while (G__35669__i < G__35669__a.length) {G__35669__a[G__35669__i] = arguments[G__35669__i + 0]; ++G__35669__i;}
   args = new cljs.core.IndexedSeq(G__35669__a,0,null);
-} 
+}
 return G__35668__delegate.call(this,args);};
 G__35668.cljs$lang$maxFixedArity = 0;
 G__35668.cljs$lang$applyTo = (function (arglist__35670){
@@ -53,21 +53,21 @@ return G__35668;
 });
 /**
  * Replaces all instance of match with replacement in s.
- * 
+ *
  * match/replacement can be:
- * 
+ *
  * string / string
  * pattern / (string or function of match).
- * 
+ *
  * See also replace-first.
- * 
+ *
  * The replacement is literal (i.e. none of its characters are treated
  * specially) for all cases above except pattern / string.
- * 
+ *
  * For pattern / string, $1, $2, etc. in the replacement string are
  * substituted with the string that matched the corresponding
  * parenthesized group in the pattern.
- * 
+ *
  * Example:
  * (clojure.string/replace "Almost Pig Latin" #"\b(\w)(\w+)\b" "$2$1ay")
  * -> "lmostAay igPay atinLay"
@@ -90,21 +90,21 @@ throw ["Invalid match arg: ",cljs.core.str.cljs$core$IFn$_invoke$arity$1(match)]
 });
 /**
  * Replaces the first instance of match with replacement in s.
- * 
+ *
  * match/replacement can be:
- * 
+ *
  * string / string
  * pattern / (string or function of match).
- * 
+ *
  * See also replace.
- * 
+ *
  * The replacement is literal (i.e. none of its characters are treated
  * specially) for all cases above except pattern / string.
- * 
+ *
  * For pattern / string, $1, $2, etc. in the replacement string are
  * substituted with the string that matched the corresponding
  * parenthesized group in the pattern.
- * 
+ *
  * Example:
  * (clojure.string/replace-first "swap first two words"
  *                               #"(\w+)(\s+)(\w+)" "$3$2$1")
@@ -345,7 +345,7 @@ return goog.string.isEmptyOrWhitespace(goog.string.makeSafe(s));
 /**
  * Return a new string, using cmap to escape each character ch
  * from s as follows:
- * 
+ *
  * If (cmap ch) is nil, append ch to the new string.
  * If (cmap ch) is non-nil, append (str (cmap ch)) instead.
  */

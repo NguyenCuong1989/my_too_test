@@ -22,7 +22,7 @@ class TaskInjector:
         self.inbox_dir = Path(inbox_dir)
         self.inbox_dir.mkdir(parents=True, exist_ok=True)
 
-    def inject(self, skill_name: str, payload: any = "", task_id: str = None) -> Path:
+    def inject(self, skill_name: str, payload: any = "", task_id: str = None, connector_context: dict | None = None) -> Path:
         """
         Inject a task into the inbox.
         Returns the path to the created task file.
@@ -36,8 +36,14 @@ class TaskInjector:
         final_file = self.inbox_dir / filename
 
         # Prepare content: <skill_name>\n<payload>
+        if connector_context is not None:
+            payload = {
+                "payload": payload,
+                "connector_context": connector_context,
+            }
+
         if not isinstance(payload, str):
-            payload = json.dumps(payload)
+            payload = json.dumps(payload, ensure_ascii=False)
 
         content = f"{skill_name}\n{payload}"
 

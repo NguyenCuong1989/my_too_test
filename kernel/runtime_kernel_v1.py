@@ -15,7 +15,7 @@ class RuntimeKernel:
         Executes the deterministic control loop until the goal is reached.
         """
         print(f"Kernel: Starting Control Loop for goal: {goal}")
-        
+
         while True:
             # 1. Observe State (Ψ_t)
             state = self.state_manager.observe()
@@ -40,7 +40,7 @@ class RuntimeKernel:
 
             # 5. Convergence Check (Ψ_{t+1})
             new_state = self.state_manager.observe()
-            
+
             # Simple simulation: if goal is a capability that was just executed, we consider it reached
             # In real production, this would be a more complex goal check
             if new_state.get("goal_reached") or self._simulate_goal_check(plan, goal):

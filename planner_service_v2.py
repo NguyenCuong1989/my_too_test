@@ -38,7 +38,7 @@ async def planner_endpoint(req: PlannerRequest):
     Standardized Planner Endpoint (APΩ-PLANNER-001)
     """
     print(f"Service: Received planning request for goal: {req.goal}")
-    
+
     # Use the AdaptivePlannerEngine to build the plan
     plan = planner_engine.build_plan(
         state=req.state,
@@ -46,7 +46,7 @@ async def planner_endpoint(req: PlannerRequest):
         context=req.context,
         allowed_capabilities=req.allowed_capabilities
     )
-    
+
     # Convert kernel plan format to API response format if necessary
     # (The kernel now returns the standardized format)
     return plan

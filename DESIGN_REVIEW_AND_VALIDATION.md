@@ -425,35 +425,35 @@ BEFORE we can execute bro's design, we MUST resolve:
    Status: Currently running 2 separate stacks
    ├─ ACE (my_too_test) stack
    └─ BalanceHub stack
-   
+
    Action: Need to migrate to unified stack
    Risk: Service interruption if not done carefully
 
 2. ⚠️ NAMING COLLISION
    Current: my_too_test-factory-worker, my_too_test-mcp-router
    New: aios-worker, aios-router
-   
+
    Action: Must rename or create new containers
    Risk: DNS lookups will break if names change mid-run
 
 3. ⚠️ VOLUME MIGRATION
    Current: factory/inbox (file system)
    New: taskbus:/taskbus (Docker volume)
-   
+
    Action: Must copy data from FS to volume
    Risk: Data loss if not careful
 
 4. ⚠️ SECRETS EXPOSURE
    Current: Hardcoded in config.py
    New: In .env file (not in git)
-   
+
    Action: Extract secrets to .env
    Risk: Secrets visible in process environment
 
 5. ⚠️ DATABASE MIGRATION
    Current: balancehub-postgres (separate compose)
    New: aios-postgres (unified)
-   
+
    Action: Need database data migration
    Risk: Data loss if not backed up
 

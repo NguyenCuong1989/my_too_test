@@ -38,7 +38,7 @@ services:
     environment:
       - NODE_ENV=development
       - JWT_SECRET=super-secret-mcp-key
-      - FIRESTORE_EMULATOR_HOST=firebase-emulator:8080
+      - FIRESTORE_EMULATOR_HOST=firebase-emulator:8083
       - GOOGLE_CLOUD_PROJECT=gen-lang-client-0863690953
     depends_on:
       firebase-emulator:
@@ -56,6 +56,7 @@ services:
     environment:
       - JWT_SECRET=super-secret-mcp-key
       - PORT=8080
+      - FIRESTORE_EMULATOR_HOST=firebase-emulator:8083
     volumes:
       - ./factory/inbox:/app/inbox
       - ./factory/processed:/app/processed

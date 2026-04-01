@@ -1,0 +1,75 @@
+# .dockerignore - Giảm build context size
+# Sử dụng để tránh copy các files không cần thiết
+
+# Version control
+.git
+.gitignore
+.gitattributes
+
+# Node modules (sẽ install trong container)
+node_modules
+npm-debug.log
+yarn-error.log
+
+# Python
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv
+.pytest_cache
+.coverage
+dist/
+build/
+*.egg-info/
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Development
+.env
+.env.local
+.env.*.local
+.docker
+
+# Docs
+README.md
+CHANGELOG.md
+docs/
+*.md
+
+# CI/CD
+.github
+.gitlab-ci.yml
+.travis.yml
+
+# Temp files
+tmp/
+temp/
+logs/
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker
+docker-compose*.yml
+Dockerfile*
+.dockerignore
+
+# Coverage reports
+coverage/
+htmlcov/
+
+# Linting
+.eslintcache
+.stylelintcache

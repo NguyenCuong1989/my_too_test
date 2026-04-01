@@ -1,0 +1,169 @@
+# RUNTIME AUTHORITY MAP (REV 2.1)
+# PROJECT: HYPERAI APO
+# SCOPE: TOTAL DOCKER RUNTIME
+# VERIFY: 4287
+
+metadata:
+  version: "2.1"
+  originator: "alpha_prime_omega (4287)"
+  status: "LOCKED"
+
+services:
+  # --- STACK: UNIFIED ---
+  aios-kernel:
+    stack: "Unified"
+    compose_file: "docker-compose.unified.yml"
+    container_names: ["aios-kernel"]
+    role: "Core Survival Body"
+    authority_tier: 1
+    survival_class: "Critical"
+    alive_claim_scope: "Global"
+    ownerless_condition: "no_valid_private_key"
+    allowed_recovery_path: "Manual_Intervention"
+
+  aios-worker:
+    stack: "Unified"
+    compose_file: "docker-compose.unified.yml"
+    container_names: ["aios-worker"]
+    role: "Execution Body"
+    authority_tier: 3
+    survival_class: "Necessary"
+    alive_claim_scope: "Local"
+    ownerless_condition: "zombie_process"
+    allowed_recovery_path: "Rebuild"
+
+  aios-router:
+    stack: "Unified"
+    compose_file: "docker-compose.unified.yml"
+    container_names: ["aios-router"]
+    role: "Boundary Body"
+    authority_tier: 2
+    survival_class: "Necessary"
+    alive_claim_scope: "Mesh"
+    ownerless_condition: "no_upstream_kernel"
+    allowed_recovery_path: "Restart"
+
+  aios-postgres:
+    stack: "Unified"
+    compose_file: "docker-compose.unified.yml"
+    container_names: ["aios-postgres"]
+    role: "Continuity Substrate"
+    authority_tier: 2
+    survival_class: "Critical"
+    alive_claim_scope: "Local"
+    ownerless_condition: "data_corruption"
+    allowed_recovery_path: "DB_Restore"
+
+  aios-prometheus:
+    stack: "Unified"
+    compose_file: "docker-compose.unified.yml"
+    container_names: ["aios-prometheus"]
+    role: "Observability Body"
+    authority_tier: 3
+    survival_class: "Optional"
+    alive_claim_scope: "Mesh"
+    ownerless_condition: "no_target_scraped"
+    allowed_recovery_path: "Restart"
+
+  # --- STACK: MAIN ---
+  factory-worker:
+    stack: "Main"
+    compose_file: "docker-compose.yml"
+    container_names: ["my_too_test-factory-worker", "factory-worker"]
+    role: "Execution Body"
+    authority_tier: 3
+    survival_class: "Necessary"
+    alive_claim_scope: "Local"
+    ownerless_condition: "zombie_process"
+    allowed_recovery_path: "Rebuild"
+
+  mcp-router:
+    stack: "Main"
+    compose_file: "docker-compose.yml"
+    container_names: ["my_too_test-mcp-router", "mcp-router"]
+    role: "Boundary Body"
+    authority_tier: 2
+    survival_class: "Necessary"
+    alive_claim_scope: "Mesh"
+    ownerless_condition: "no_upstream_kernel"
+    allowed_recovery_path: "Restart"
+
+  firebase-emulator:
+    stack: "Main"
+    compose_file: "docker-compose.yml"
+    container_names: ["my_too_test-firebase-emulator", "firebase-emulator"]
+    role: "Sandbox Body"
+    authority_tier: 4
+    survival_class: "Optional"
+    alive_claim_scope: "Local"
+    ownerless_condition: "container_exit"
+    allowed_recovery_path: "Restart"
+
+  # --- STACK: ANTIGRAVITY ---
+  antigravity-runtime:
+    stack: "Antigravity"
+    compose_file: "docker-compose.antigravity.yml"
+    container_names: ["antigravity-runtime"]
+    role: "Embodied Workspace Body"
+    authority_tier: 3
+    survival_class: "Necessary"
+    alive_claim_scope: "Local"
+    ownerless_condition: "detached_ownership"
+    allowed_recovery_path: "Rebuild"
+
+  # --- STACK: BALANCEHUB ---
+  bh-api:
+    stack: "BalanceHub"
+    compose_file: "balancehub/docker-compose.yml"
+    container_names: ["balancehub-api", "api"]
+    role: "Execution Body"
+    authority_tier: 3
+    survival_class: "Necessary"
+    alive_claim_scope: "Mesh"
+    ownerless_condition: "unauthorized_build"
+    allowed_recovery_path: "Restart"
+
+  bh-postgres:
+    stack: "BalanceHub"
+    compose_file: "balancehub/docker-compose.yml"
+    container_names: ["balancehub-postgres", "postgres"]
+    role: "Continuity Substrate"
+    authority_tier: 2
+    survival_class: "Critical"
+    alive_claim_scope: "Local"
+    ownerless_condition: "data_corruption"
+    allowed_recovery_path: "DB_Restore"
+
+  bh-redis:
+    stack: "BalanceHub"
+    compose_file: "balancehub/docker-compose.yml"
+    container_names: ["balancehub-redis", "redis"]
+    role: "Continuity Substrate"
+    authority_tier: 2
+    survival_class: "Necessary"
+    alive_claim_scope: "Mesh"
+    ownerless_condition: "volatile_loss"
+    allowed_recovery_path: "Flush_Restart"
+
+  bh-code-server:
+    stack: "BalanceHub"
+    compose_file: "balancehub/docker-compose.yml"
+    container_names: ["balancehub-code-server", "code-server"]
+    role: "Embodied Workspace Body"
+    authority_tier: 3
+    survival_class: "Necessary"
+    alive_claim_scope: "Local"
+    ownerless_condition: "unauthorized_access"
+    allowed_recovery_path: "Restart"
+
+  # --- STACK: GUARDIAN ---
+  aios-guardian:
+    stack: "Guardian"
+    compose_file: "docker-compose.guardian.yml"
+    container_names: ["aios-guardian"]
+    role: "Core Survival Body"
+    authority_tier: 2
+    survival_class: "Critical"
+    alive_claim_scope: "Global"
+    ownerless_condition: "no_valid_private_key"
+    allowed_recovery_path: "Restart"
