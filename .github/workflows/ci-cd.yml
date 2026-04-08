@@ -1,0 +1,130 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  # ─── Continuous Integration ───────────────────────────────────────────────
+  lint:
+    name: Lint (flake8 + black)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    defaults:
+      run:
+        working-directory: axcontrol
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install linting tools
+        run: pip install flake8 black
+
+      - name: flake8 – syntax & undefined names
+        run: |
+          flake8 core/ tests/ \
+            --count \
+            --select=E9,F63,F7,F82 \
+            --show-source \
+            --statistics \
+            --exclude=core/canon/,core/The/state_projector.py,core/Menh/stop_reasons.py
+
+      - name: black – formatting check
+        run: |
+          black --check core/ tests/ \
+            --exclude "(core/canon/|core/The/state_projector.py|core/Menh/stop_reasons.py)"
+
+  unit-tests:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    needs: lint
+    permissions:
+      contents: read
+    defaults:
+      run:
+        working-directory: axcontrol
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt 2>/dev/null || true
+
+      - name: Run unit tests
+        env:
+          AXCONTROL_SIM: "1"
+        run: python3 -m unittest discover -s tests -v
+
+  smoke-test:
+    name: Smoke Test
+    runs-on: ubuntu-latest
+    needs: lint
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install pytest
+        run: pip install pytest
+
+      - name: Run smoke test
+        run: python3 -m pytest tests/test_smoke.py -v
+
+  # ─── Continuous Delivery ──────────────────────────────────────────────────
+  build-factory:
+    name: Build Factory Worker Image
+    runs-on: ubuntu-latest
+    needs: [unit-tests, smoke-test]
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./factory
+          push: false
+          tags: factory-worker:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  # ─── Pipeline Summary ─────────────────────────────────────────────────────
+  ci-cd-summary:
+    name: Pipeline Summary
+    runs-on: ubuntu-latest
+    needs: [lint, unit-tests, smoke-test, build-factory]
+    if: always()
+    permissions: {}
+    steps:
+      - name: Write summary
+        run: |
+          echo "## CI/CD Pipeline Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Stage | Job | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|-------|-----|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| CI | Lint | ${{ needs.lint.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| CI | Unit Tests | ${{ needs.unit-tests.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| CI | Smoke Test | ${{ needs.smoke-test.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| CD | Build Factory Worker | ${{ needs.build-factory.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Commit: \`${{ github.sha }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "Triggered by: **${{ github.event_name }}**" >> $GITHUB_STEP_SUMMARY
