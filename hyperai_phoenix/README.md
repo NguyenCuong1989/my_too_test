@@ -96,8 +96,10 @@ pip install -r DAIOF-Framework/requirements.txt
 
 2. Cấu hình API key trong `.env`:
 ```bash
-cp .env.example .env
-# Chỉnh sửa .env với API key của bạn
+# Tạo file .env (nếu chưa tồn tại)
+touch .env
+# Mở .env và thêm API key của bạn, ví dụ:
+# OPENAI_API_KEY="sk-..."
 ```
 
 3. Chạy ứng dụng:
