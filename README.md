@@ -85,6 +85,8 @@ source .venv/bin/activate  # Windows: .venv\Scripts\activate
 
 # Initialize submodules (required for DAIOF-Framework)
 git submodule update --init --recursive
+# Initialize submodules (required for DAIOF-Framework)
+git submodule update --init --recursive
 
 # Install dependencies
 pip install -r DAIOF-Framework/requirements.txt
