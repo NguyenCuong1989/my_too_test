@@ -1,0 +1,49 @@
+@startuml sigma-cos
+!theme plain
+skinparam backgroundColor #FAFAFA
+
+package "Σ_APΩ-COS GENESIS (shared)" {
+  rectangle "𝒪 → 𝓔 → 𝓟 → 𝓛 → 𝓘 → 𝓕 → 𝓑  (G₀)" as G0 #LightYellow
+  rectangle "Ψ : 𝓥 → ℝ (decomposition)" as PSI #LightYellow
+  rectangle "Σ_n = Σ₀ ⊕ Ψ(x₁) ⊕ …" as SIG #LightYellow
+  rectangle "D&R  γ_min, ε, CircuitBreaker" as DR #LightYellow
+  database "ℐ  PhaseConsistency · NoBlindEmit · SafetyFirst · NoSkip" as INV #LightYellow
+}
+
+package "CORE SERVICES" {
+  component "mcp-router\n:3000\nNode/Express" as R #LightBlue
+  component "factory-worker\n:8080\nPython/FastAPI" as F #LightBlue
+  component "ai-sidecar\n:8000\nPython/FastAPI" as A #LightBlue
+  component "formal-engine\nΣ_APΩ runtime" as FE #LightBlue
+}
+
+package "EXTERNAL CONNECTORS" {
+  cloud "Asana\n(PAT)" as AS #LightGreen
+  cloud "Google\n(OAuth)" as GG #LightGreen
+  cloud "GPT\n(API key)" as GP #LightGreen
+  cloud "GitHub\n(token)" as GH #LightGreen
+}
+
+package "OBSERVABILITY" {
+  component "cAdvisor :8081" as CAD #Plum
+}
+
+R --> F : POST /call/factory-worker
+R --> A : POST /call/ai-sidecar
+F --> A : POST /process  (relay)
+
+R --> AS : /connector/asana
+R --> GG : /connector/google
+R --> GP : /connector/gpt
+R --> GH : /connector/github
+A --> GP : uses OPENAI_API_KEY
+
+R ..> CAD : metrics
+F ..> CAD : metrics
+A ..> CAD : metrics
+
+GENESIS ..> R : origin
+GENESIS ..> F : origin
+GENESIS ..> A : origin
+GENESIS ..> FE : drives
+@enduml

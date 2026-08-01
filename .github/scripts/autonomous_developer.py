@@ -8,7 +8,10 @@ import os
 import argparse
 
 def create_doc(filename):
-    path = os.path.join("DAIOF-Framework", filename)
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    target_dir = os.path.join(base_dir, "..", "..", "DAIOF-Framework")
+    os.makedirs(target_dir, exist_ok=True)
+    path = os.path.join(target_dir, filename)
     content = f"# {filename.split('.')[0]}\n\nGenerated autonomously by Antigravity (§4287).\n\n## Overview\nThis document is part of the DAIOF ecosystem."
     with open(path, "w") as f:
         f.write(content)

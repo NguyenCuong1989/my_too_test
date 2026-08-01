@@ -1,15 +1,33 @@
-# .dockerignore - Giảm build context size
-# Sử dụng để tránh copy các files không cần thiết
-
-# Version control
+# Git
 .git
 .gitignore
 .gitattributes
+.github
 
-# Node modules (sẽ install trong container)
-node_modules
-npm-debug.log
-yarn-error.log
+# Environment & Secrets
+.env
+.env.*
+.env.local*
+*.key
+*.pem
+*.cert
+
+# OS
+.DS_Store
+Thumbs.db
+.VolumeIcon.icns
+*.swp
+*.swo
+*~
+
+# IDE
+.vscode
+.idea
+.clj-kondo
+.lsp
+.calva
+*.iml
+*.sublime-*
 
 # Python
 __pycache__
@@ -17,59 +35,76 @@ __pycache__
 *.pyo
 *.pyd
 .Python
-env/
-venv/
-.venv
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
 .pytest_cache
 .coverage
+htmlcov/
+.mypy_cache
+.tox/
+
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+.next
+out/
+.nuxt
 dist/
 build/
-*.egg-info/
+coverage/
 
-# IDE
-.vscode
-.idea
-*.swp
-*.swo
-*~
-.DS_Store
-
-# Development
-.env
-.env.local
-.env.*.local
-.docker
-
-# Docs
-README.md
-CHANGELOG.md
-docs/
-*.md
-
-# CI/CD
-.github
-.gitlab-ci.yml
-.travis.yml
-
-# Temp files
-tmp/
-temp/
+# Runtime
 logs/
 *.log
+.cache
+tmp/
+temp/
 
-# OS
-.DS_Store
-Thumbs.db
+# Documentation
+*.md
+README*
+CHANGELOG*
+docs/
+
+# Test
+test/
+tests/
+*.test.js
+*.spec.js
+.jest/
+cypress/
+
+# CI/CD
+.github/
+.gitlab-ci.yml
+Jenkinsfile
+.travis.yml
 
 # Docker
 docker-compose*.yml
 Dockerfile*
 .dockerignore
 
-# Coverage reports
-coverage/
-htmlcov/
-
-# Linting
-.eslintcache
-.stylelintcache
+# Other
+.venv
+venv/
+/vendor/
+/node_modules/
+/coverage/
+/dist/
+/build/
