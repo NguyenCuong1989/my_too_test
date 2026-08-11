@@ -1,0 +1,57 @@
+%%{init: {'theme':'base','flowchart':{'curve':'linear'}}}%%
+flowchart TB
+  subgraph GEN["Σ_APΩ-COS GENESIS (shared by ALL modules)"]
+    direction LR
+    G0["𝒪 → 𝓔 → 𝓟 → 𝓛 → 𝓘 → 𝓕 → 𝓑"]
+    PSI["Ψ : 𝓥 → ℝ (struct. decomp.)"]
+    SIGMA["Σ_n = Σ₀ ⊕ Ψ(x₁) ⊕ … ⊕ Ψ(x_n)"]
+    DR["D&R : γ_min, ε-margin, CircuitBreaker"]
+    INV["ℐ : PhaseConsistency · NoBlindEmit · SafetyFirst · NoSkip"]
+  end
+
+  subgraph CORE["CORE SERVICES (inside docker-compose)"]
+    direction TB
+    R1["mcp-router<br/>:3000<br/>Node.js/Express<br/>routes + connectors"]
+    F1["factory-worker<br/>:8080<br/>Python/FastAPI<br/>task dispatcher"]
+    A1["ai-sidecar<br/>:8000<br/>Python/FastAPI<br/>GPT/OpenAI bridge"]
+    FE["formal-engine<br/>Σ_APΩ runtime<br/>on-demand"]
+  end
+
+  subgraph CONN["EXTERNAL CONNECTORS (env-var auth)"]
+    direction LR
+    AS["Asana<br/>PAT"]
+    GG["Google<br/>OAuth"]
+    GP["GPT<br/>API key"]
+    GH["GitHub<br/>token"]
+  end
+
+  subgraph OBS["OBSERVABILITY"]
+    CAD["cAdvisor<br/>:8081<br/>(profile: metrics)"]
+  end
+
+  R1 -- "POST /call/factory-worker" --> F1
+  R1 -- "POST /call/ai-sidecar"     --> A1
+  F1 -- "relay → POST /process"     --> A1
+
+  R1 -- "POST /connector/asana"  --> AS
+  R1 -- "POST /connector/google" --> GG
+  R1 -- "POST /connector/gpt"    --> GP
+  R1 -- "POST /connector/github" --> GH
+
+  A1 -. "uses OPENAI_API_KEY" .- GP
+
+  R1 -. "metrics" .-> CAD
+  F1 -. "metrics" .-> CAD
+  A1 -. "metrics" .-> CAD
+
+  CORE -. "originates from" .- GEN
+  CONN -. "originates from" .- GEN
+
+  classDef genesis fill:#fef3c7,stroke:#92400e,stroke-width:2px,color:#000
+  classDef core    fill:#dbeafe,stroke:#1e3a8a,stroke-width:1px,color:#000
+  classDef ext     fill:#dcfce7,stroke:#166534,stroke-width:1px,color:#000
+  classDef obs     fill:#f3e8ff,stroke:#6b21a8,stroke-width:1px,color:#000
+  class G0,PSI,SIGMA,DR,INV genesis
+  class R1,F1,A1,FE core
+  class AS,GG,GP,GH ext
+  class CAD obs

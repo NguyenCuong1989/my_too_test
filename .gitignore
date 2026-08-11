@@ -22,3 +22,8 @@ trust_of_copilot/
 
 .gemini/
 gha-creds-*.json
+
+# IDE / language-server cache
+.clj-kondo/
+.lsp/
+.vscode/

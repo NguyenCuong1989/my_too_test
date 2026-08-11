@@ -1,0 +1,10 @@
+{
+  "name": "@sigma-cos/mcp-router",
+  "version": "1.0.0",
+  "description": "Sigma-COS MCP router. Routes requests to factory-worker / ai-sidecar / connectors.",
+  "main": "server.js",
+  "type": "module",
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}

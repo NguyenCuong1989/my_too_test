@@ -1,0 +1,93 @@
+services:
+
+  # ═══════════════════════════════════════════════════════════════════
+  # 1. mcp-router  — Node.js / Express
+  # ═══════════════════════════════════════════════════════════════════
+  mcp-router:
+    image: node:20-alpine
+    container_name: sigma-mcp-router
+    working_dir: /app
+    command: sh -c "npm install --omit=dev --silent && node server.js"
+    volumes:
+      - ./services/mcp-router:/app
+    environment:
+      SIGMA_SECRET: ${SIGMA_SECRET:-dev-secret-change-me}
+      PORT: "3000"
+      FACTORY_HOST: factory-worker
+      FACTORY_PORT: "8082"
+      AI_HOST: ai-sidecar
+      AI_PORT: "8100"
+      ASANA_PAT: ${ASANA_PAT:-}
+      GOOGLE_TOKEN: ${GOOGLE_TOKEN:-}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      GITHUB_TOKEN: ${GITHUB_TOKEN:-}
+    ports:
+      - "3000:3000"
+    depends_on:
+      - factory-worker
+      - ai-sidecar
+    restart: unless-stopped
+
+  # ═══════════════════════════════════════════════════════════════════
+  # 2. factory-worker  — Python / FastAPI
+  # ═══════════════════════════════════════════════════════════════════
+  factory-worker:
+    image: python:3.12-slim
+    container_name: sigma-factory-worker
+    working_dir: /app
+    command: sh -c "pip install --quiet --no-cache-dir fastapi uvicorn && uvicorn main:app --host 0.0.0.0 --port 8082"
+    volumes:
+      - ./services/factory-worker:/app
+      - ./common:/app/common
+    environment:
+      SIGMA_SECRET: ${SIGMA_SECRET:-dev-secret-change-me}
+      PORT: "8082"
+    ports:
+      - "8082:8082"
+    depends_on:
+      - ai-sidecar
+    restart: unless-stopped
+
+  # ═══════════════════════════════════════════════════════════════════
+  # 3. ai-sidecar  — Python / FastAPI
+  # ═══════════════════════════════════════════════════════════════════
+  ai-sidecar:
+    image: python:3.12-slim
+    container_name: sigma-ai-sidecar
+    working_dir: /app
+    command: sh -c "pip install --quiet --no-cache-dir fastapi uvicorn && uvicorn main:app --host 0.0.0.0 --port 8100"
+    volumes:
+      - ./services/ai-sidecar:/app
+      - ./common:/app/common
+    environment:
+      SIGMA_SECRET: ${SIGMA_SECRET:-dev-secret-change-me}
+      PORT: "8100"
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+    ports:
+      - "8100:8100"
+    restart: unless-stopped
+
+  # ═══════════════════════════════════════════════════════════════════
+  # 4. cAdvisor  — container metrics (optional, profile: metrics)
+  # ═══════════════════════════════════════════════════════════════════
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    container_name: sigma-cadvisor
+    ports:
+      - target: 8080
+        published: "8081"
+        protocol: tcp
+        mode: host
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    privileged: true
+    restart: unless-stopped
+    profiles:
+      - metrics
+
+networks:
+  default:
+    name: sigma-cos-net
