@@ -30,7 +30,9 @@ function verifyToken(token) {
   if (!token || token.split(".").length !== 3) throw new Error("malformed");
   const [h, p, s] = token.split(".");
   const expected = b64url(crypto.createHmac("sha256", SECRET).update(`${h}.${p}`).digest());
-  if (!crypto.timingSafeEqual(Buffer.from(s), Buffer.from(expected))) throw new Error("bad sig");
+  const provided = Buffer.from(s);
+  const expectedBytes = Buffer.from(expected);
+  if (provided.length !== expectedBytes.length || !crypto.timingSafeEqual(provided, expectedBytes)) throw new Error("bad sig");
   const payload = JSON.parse(b64urlDecode(p).toString());
   if (Math.floor(Date.now() / 1000) >= payload.exp) throw new Error("expired");
   return payload;
@@ -136,7 +138,13 @@ app.get("/health/all", async (_req, res) => {
     const out = await proxy(name, "/health", "GET", null);
     results[name] = { status: out.status, ...out.body };
   }
-  res.json({ ok: true, services: results, connectors: CONNECTORS });
+  const connectorState = Object.fromEntries(
+    Object.entries(CONNECTORS).map(([name, cfg]) => [
+      name,
+      { base: cfg.base, configured: Boolean(cfg.auth) },
+    ]),
+  );
+  res.json({ ok: true, services: results, connectors: connectorState });
 });
 
 app.listen(PORT, "0.0.0.0", () => console.log(`[mcp-router] listening on :${PORT}`));
