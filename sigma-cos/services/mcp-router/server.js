@@ -2,17 +2,17 @@
 // Simple request router. Validates JWT, dispatches to registered services or external connectors.
 import express from "express";
 import http from "node:http";
+import https from "node:https";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { readFileSync } from "node:fs";
+import crypto from "node:crypto";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const PORT = Number(process.env.PORT || 3000);
 const SECRET = process.env.SIGMA_SECRET || "dev-secret-change-me";
 
 // ---- shared auth (Node port of common/auth.py, kept in sync) ----
-import crypto from "node:crypto";
-
 function b64url(b) { return Buffer.from(b).toString("base64url"); }
 function b64urlDecode(s) { return Buffer.from(s, "base64url"); }
 
@@ -69,21 +69,28 @@ function proxy(target, path, method, body, extraHeaders = {}) {
           catch { resolve({ status: res.statusCode, body: { raw: buf } }); }
         });
       });
-    req.on("error", (e) => resolve({ status: 0, body: { error: e.message } }));
+    req.on("error", (e) => resolve({ status: 502, body: { error: e.message } }));
     if (data) req.write(data);
     req.end();
   });
 }
 
-function callConnector(name, path, method, body) {
+function callConnector(name, path, method, body, payload) {
   return new Promise((resolve) => {
     const c = CONNECTORS[name];
     if (!c) return resolve({ status: 404, body: { error: `unknown connector: ${name}` } });
     if (!c.auth) return resolve({ status: 503, body: { error: `${name} connector not configured (missing env var)` } });
+    
+    // Check constraints if required by business logic. Currently passing subject as a header.
+    const extraHeaders = payload && payload.sub ? { "X-Source-Subject": payload.sub } : {};
+
     const data = body ? JSON.stringify(body) : null;
     const url = new URL(c.base + path);
-    const req = http.request({ host: url.hostname, port: url.port || 443, path: url.pathname + url.search, method,
-      headers: { "Content-Type": "application/json", "Authorization": `Bearer ${c.auth}`, "Content-Length": data ? Buffer.byteLength(data) : 0 } },
+    const client = url.protocol === "https:" ? https : http;
+    const port = url.port ? Number(url.port) : (url.protocol === "https:" ? 443 : 80);
+
+    const req = client.request({ host: url.hostname, port, path: url.pathname + url.search, method,
+      headers: { "Content-Type": "application/json", "Authorization": `Bearer ${c.auth}`, "Content-Length": data ? Buffer.byteLength(data) : 0, ...extraHeaders } },
       (res) => {
         let buf = "";
         res.on("data", (c) => buf += c);
@@ -92,7 +99,7 @@ function callConnector(name, path, method, body) {
           catch { resolve({ status: res.statusCode, body: { raw: buf } }); }
         });
       });
-    req.on("error", (e) => resolve({ status: 0, body: { error: e.message } }));
+    req.on("error", (e) => resolve({ status: 502, body: { error: e.message } }));
     if (data) req.write(data);
     req.end();
   });
@@ -113,11 +120,13 @@ app.post("/auth/token", (req, res) => {
 // proxy to internal services
 app.post("/call/:target", async (req, res) => {
   const token = (req.headers.authorization || "").replace(/^Bearer\s+/i, "");
-  try { verifyToken(token); } catch (e) { return res.status(401).json({ error: "auth", detail: e.message }); }
+  let payload;
+  try { payload = verifyToken(token); } catch (e) { return res.status(401).json({ error: "auth", detail: e.message }); }
   const { path = "/", method = "GET", body } = req.body || {};
   const out = await proxy(req.params.target, path, method, body, {
     "Authorization": `Bearer ${token}`,
     "X-Source-Service": "mcp-router",
+    "X-Source-Subject": payload.sub,
   });
   res.status(out.status || 502).json(out.body);
 });
@@ -125,9 +134,10 @@ app.post("/call/:target", async (req, res) => {
 // external connector call
 app.post("/connector/:name", async (req, res) => {
   const token = (req.headers.authorization || "").replace(/^Bearer\s+/i, "");
-  try { verifyToken(token); } catch (e) { return res.status(401).json({ error: "auth", detail: e.message }); }
+  let payload;
+  try { payload = verifyToken(token); } catch (e) { return res.status(401).json({ error: "auth", detail: e.message }); }
   const { path = "/", method = "GET", body } = req.body || {};
-  const out = await callConnector(req.params.name, path, method, body);
+  const out = await callConnector(req.params.name, path, method, body, payload);
   res.status(out.status || 502).json(out.body);
 });
 
