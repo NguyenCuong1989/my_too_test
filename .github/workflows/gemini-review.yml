@@ -19,6 +19,8 @@ defaults:
 jobs:
   review:
     runs-on: 'ubuntu-latest'
+    env:
+      GEMINI_AUTH_AVAILABLE: '${{ env.GEMINI_AUTH_AVAILABLE == 'true' }}'
     timeout-minutes: 7
     permissions:
       contents: 'read'
@@ -39,6 +41,8 @@ jobs:
 
       - name: 'Checkout repository'
         uses: 'actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8'
+        with:
+          fetch-depth: 0
 
       - name: 'Run Gemini pull request review'
         uses: 'google-github-actions/run-gemini-cli@v0'
