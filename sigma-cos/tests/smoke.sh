@@ -59,6 +59,8 @@ H=$(curl -sS "$BASE/health/all")
 echo "$H" | j
 echo "$H" | grep -q '"factory-worker"' || { echo "FAIL: health/all missing factory-worker"; exit 1; }
 echo "$H" | grep -q '"ai-sidecar"'     || { echo "FAIL: health/all missing ai-sidecar"; exit 1; }
+echo "$H" | grep -q '"auth"' && { echo "FAIL: health/all leaked connector auth material"; exit 1; } || true
+echo "$H" | grep -q '"configured"' || { echo "FAIL: health/all missing connector configuration state"; exit 1; }
 
 echo
 echo "═══ ALL SMOKE TESTS PASSED ═══"
