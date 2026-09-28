@@ -1,0 +1,19 @@
+name: HOTL Runner Probe
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  probe:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Runner identity
+        shell: bash
+        run: |
+          echo "HOTL_RUNNER_OK os=${{ matrix.os }}"
+          uname -a || ver
