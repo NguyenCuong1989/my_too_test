@@ -20,7 +20,7 @@ jobs:
   review:
     runs-on: 'ubuntu-latest'
     env:
-      GEMINI_AUTH_AVAILABLE: '${{ env.GEMINI_AUTH_AVAILABLE == 'true' }}'
+      GEMINI_AUTH_AVAILABLE: "${{ secrets.GEMINI_API_KEY != '' || secrets.GOOGLE_API_KEY != '' || vars.GCP_WIF_PROVIDER != '' }}"
     timeout-minutes: 7
     permissions:
       contents: 'read'
@@ -49,7 +49,7 @@ jobs:
         id: 'gemini_pr_review'
         continue-on-error: true
         if: |-
-          ${{ secrets.GEMINI_API_KEY != '' || secrets.GOOGLE_API_KEY != '' || vars.GCP_WIF_PROVIDER != '' }}
+          ${{ env.GEMINI_AUTH_AVAILABLE == 'true' }}
         env:
           GITHUB_TOKEN: '${{ steps.mint_identity_token.outputs.token || secrets.GITHUB_TOKEN || github.token }}'
           ISSUE_TITLE: '${{ github.event.pull_request.title || github.event.issue.title }}'
