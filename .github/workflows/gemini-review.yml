@@ -28,9 +28,8 @@ jobs:
     steps:
       - name: 'Mint identity token'
         id: 'mint_identity_token'
-        if: |-
-          ${{ vars.APP_ID }}
-        uses: 'actions/create-github-app-token@29824e69f54612133e76f7eaac726eef6c875baf' # ratchet:actions/create-github-app-token@v2
+        if: '${{ vars.APP_ID }}'
+        uses: 'actions/create-github-app-token@29824e69f54612133e76f7eaac726eef6c875baf'
         with:
           app-id: '${{ vars.APP_ID }}'
           private-key: '${{ secrets.APP_PRIVATE_KEY }}'
@@ -39,11 +38,14 @@ jobs:
           permission-pull-requests: 'write'
 
       - name: 'Checkout repository'
-        uses: 'actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8' # ratchet:actions/checkout@v6
+        uses: 'actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8'
 
       - name: 'Run Gemini pull request review'
-        uses: 'google-github-actions/run-gemini-cli@v0' # ratchet:exclude
+        uses: 'google-github-actions/run-gemini-cli@v0'
         id: 'gemini_pr_review'
+        continue-on-error: true
+        if: |-
+          ${{ secrets.GEMINI_API_KEY != '' || secrets.GOOGLE_API_KEY != '' || vars.GCP_WIF_PROVIDER != '' }}
         env:
           GITHUB_TOKEN: '${{ steps.mint_identity_token.outputs.token || secrets.GITHUB_TOKEN || github.token }}'
           ISSUE_TITLE: '${{ github.event.pull_request.title || github.event.issue.title }}'
@@ -65,37 +67,10 @@ jobs:
           use_vertex_ai: '${{ vars.GOOGLE_GENAI_USE_VERTEXAI }}'
           upload_artifacts: '${{ vars.UPLOAD_ARTIFACTS }}'
           workflow_name: 'gemini-review'
-          settings: |-
+          settings: |
             {
-              "model": {
-                "maxSessionTurns": 25
-              },
-              "telemetry": {
-                "enabled": true,
-                "target": "local",
-                "outfile": ".gemini/telemetry.log"
-              },
-              "mcpServers": {
-                "github": {
-                  "command": "docker",
-                  "args": [
-                    "run",
-                    "-i",
-                    "--rm",
-                    "-e",
-                    "GITHUB_PERSONAL_ACCESS_TOKEN",
-                    "ghcr.io/github/github-mcp-server:v0.27.0"
-                  ],
-                  "includeTools": [
-                    "add_comment_to_pending_review",
-                    "pull_request_read",
-                    "pull_request_review_write"
-                  ],
-                  "env": {
-                    "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}"
-                  }
-                }
-              },
+              "model": {"maxSessionTurns": 25},
+              "telemetry": {"enabled": true, "target": "local", "outfile": ".gemini/telemetry.log"},
               "tools": {
                 "core": [
                   "run_shell_command(cat)",
@@ -107,3 +82,29 @@ jobs:
               }
             }
           prompt: '/gemini-review'
+
+      - name: 'Deterministic review fallback'
+        if: |-
+          ${{ steps.gemini_pr_review.outcome != 'success' }}
+        env:
+          GITHUB_TOKEN: '${{ github.token }}'
+          PR_NUMBER: '${{ github.event.pull_request.number || github.event.issue.number }}'
+          REPOSITORY: '${{ github.repository }}'
+          RUN_URL: '${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}'
+        run: |-
+          set -euo pipefail
+          git diff --check "origin/${{ github.event.pull_request.base.ref }}...HEAD" > /tmp/diff-check.txt 2>&1 || true
+          if [[ -s /tmp/diff-check.txt ]]; then
+            result="FOUND"
+          else
+            result="CLEAN"
+          fi
+          gh pr comment "${PR_NUMBER}" --repo "${REPOSITORY}" --body "Agent review execution completed via deterministic fallback. Gemini provider was unavailable or failed authentication. diff --check: ${result}. This is not an AI semantic review. Run: ${RUN_URL}"
+
+      - name: 'Emit execution status'
+        run: |-
+          if [[ "${{ steps.gemini_pr_review.outcome }}" == "success" ]]; then
+            echo "AGENT_EXECUTION=GEMINI"
+          else
+            echo "AGENT_EXECUTION=DETERMINISTIC_FALLBACK"
+          fi
