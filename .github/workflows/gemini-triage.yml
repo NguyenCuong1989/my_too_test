@@ -19,6 +19,8 @@ defaults:
 jobs:
   triage:
     runs-on: 'ubuntu-latest'
+    env:
+      GEMINI_AUTH_AVAILABLE: '${{ env.GEMINI_AUTH_AVAILABLE == 'true' }}'
     timeout-minutes: 7
     outputs:
       available_labels: '${{ steps.get_labels.outputs.available_labels }}'
